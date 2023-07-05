@@ -1,8 +1,14 @@
 import 'package:flutter/material.dart';
 import 'MainPage.dart';
+import 'test.dart';
 
 void main() {
-  runApp(const MyApp());
+  int testMode = 1;
+
+  if (testMode == 1)
+    runApp(test());
+  else
+    runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
