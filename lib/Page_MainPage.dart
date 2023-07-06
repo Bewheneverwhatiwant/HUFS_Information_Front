@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'LogoAppBar.dart';
+import 'Common_LogoAppBar.dart';
 
 class MainPage extends StatelessWidget {
   const MainPage({super.key});
@@ -7,11 +7,9 @@ class MainPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: LogoAppBar(),
-      body: Padding(
-        padding: EdgeInsets.all(8.0),
-      )
-    );
+        appBar: LogoAppBar(),
+        body: Padding(
+          padding: EdgeInsets.all(8.0),
+        ));
   }
 }
-

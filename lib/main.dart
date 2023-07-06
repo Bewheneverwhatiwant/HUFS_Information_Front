@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'MainPage.dart';
+import 'Page_Main.dart';
 import 'test.dart';
 
 void main() {
-  int testMode = 1;
+  int testMode = 0;
 
   if (testMode == 1)
     runApp(test());
