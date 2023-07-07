@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hufs_information/Common_NeumorphicButton.dart';
 import 'Common_LogoAppBar.dart';
+import 'MainPage_GatherGroup.dart';
 import 'MainPage_SmallButton.dart';
 
 class MainPage extends StatelessWidget {
@@ -14,8 +15,9 @@ class MainPage extends StatelessWidget {
             padding: EdgeInsets.all(20),
             child: ListView(
               children: <Widget>[
-                NeumorphicButton(onPressed: null, child: Text('Hello World!')),
+                GatherGroup(), // 모집 영역
                 Padding(
+                  // 서브메뉴 영역
                   padding: EdgeInsets.only(top: 20),
                   child: SubMenu(), // 너무 길어서 하단에 위젯 따로 분리했음!
                 ),
