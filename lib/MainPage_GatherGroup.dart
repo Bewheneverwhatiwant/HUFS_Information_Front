@@ -9,7 +9,6 @@ class GatherGroup extends StatelessWidget {
   Widget build(BuildContext context) {
     final now = DateTime.now();
     bool isAfterFive = now.hour >= 17;
-    isAfterFive = true;
 
     return NeumorphicBox(
         child: Padding(
@@ -24,12 +23,12 @@ class GatherGroup extends StatelessWidget {
               children: [
                 Expanded(
                   // 첫 단
-                  child: GatherGroup1(isAfterFive), // 알뜰모집 영역 - 하단에 분리해둠
+                  child: GatherGroup1(isAfterFive), // [분리] 알뜰모집 영역
                 ),
                 SizedBox(width: 16),
                 Expanded(
                   // 두 번째 단
-                  child: GatherGroup2(isAfterFive), // 상시모집 영역 - 하단에 분리해 둠
+                  child: GatherGroup2(isAfterFive), // [분리] 상시모집 영역
                 ),
               ],
             ),
@@ -77,8 +76,15 @@ class GatherGroup extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 Icon(Icons.local_taxi, color: Colors.green),
-                SizedBox(width: 10),
-                Text("택시 같이타!", style: TextStyle(fontWeight: FontWeight.bold)),
+                SizedBox(width: 1),
+                Flexible(
+                  // Text위젯만 사용하면 OverFlow - Flexible 위젯 사용
+                  child: Text(
+                    "택시 같이타!",
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                    overflow: TextOverflow.ellipsis, // 텍스트가 너무 길면 '...'으로 표시
+                  ),
+                ),
               ],
             )),
         SizedBox(height: 10),
@@ -95,8 +101,15 @@ class GatherGroup extends StatelessWidget {
                   Icons.delivery_dining,
                   color: Colors.green,
                 ),
-                SizedBox(width: 10),
-                Text("배달 같이해!", style: TextStyle(fontWeight: FontWeight.bold)),
+                SizedBox(width: 1),
+                Flexible(
+                  // Text위젯만 사용하면 OverFlow - Flexible 위젯 사용
+                  child: Text(
+                    "배달 같이해!",
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                    overflow: TextOverflow.ellipsis, // 텍스트가 너무 길면 '...'으로 표시
+                  ),
+                ),
               ],
             )),
       ],
