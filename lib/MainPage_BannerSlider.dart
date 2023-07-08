@@ -1,6 +1,7 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'Common_NeumorphicBox.dart';
+import 'MainPage_BannerSlider_slideList.dart';
 
 class BannerSlider extends StatefulWidget {
   @override
@@ -10,11 +11,7 @@ class BannerSlider extends StatefulWidget {
 class _BannerSliderState extends State<BannerSlider> {
   int _current = 0;
 
-  final List<Widget> widgetList = [
-    Text('첫 번째 슬라이드'),
-    Text('두 번째 슬라이드'),
-    // 이곳에 위젯을 추가하세요.
-  ];
+  final List<Widget> widgetList = slideList(); // [파일분리] 슬라이드 불러옴
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +20,7 @@ class _BannerSliderState extends State<BannerSlider> {
         CarouselSlider(
           options: CarouselOptions(
             autoPlay: true,
-            aspectRatio: 3.0,
+            aspectRatio: 1.7,
             enlargeCenterPage: true,
             onPageChanged: (index, reason) {
               setState(() {

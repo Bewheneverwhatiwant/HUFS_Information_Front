@@ -39,9 +39,34 @@ class MainPage extends StatelessWidget {
           children: <Widget>[
             GatherGroup(), // [파일 분리] 모집 영역
             marginElement(BannerSlider()), //[파일 분리] 배너 슬라이더
-            marginElement(SubMenu()), // [분리] 서브 메뉴 (오늘메뉴, 건의사항)
+            marginElement(subMenu()), // [분리] 서브 메뉴 (오늘메뉴, 건의사항)
+            SizedBox(height: 150)
           ],
         ));
+  }
+
+  Row subMenu() {
+    return Row(
+      children: [
+        Expanded(
+          child: SmallButton(
+              onPressed: () {
+                print('오늘 메뉴 클릭됨');
+              },
+              title: '오늘메뉴는?',
+              imageName: 'assets/images/Main_TodayMenu.png'),
+        ),
+        SizedBox(width: 40),
+        Expanded(
+          child: SmallButton(
+              onPressed: () {
+                print('건의사항 클릭됨');
+              },
+              title: '건의할게요!',
+              imageName: 'assets/images/Main_Suggestion.png'),
+        )
+      ],
+    );
   }
 
   Container panelOutside(radius) {
@@ -98,35 +123,6 @@ class MainPage extends StatelessWidget {
     return Padding(
       padding: EdgeInsets.only(top: 20),
       child: child,
-    );
-  }
-}
-
-class SubMenu extends StatelessWidget {
-  const SubMenu({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      children: [
-        Expanded(
-          child: SmallButton(
-              onPressed: () {
-                print('오늘 메뉴 클릭됨');
-              },
-              title: '오늘메뉴는?',
-              imageName: 'assets/images/Main_TodayMenu.png'),
-        ),
-        SizedBox(width: 40),
-        Expanded(
-          child: SmallButton(
-              onPressed: () {
-                print('건의사항 클릭됨');
-              },
-              title: '건의할게요!',
-              imageName: 'assets/images/Main_Suggestion.png'),
-        )
-      ],
     );
   }
 }

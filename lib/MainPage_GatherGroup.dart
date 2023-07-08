@@ -50,8 +50,7 @@ class GatherGroup extends StatelessWidget {
               if (!isAfterFive)
                 Align(
                   alignment: Alignment.bottomRight,
-                  child:
-                      Text('모집 가능 시간 까지 ${17 - now.hour}:${60 - now.minute}'),
+                  child: Text('모집까지 ${17 - now.hour}시간 ${60 - now.minute}분 남음'),
                 ),
             ],
           ),
@@ -66,6 +65,7 @@ class GatherGroup extends StatelessWidget {
       children: [
         Text("알뜰모집",
             style: TextStyle(fontWeight: FontWeight.bold, fontSize: 17)),
+        SizedBox(height: 10),
         NeumorphicButton(
             onPressed: isAfterFive
                 ? () {
@@ -122,13 +122,10 @@ class GatherGroup extends StatelessWidget {
       children: [
         Text("상시 이용 가능",
             style: TextStyle(fontWeight: FontWeight.bold, fontSize: 17)),
+        SizedBox(height: 5),
         Expanded(
           child: NeumorphicButton(
-            onPressed: isAfterFive
-                ? () {
-                    print('도와줘요 눌림');
-                  }
-                : null,
+            onPressed: () => print('도와줘요 눌림'),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
