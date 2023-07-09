@@ -10,8 +10,7 @@ class BannerSlider extends StatefulWidget {
 
 class _BannerSliderState extends State<BannerSlider> {
   int _current = 0;
-
-  final List<Widget> widgetList = slideList(); // [파일분리] 슬라이드 불러옴
+  late List<Widget> widgetList = slideList(context); // [파일분리] 슬라이드 불러옴;
 
   @override
   Widget build(BuildContext context) {

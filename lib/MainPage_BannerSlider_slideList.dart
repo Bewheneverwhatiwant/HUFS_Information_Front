@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hufs_information/Page_GatherHelp.dart';
 
 // ** 설명 **
 // 이 파일은 위젯 파일이 아닌 메소드 파일임. 즉, 그냥 그대로 쓰이는 함수
@@ -9,10 +10,9 @@ import 'package:flutter/material.dart';
 // 아래에 slide1같이 메소드 따로 만들어서 그 안에 구현하면 더 좋음
 // (어려우면 내가 하면 됨. 근데, 짜놓고 vscode에서 버튼 두 번만 눌러도 되긴 함)
 
-List<Widget> slideList() {
+List<Widget> slideList(BuildContext context) {
   return [
-    // 추가하고 싶은 슬라이드 여기에 추가
-    slide1(),
+    slide1(context),
     slide2(),
     Text(
       '어우 씨 나 그만할래',
@@ -21,8 +21,15 @@ List<Widget> slideList() {
   ];
 }
 
-Container slide1() {
-  return Container(
+GestureDetector slide1(context) {
+  return GestureDetector(
+    onTap: () async {
+      await Navigator.push(
+        context,
+        // TODO : 넘어가야 할 페이지 다시 정의해야함
+        MaterialPageRoute(builder: (context) => GatherHelp()),
+      );
+    },
     child: Stack(
       // 이미지와 글자 중첩 가능하게 하기 위함
       children: [
