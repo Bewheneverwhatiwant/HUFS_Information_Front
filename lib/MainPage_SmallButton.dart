@@ -14,18 +14,16 @@ class SmallButton extends StatelessWidget {
     return NeumorphicButton(
       onPressed: onPressed,
       alignment: Alignment.centerLeft,
+      height: 140,
       child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: <Widget>[
           Text(
             title,
             style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
           ),
-          Image.asset(
-            imageName,
-            width: 100.0,
-            height: 100.0,
-          )
+          Image.asset(imageName, width: 80.0)
         ],
       ),
     );
