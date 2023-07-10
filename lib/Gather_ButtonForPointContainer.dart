@@ -26,24 +26,20 @@ class ButtonForPointContainer extends StatelessWidget {
           padding: EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
           height: height,
           width: width,
-          
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(8.0),
-            color: Colors.grey,
+            color: Colors.white,
             boxShadow: const [
               BoxShadow(
                 offset: Offset(4, 4),
                 blurRadius: 12,
                 color: Color(0xFFBECBD9),
               ),
-
             ],
           ),
           child: child,
         ),
       ),
-
-
     );
   }
 }
