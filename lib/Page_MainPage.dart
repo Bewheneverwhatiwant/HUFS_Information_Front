@@ -103,7 +103,7 @@ class MainPage extends StatelessWidget {
     return ListView(
       children: <Widget>[
         const SizedBox(height: 30),
-        // MenuList(text:내용, isTitle:제목인가?, onPressed:누르면 할 거)
+        // [파일분리] MenuList(text:내용, isTitle:제목인가?, onPressed:누르면 할 거)
         MenuList(text: '알뜰모집', isTitle: true),
         MenuList(text: '택시 같이타!', onPressed: () => print('[전체]택시 같이타')),
         MenuList(text: '버스 같이타!', onPressed: () => print('[전체]버스 같이타')),
@@ -115,6 +115,7 @@ class MainPage extends StatelessWidget {
         MenuList(text: '빈 강의실 찾기', onPressed: () => print('[전체]빈 강의실 찾기')),
         MenuList(text: '기타 메뉴', isTitle: true),
         MenuList(text: '오늘의 메뉴는?', onPressed: () => print('[전체]오늘의 메뉴')),
+        MenuList(text: '건의할게요!', onPressed: () => print('[전체]건의 사항')),
       ],
     );
   }
