@@ -3,6 +3,7 @@ import 'package:hufs_information/Gather_ChattingRoomList.dart';
 import 'package:hufs_information/Gather_CreateChat.dart';
 import 'Common_LogoAppBar.dart';
 import 'Gather_PointContainer.dart';
+import 'Page_CreatingChat.dart';
 
 //app bar 바로 밑에 point container가 오게하고, +버튼은 위치를 고정시켜야 해서 container랑 안겹치게 children으로 분리되도록 수정함~~
 
@@ -35,7 +36,14 @@ class GatherHelp extends StatelessWidget {
             bottom: 16.0,
             right: 16.0,
             child: CreateChat(
-                onPressed: null,
+
+              //onPressed 부분을 수정해서, + 버튼 클릭 시 cteatingChat 화면으로 이동하게 함.
+                onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => CreatingChat()),
+                );
+              },
                 child: Text('+',
                     style:
                         TextStyle(fontSize: 15, fontWeight: FontWeight.bold))),
