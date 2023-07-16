@@ -1,14 +1,8 @@
 import 'package:flutter/material.dart';
 import 'Page_MainPage.dart';
-import 'test.dart';
 
 void main() {
-  int testMode = 0;
-
-  if (testMode == 1)
-    runApp(test());
-  else
-    runApp(const MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -22,7 +16,7 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
         fontFamily: 'Pretendard',
       ),
-      home: MainPage(),
+      home: const MainPage(),
     );
   }
 }

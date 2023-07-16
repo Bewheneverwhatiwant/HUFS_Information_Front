@@ -17,10 +17,10 @@ class CreateChat extends StatelessWidget {
         //원 크기 고정
         height: 60.0,
         width: 60.0,
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           shape: BoxShape.circle,
           color: Colors.blue,
-          boxShadow: const [
+          boxShadow: [
             BoxShadow(
               offset: Offset(4, 4),
               blurRadius: 12,
