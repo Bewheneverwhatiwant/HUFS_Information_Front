@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hufs_information/Common_paddingElement.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'Common_LogoAppBar.dart';
 import 'MainPage_GatherGroup.dart';
@@ -38,8 +39,8 @@ class MainPage extends StatelessWidget {
         child: ListView(
           children: <Widget>[
             GatherGroup(), // [파일 분리] 모집 영역
-            marginElement(BannerSlider()), //[파일 분리] 배너 슬라이더
-            marginElement(subMenu()), // [분리] 서브 메뉴 (오늘메뉴, 건의사항)
+            paddingTop(BannerSlider()), //[파일 분리] 배너 슬라이더
+            paddingTop(subMenu()), // [분리] 서브 메뉴 (오늘메뉴, 건의사항)
             SizedBox(height: 150)
           ],
         ));
@@ -80,15 +81,7 @@ class MainPage extends StatelessWidget {
         child: Column(
           children: <Widget>[
             SizedBox(height: 8.0),
-            Container(
-              // 긴 회색 막대 바(슬라이드 가능 암시)
-              width: 100,
-              height: 5,
-              decoration: BoxDecoration(
-                color: Colors.grey[300],
-                borderRadius: BorderRadius.all(Radius.circular(12.0)),
-              ),
-            ),
+            slideBar(),
             SizedBox(height: 20.0),
             Text("메뉴 전체보기",
                 style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
@@ -101,7 +94,10 @@ class MainPage extends StatelessWidget {
   ListView panelInside() {
     // 슬라이드 위젯이 올라갔을 때 나타날 내용
     return ListView(
+      physics: const ClampingScrollPhysics(),
       children: <Widget>[
+        const SizedBox(height: 8.0),
+        slideBar(),
         const SizedBox(height: 30),
         // [파일분리] MenuList(text:내용, isTitle:제목인가?, onPressed:누르면 할 거)
         MenuList(text: '알뜰모집', isTitle: true),
@@ -120,10 +116,18 @@ class MainPage extends StatelessWidget {
     );
   }
 
-  Padding marginElement(child) {
-    return Padding(
-      padding: EdgeInsets.only(top: 20),
-      child: child,
+  Align slideBar() {
+    return Align(
+      alignment: Alignment.center,
+      child: Container(
+        // 긴 회색 막대 바(슬라이드 가능 암시)
+        width: 100,
+        height: 5,
+        decoration: BoxDecoration(
+          color: Colors.grey[300],
+          borderRadius: BorderRadius.all(Radius.circular(12.0)),
+        ),
+      ),
     );
   }
 }

@@ -7,6 +7,7 @@ class LogoAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
+      iconTheme: const IconThemeData(color: Colors.black), // 뒤로가기 검은색으로
       backgroundColor: Colors.white,
       title: Row(
         children: [
@@ -24,8 +25,12 @@ class LogoAppBar extends StatelessWidget implements PreferredSizeWidget {
       actions: [
         Row(
           children: [
-            CircleButton(onPressed: () => print('share버튼 클릭'), child: Image.asset('assets/images/Icon-share.png')),
-            CircleButton(onPressed: () => print('setting버튼 클릭'), child: Image.asset('assets/images/Icon-setting.png')),
+            CircleButton(
+                onPressed: () => print('share버튼 클릭'),
+                child: Image.asset('assets/images/Icon-share.png')),
+            CircleButton(
+                onPressed: () => print('setting버튼 클릭'),
+                child: Image.asset('assets/images/Icon-setting.png')),
           ],
         ),
       ],

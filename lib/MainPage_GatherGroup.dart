@@ -70,6 +70,7 @@ class GatherGroup extends StatelessWidget {
             style: TextStyle(fontWeight: FontWeight.bold, fontSize: 17)),
         const SizedBox(height: 10),
         NeumorphicButton(
+            lockAvailable: true,
             onPressed: isAfterFive
                 ? () {
                     Navigator.push(
@@ -96,6 +97,7 @@ class GatherGroup extends StatelessWidget {
             )),
         const SizedBox(height: 10),
         NeumorphicButton(
+            lockAvailable: true,
             onPressed: isAfterFive
                 ? () {
                     Navigator.push(

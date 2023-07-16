@@ -5,6 +5,8 @@ class NeumorphicButton extends StatelessWidget {
     required this.onPressed,
     required this.child,
     this.alignment = Alignment.center,
+    this.lockAvailable = false,
+    this.radius = 8.0,
     this.height,
     this.width,
   });
@@ -12,6 +14,8 @@ class NeumorphicButton extends StatelessWidget {
   final VoidCallback? onPressed;
   final Widget child;
   final Alignment alignment;
+  final bool lockAvailable;
+  final double radius;
   final double? height;
   final double? width;
 
@@ -24,7 +28,7 @@ class NeumorphicButton extends StatelessWidget {
             height: height,
             width: width,
             decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(8.0),
+                borderRadius: BorderRadius.circular(radius),
                 color: onPressed != null ? Colors.white : Colors.grey,
                 boxShadow: const [
                   // BoxShadow(
@@ -38,7 +42,8 @@ class NeumorphicButton extends StatelessWidget {
               alignment: alignment,
               children: [
                 child,
-                if (onPressed == null) // 버튼 비활성화 시, 잠금 아이콘 생성
+                if (lockAvailable == true &&
+                    onPressed == null) // 버튼 비활성화 시, 잠금 아이콘 생성
                   const Icon(
                     Icons.lock,
                     color: Colors.white,

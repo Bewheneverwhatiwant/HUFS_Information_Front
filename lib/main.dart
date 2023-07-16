@@ -20,6 +20,7 @@ class MyApp extends StatelessWidget {
       title: 'HUFS 정보모아',
       theme: ThemeData(
         primarySwatch: Colors.blue,
+        fontFamily: 'Pretendard',
       ),
       home: MainPage(),
     );
