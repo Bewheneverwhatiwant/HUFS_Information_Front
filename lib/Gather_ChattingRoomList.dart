@@ -1,15 +1,31 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'Common_NeumorphicButton.dart';
+import 'Page_AlertMessage.dart';
 
 // type : 버튼 타입을 의미 (1: 택시같이타, 2:배달같이해, 3: 도와줘요)
 // place : 장소
 // plusInfo : 추가 정보
-Padding ChattingRoomList(int type, String title, String place, String plusInfo,
-    int peopleNum, String dueTime) {
+Padding ChattingRoomList(BuildContext context, int type, String title, String place, String plusInfo,
+    int peopleNum, String dueTime, bool isSwitched) {
   return Padding(
     padding: const EdgeInsets.fromLTRB(12, 12, 12, 0),
     child: NeumorphicButton(
-      onPressed: () => print('채팅 버튼 눌림'),
+       onPressed: () {
+        showDialog(
+          context: context,
+          barrierDismissible: false, //배경을 터치해도 알림창이 닫히지 않도록 설정!(무조건 확인 또는 취소를 눌러야 하니까)
+          builder: (BuildContext context) => AlertMessage(
+            title: title,
+            place: place,
+            plusInfo: plusInfo,
+            peopleNum: peopleNum,
+            dueTime: dueTime,
+            isSwitched: isSwitched,
+          ),
+        );
+      },
+
       child: Column(
         children: [
           //첫번째 Row
