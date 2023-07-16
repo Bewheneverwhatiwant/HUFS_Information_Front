@@ -20,13 +20,10 @@ class PointContainer extends StatelessWidget {
         const Text("현재 티켓 현황",
             style: TextStyle(fontSize: 25, fontWeight: FontWeight.w800)),
         const SizedBox(height: 16), // 세 위젯 사이의 간격을 위한 SizedBox
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
+        Column(
           children: [
-            coloredText("5", 30),
-            const SizedBox(width: 5),
-            const Text("장",
-                style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold)),
+            ticketCount("소장중인 티켓", 5, "장"),
+            ticketCount("이벤트(기간제) 티켓", 3, "장"),
           ],
         ),
         const SizedBox(height: 16), // 세 위젯 사이의 간격을 위한 SizedBox
@@ -67,6 +64,18 @@ class PointContainer extends StatelessWidget {
         ]);
   }
 
+  Row ticketCount(String name, int count, String unit){
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Text(name, style: const TextStyle(fontSize: 15, fontWeight: FontWeight.bold)),
+        const SizedBox(width: 5),
+        coloredText(count.toString(), 25),
+        const SizedBox(width: 5),
+        Text(unit,style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+      ]
+    );
+  }
   Text coloredText(String text, double size) {
     return Text(text,
         style: TextStyle(
