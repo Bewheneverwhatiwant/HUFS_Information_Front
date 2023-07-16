@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'Common_NeumorphicBox.dart';
+import 'Common_NeumorphicButton.dart';
 
 // type : 버튼 타입을 의미 (1: 택시같이타, 2:배달같이해, 3: 도와줘요)
 // place : 장소
@@ -8,7 +8,8 @@ Padding ChattingRoomList(int type, String title, String place, String plusInfo,
     int peopleNum, String dueTime) {
   return Padding(
     padding: const EdgeInsets.fromLTRB(12, 12, 12, 0),
-    child: NeumorphicBox(
+    child: NeumorphicButton(
+      onPressed: () => print('채팅 버튼 눌림'),
       child: Column(
         children: [
           //첫번째 Row
@@ -51,9 +52,9 @@ Padding ChattingRoomList(int type, String title, String place, String plusInfo,
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text("현재 " + (peopleNum?.toString() ?? '0') + "명 참가중"),
+              Text("현재 " + (peopleNum.toString()) + "명 참가중"),
               //SizedBox(width:28),
-              Text((dueTime?.toString() ?? '00:00') + "까지 모집"),
+              Text((dueTime.toString()) + "까지 모집"),
             ],
           ),
         ],

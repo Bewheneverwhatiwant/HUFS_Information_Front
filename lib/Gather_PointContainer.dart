@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:hufs_information/Common_NeumorphicButton.dart';
 import 'package:hufs_information/Common_paddingElement.dart';
 
