@@ -36,14 +36,14 @@ Padding ChattingRoomList(BuildContext context, int type, String title, String pl
                   style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
               Row(children: [
                 Image.asset('assets/images/Icon-siren.png'),
-                Text("신고하기",
+                const Text("신고하기",
                     style:
                         TextStyle(fontSize: 12, fontWeight: FontWeight.normal)),
               ])
             ],
           ),
 
-          SizedBox(height: 16),
+          const SizedBox(height: 16),
 
           //두번째 Row
           Row(
@@ -61,16 +61,16 @@ Padding ChattingRoomList(BuildContext context, int type, String title, String pl
             ],
           ),
 
-          SizedBox(height: 16),
+          const SizedBox(height: 16),
 
           //세번째 Row
 
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text("현재 " + (peopleNum.toString()) + "명 참가중"),
+              Text("현재 $peopleNum명 참가중"),
               //SizedBox(width:28),
-              Text((dueTime.toString()) + "까지 모집"),
+              Text("$dueTime까지 모집"),
             ],
           ),
         ],
@@ -84,9 +84,9 @@ String getPlace(int type, String place) {
     case 1:
       return place;
     case 2:
-      return '수령 장소: ' + place;
+      return '수령 장소: $place';
     case 3:
-      return '장소: ' + place;
+      return '장소: $place';
     default:
       return 'Unknown place: ';
   }
@@ -97,9 +97,9 @@ String getplusInfo(int type, String plusInfo) {
     case 1:
       return plusInfo;
     case 2:
-      return '배달비: ' + plusInfo;
+      return '배달비: $plusInfo';
     case 3:
-      return '사례: ' + plusInfo;
+      return '사례: $plusInfo';
     default:
       return 'Unknown place: ';
   }
