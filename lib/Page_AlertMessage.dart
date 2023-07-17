@@ -4,8 +4,8 @@ import 'package:hufs_information/Common_NeumorphicBox.dart';
 import 'Common_NeumorphicButton.dart';
 import 'Gather_ChattingRoomList.dart';
 import 'Page_CreatingChat_Delivery.dart';
-
-//merge하면 999999% 충돌날 것 같음. 체크 필요...!
+import 'Page_ChattingRoom.dart';
+import 'Common_SnackBar.dart';
 
 class AlertMessage extends StatelessWidget {
   final String title;
@@ -151,14 +151,16 @@ class AlertMessage extends StatelessWidget {
         isDefaultAction: true,
         child: const Text("참가", style: TextStyle(fontWeight: FontWeight.bold)),
         onPressed: () {
-          Navigator.pop(context);
-          // 나중에 '참가' 버튼이 눌리면, 기존 화면으로 돌아간 후 거기서 만들어진 채팅방을 볼 수 있어야겠지?
+          //이 부분을 수정함!!
+          Navigator.of(context).push(MaterialPageRoute(builder: (context) => ChattingRoom(context: context, title: title)));
+          showSnackbar(context, '성공적으로 입장하셨습니다!');
         },
       ),
       CupertinoDialogAction(
         child: const Text("취소", style: TextStyle(fontWeight: FontWeight.bold)),
         onPressed: () {
           Navigator.pop(context);
+          showSnackbar(context, '채팅방 입장이 취소되었습니다!');
         },
       ),
     ];

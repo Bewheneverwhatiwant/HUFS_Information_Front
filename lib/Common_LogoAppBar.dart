@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'MainPage_CircleButton.dart';
+import 'Page_Share.dart';
 
 class LogoAppBar extends StatelessWidget implements PreferredSizeWidget {
   const LogoAppBar({Key? key});
@@ -26,10 +27,10 @@ class LogoAppBar extends StatelessWidget implements PreferredSizeWidget {
         Row(
           children: [
             CircleButton(
-                onPressed: () => print('share버튼 클릭'),
+                onPressed: () {Navigator.of(context).push(MaterialPageRoute(builder: (context) => Share(context: context)));},
                 child: Image.asset('assets/images/Icon-share.png')),
             CircleButton(
-                onPressed: () => print('setting버튼 클릭'),
+                onPressed: () {Navigator.of(context).push(MaterialPageRoute(builder: (context) => Share(context: context)));},
                 child: Image.asset('assets/images/Icon-setting.png')),
           ],
         ),

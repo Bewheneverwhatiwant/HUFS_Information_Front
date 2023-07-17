@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:hufs_information/Common_NeumorphicButton.dart';
 import 'package:hufs_information/Common_paddingElement.dart';
+import 'Page_BuyRandomBox.dart';
+import 'Page_BuyTicketByPoint.dart';
+import 'Page_EarnPointByWatch.dart';
 
 class PointContainer extends StatelessWidget {
   @override
@@ -8,7 +11,7 @@ class PointContainer extends StatelessWidget {
     return paddingElement(Row(
       children: [
         Expanded(child: Section1()),
-        Expanded(child: Section2()),
+        Expanded(child: Section2(context)),
       ],
     ));
   }
@@ -31,7 +34,7 @@ class PointContainer extends StatelessWidget {
     );
   }
 
-  Column Section2() {
+  Column Section2(BuildContext context) {
     return Column(
         mainAxisAlignment: MainAxisAlignment.center, //세로로 중앙 정렬되도록 함
         children: [
@@ -48,11 +51,11 @@ class PointContainer extends StatelessWidget {
             ],
           ),
           const SizedBox(height: 16),
-          ButtonForPointContainer(200, 'assets/images/BuyTicketAsPoint.png', '포인트로 티켓 구매', () {}),
+          ButtonForPointContainer(200, 'assets/images/BuyTicketAsPoint.png', '포인트로 티켓 구매', () {Navigator.of(context).push(MaterialPageRoute(builder: (context) => BuyTicketByPoint(context: context)));}),
           const SizedBox(height: 16),
-          ButtonForPointContainer(200, 'assets/images/chargingByWatching.png', '영상 보고 충전하기', () {}),
+          ButtonForPointContainer(200, 'assets/images/chargingByWatching.png', '영상 보고 충전하기', () {Navigator.of(context).push(MaterialPageRoute(builder: (context) => EarnPointByWatch(context: context)));}),
           const SizedBox(height: 16),
-          ButtonForPointContainer(200, 'assets/images/BuyRandomBox.png', '랜덤박스 구매하기', () {}),
+          ButtonForPointContainer(200, 'assets/images/BuyRandomBox.png', '랜덤박스 구매하기', () {Navigator.of(context).push(MaterialPageRoute(builder: (context) => BuyRandomBox(context: context)));}),
         ]);
   }
 
