@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hufs_information/Gather_ChattingRoomList.dart';
 import 'package:hufs_information/Gather_CreateChat.dart';
+import 'package:hufs_information/Page_CreatingChat_Taxy.dart';
 import 'Common_LogoAppBar.dart';
 import 'Gather_PointContainer.dart';
 import 'Page_CreatingChat_Delivery.dart';
@@ -39,7 +40,7 @@ class GatherTaxi extends StatelessWidget {
                 onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => CreatingChat_Delivery()), //나중에 Taxy 페이지에 맞게 +버튼 페이지 만들어서 바꿔주기!!
+                  MaterialPageRoute(builder: (context) => CreatingChat_Taxy()),
                 );
               },
                 child: Text('+',

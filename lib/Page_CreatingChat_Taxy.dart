@@ -7,13 +7,16 @@ import 'Common_SelectBox.dart';
 import 'package:flutter/cupertino.dart';
 import 'Common_CheckBox.dart';
 import 'Common_SnackBar.dart';
+import 'Common_NeumorphicBox.dart';
 
-class CreatingChat_Delivery extends StatefulWidget {
+//기존의 Creating chat Delivery 파일을 복사한 후, 다른 부분만 수정하여 제작함!
+
+class CreatingChat_Taxy extends StatefulWidget {
   @override
   _CreatingChatState createState() => _CreatingChatState();
 }
 
-class _CreatingChatState extends State<CreatingChat_Delivery> {
+class _CreatingChatState extends State<CreatingChat_Taxy> {
   final TextEditingController _titleController = TextEditingController();
   final TextEditingController _costController = TextEditingController();
   final TextEditingController _placeController = TextEditingController();
@@ -45,14 +48,10 @@ class _CreatingChatState extends State<CreatingChat_Delivery> {
       appBar: const LogoAppBar(),
       body: ListView(children: [
         InputText(labelText: '모임 제목을 입력해주세요.', textEditCtrl: _titleController),
-        InfoBox(
-            title: '배달비',
-            subtext: '배달비 총액을 기재해주세요.',
-            form: inputForm('원', _costController)),
-        InfoBox(
-            title: '수령 장소',
-            subtext: '구성원들과 물품을 나눌 곳을 알려주세요.',
-            form: inputForm('', _placeController)),
+
+      //이 부분 수정됨!!
+      SizedBox(height: 10),
+      ForHereToGo(), //출발지~도착지 정보를 입력하는 부분. 아래에 분리해둠
         InfoBox(
             title: '[참고] 최소 희망 인원',
             subtext: '최소 희망 인원이 충족되지 않아도 시작할 수 있습니다.',
@@ -81,6 +80,31 @@ class _CreatingChatState extends State<CreatingChat_Delivery> {
       ]),
       bottomSheet: formButton(context, _formValid),
     );
+  }
+
+
+//출발지~도착지 정보를 입력하는 부분
+  Padding ForHereToGo() {
+    return paddingElement(
+    NeumorphicBox(
+    child: Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        InfoBox(
+          title: '출발지',
+          subtext: '구체적으로 적어주세요.',
+          form: inputForm('부터', _costController)),
+        InfoBox(
+          title: '도착지',
+          subtext: '',
+          form: inputForm('까지', _placeController)),
+        SizedBox(height: 10),
+        Text("탑승/하차할 '정확한' 위치를 기입해주세요.\n잘못된 기재로 발생하는 책임은 전부 본인에게 있습니다.",
+          style: TextStyle(fontWeight: FontWeight.normal)),
+      ]
+    )
+    )
+  );
   }
 }
 
@@ -221,6 +245,15 @@ class _GatherTimeState extends State<GatherTime> {
     );
   }
 }
+
+/*
+  Padding FromHereToGo({required TextEditingController costController, required TextEditingController placeController,}) {
+  
+  return paddingElement(
+     
+  );
+}
+*/
 
 Padding notice() {
   return paddingElement(const Column(

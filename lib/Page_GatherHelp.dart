@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hufs_information/Gather_ChattingRoomList.dart';
 import 'package:hufs_information/Gather_CreateChat.dart';
+import 'package:hufs_information/Page_CreatingChat_Help.dart';
 import 'Common_LogoAppBar.dart';
 import 'Gather_PointContainer.dart';
 import 'Page_CreatingChat_Delivery.dart';
@@ -41,7 +42,7 @@ class GatherHelp extends StatelessWidget {
                 onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => CreatingChat_Delivery()), //나중에 Help 페이지 만들어서 바꿔주기!!
+                  MaterialPageRoute(builder: (context) => CreatingChat_Help()),
                 );
               },
                 child: Text('+',

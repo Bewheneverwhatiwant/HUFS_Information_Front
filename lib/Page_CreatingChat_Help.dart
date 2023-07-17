@@ -8,23 +8,24 @@ import 'package:flutter/cupertino.dart';
 import 'Common_CheckBox.dart';
 import 'Common_SnackBar.dart';
 
-class CreatingChat_Delivery extends StatefulWidget {
-  @override
-  _CreatingChatState createState() => _CreatingChatState();
-}
+//마찬가지로, Creating chat Delivery의 파일을 복사 후 필요한 부분만 수정하여 제작함!
+//HowCanIHelpYou의 TextField 부분에도, 같은 형식으로 TextEditController 적용 완료!!
 
-class _CreatingChatState extends State<CreatingChat_Delivery> {
+class _CreatingChatState extends State<CreatingChat_Help> {
+
   final TextEditingController _titleController = TextEditingController();
   final TextEditingController _costController = TextEditingController();
   final TextEditingController _placeController = TextEditingController();
+  final TextEditingController _helpController = TextEditingController(); //추가!
   bool _checkboxChecked = false;
   bool _formValid = false;
 
   void _checkFormValid() {
     if (_titleController.text.isNotEmpty &&
         _costController.text.isNotEmpty &&
-        _placeController.text.isNotEmpty &&
-        _checkboxChecked) {
+        _checkboxChecked &&
+        _helpController.text.isNotEmpty) {
+
       setState(() {
         _formValid = true;
       });
@@ -40,28 +41,21 @@ class _CreatingChatState extends State<CreatingChat_Delivery> {
     _titleController.addListener(_checkFormValid);
     _costController.addListener(_checkFormValid);
     _placeController.addListener(_checkFormValid);
+    _helpController.addListener(_checkFormValid);
 
     return Scaffold(
       appBar: const LogoAppBar(),
       body: ListView(children: [
         InputText(labelText: '모임 제목을 입력해주세요.', textEditCtrl: _titleController),
+        SizedBox(height: 10,),
+        //도와줄 내용 작는 부분~다른 부분
+        HowCanIHelpYou(helpController: _helpController, costController: _costController, placeController: _placeController,),
         InfoBox(
-            title: '배달비',
-            subtext: '배달비 총액을 기재해주세요.',
-            form: inputForm('원', _costController)),
-        InfoBox(
-            title: '수령 장소',
-            subtext: '구성원들과 물품을 나눌 곳을 알려주세요.',
-            form: inputForm('', _placeController)),
-        InfoBox(
-            title: '[참고] 최소 희망 인원',
-            subtext: '최소 희망 인원이 충족되지 않아도 시작할 수 있습니다.',
-            form: MinimumPeople()),
-        InfoBox(
-            title: '전화번호 공개 여부',
-            subtext:
-                '모임 내 구성원의 전화번호가 모두 공개됩니다.\n노쇼 방지를 위해 서로 주의를 필요로 할 때 유용합니다.',
-            form: OpenSwitch()),
+          title: '전화번호 공개 여부',
+          subtext:
+              '모임 내 구성원의 전화번호가 모두 공개됩니다.\n노쇼 방지를 위해 서로 주의를 필요로 할 때 유용합니다.',
+          form: OpenSwitch(),
+        ),
         InfoBox(title: '모집 시간', form: GatherTime()),
         notice(),
         paddingLR(
@@ -80,6 +74,72 @@ class _CreatingChatState extends State<CreatingChat_Delivery> {
         SizedBox(height: 100),
       ]),
       bottomSheet: formButton(context, _formValid),
+    );
+  }
+}
+
+//추가한 부분!!
+
+class CreatingChat_Help extends StatefulWidget {
+  @override
+  _CreatingChatState createState() => _CreatingChatState();
+}
+
+class HowCanIHelpYou extends StatelessWidget {
+  HowCanIHelpYou({required this.helpController, required this.costController,
+    required this.placeController});
+
+  final TextEditingController helpController;
+   final TextEditingController costController;
+  final TextEditingController placeController;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      children: [
+        paddingLR(
+          Align(
+            alignment: Alignment.centerLeft,
+            child: Text(
+              '상세 설명',
+              style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+            ),
+          ),
+        ),
+
+        SizedBox(height: 10),
+
+        Container(
+          width: 450,
+          height: 200,
+          decoration: BoxDecoration(
+            border: Border.all(),
+            borderRadius: BorderRadius.circular(8),
+          ),
+          child: TextField(
+            controller: helpController, //TextController 추가
+            keyboardType: TextInputType.multiline, //입력 양이 많으면, 엔터키를 사용하면서 내려갈 수 있는 키보드
+            maxLines: null, //글 작성량 제한 x
+
+            decoration: InputDecoration(
+              labelText: '여기에 자세한 요청을 작성해주세요.',
+              border: InputBorder.none, //플러터 기본 파란 input 테두리 숨기기
+              contentPadding: EdgeInsets.all(8.0), //TextField 속 내용과 테두리 사이
+            ),
+            
+          ),
+        ),
+        InfoBox(
+          title: '사례, 보상',
+          subtext: '사례가 꼭 돈일 필요는 없습니다. 하지만, 합리적인 보상이어야겠죠?',
+          form: inputForm('', costController),
+        ),
+        InfoBox(
+          title: '(선택)장소',
+          subtext: '빈칸 입력 가능',
+          form: inputForm('', placeController),
+        ),
+      ],
     );
   }
 }
@@ -287,19 +347,3 @@ Widget formButton(BuildContext context, bool enabled) {
   );
 }
 
-/*
---tosat message와 관련된 코드(시행착오 부분)--
-
-시도해보고 싶다면 import 'package:fluttertoast/fluttertoast.dart'; 를 추가하길 바람, 자세한 착오 내용은 SnackBar 파일 참조
-
-void flutterToast(String msg) {
-  Fluttertoast.showToast(
-    msg: msg,
-    toastLength: Toast.LENGTH_SHORT,
-    gravity: ToastGravity.BOTTOM,
-    backgroundColor: Colors.white,
-    textColor: Colors.black,
-
-    );
-}
-*/

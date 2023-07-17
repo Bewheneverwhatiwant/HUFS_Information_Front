@@ -38,6 +38,7 @@ class NeumorphicButton extends StatelessWidget {
                       blurRadius: 12,
                       color: Color(0xFFBECBD9))
                 ]),
+                
             child: Stack(
               alignment: alignment,
               children: [
@@ -49,6 +50,8 @@ class NeumorphicButton extends StatelessWidget {
                     color: Colors.white,
                   )
               ],
-            )));
+            )
+            
+            ));
   }
 }
