@@ -3,12 +3,13 @@ import 'package:hufs_information/Gather_ChattingRoomList.dart';
 import 'package:hufs_information/Gather_CreateChat.dart';
 import 'Common_LogoAppBar.dart';
 import 'Gather_PointContainer.dart';
-import 'Page_CreatingChat.dart';
+import 'Page_CreatingChat_Delivery.dart';
 
 //app bar 바로 밑에 point container가 오게하고, +버튼은 위치를 고정시켜야 해서 container랑 안겹치게 children으로 분리되도록 수정함~~
 
 class GatherHelp extends StatelessWidget {
-  const GatherHelp({Key? key});
+  final BuildContext context; // context 매개변수 추가
+  const GatherHelp({required this.context, Key? key});
 
   @override
   Widget build(BuildContext context) {
@@ -40,7 +41,7 @@ class GatherHelp extends StatelessWidget {
                 onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => CreatingChat()),
+                  MaterialPageRoute(builder: (context) => CreatingChat_Delivery()), //나중에 Help 페이지 만들어서 바꿔주기!!
                 );
               },
                 child: Text('+',

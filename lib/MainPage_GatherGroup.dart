@@ -76,7 +76,7 @@ class GatherGroup extends StatelessWidget {
                     Navigator.push(
                       // 택시 페이지로 이동
                       context,
-                      MaterialPageRoute(builder: (context) => GatherTaxi()),
+                      MaterialPageRoute(builder: (context) => GatherTaxi(context: context,)),
                     );
                   }
                 : null,
@@ -103,7 +103,7 @@ class GatherGroup extends StatelessWidget {
                     Navigator.push(
                       // 배달 페이지로 이동
                       context,
-                      MaterialPageRoute(builder: (context) => GatherDelivery()),
+                      MaterialPageRoute(builder: (context) => GatherDelivery(context: context,)),
                     );
                   }
                 : null,
@@ -142,7 +142,7 @@ class GatherGroup extends StatelessWidget {
               Navigator.push(
                 // 도와줘요 페이지로 이동
                 context,
-                MaterialPageRoute(builder: (context) => GatherHelp()),
+                MaterialPageRoute(builder: (context) => GatherHelp(context: context)),
               );
             },
             child: Column(

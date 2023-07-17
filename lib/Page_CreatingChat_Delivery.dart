@@ -8,7 +8,7 @@ import 'Common_FormButton.dart';
 
 //FormButton의 유효성 검사(InputText 3개 입력 & 체크박스 체크) 부분에서 상당한 에러가 발생함. 해당 부분 주석처리해둠!
 
-class CreatingChat extends StatelessWidget {
+class CreatingChat_Delivery extends StatelessWidget {
 
   final TextEditingController value1Controller = TextEditingController();
   final TextEditingController value2Controller = TextEditingController();

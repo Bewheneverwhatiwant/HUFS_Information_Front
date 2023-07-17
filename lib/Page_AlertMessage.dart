@@ -2,7 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'Common_NeumorphicButton.dart';
 import 'Gather_ChattingRoomList.dart';
-import 'Page_CreatingChat.dart';
+import 'Page_CreatingChat_Delivery.dart';
 
 //merge하면 999999% 충돌날 것 같음. 체크 필요...!
 

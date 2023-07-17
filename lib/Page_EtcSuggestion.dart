@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'Common_LogoAppBar.dart';
 
 class EtcSuggestion extends StatelessWidget {
-  const EtcSuggestion({super.key});
+  final BuildContext context;
+  const EtcSuggestion({required this.context, Key? key});
 
   @override
   Widget build(BuildContext context) {

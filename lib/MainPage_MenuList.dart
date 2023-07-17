@@ -2,11 +2,12 @@ import 'package:flutter/material.dart';
 
 class MenuList extends StatelessWidget {
   const MenuList(
-      {required this.text, this.isTitle = false, this.onPressed = null});
+      {required this.text, this.isTitle = false, this.onPressed, this.lockAvailable = false,}); //전체보기 메뉴버튼에도 lock 걸려고 수정함!!
 
   final VoidCallback? onPressed;
   final String text;
   final bool isTitle;
+  final bool lockAvailable; //변수 추가(전체 메뉴 버튼에 잠금 할건지? 말건지? 변수임)
 
   @override
   Widget build(BuildContext context) {
@@ -27,16 +28,32 @@ class MenuList extends StatelessWidget {
               Divider(), // 구분선 생성
             ],
           )
-        : GestureDetector(
-            // 제목이 아니라면, 메뉴를 표시하고 아이콘 생성
-            onTap: onPressed,
-            child: Row(
-              children: [
-                Expanded(child: ListTile(title: Text(text))), // ListTile로 메뉴 표시
-                const Icon(Icons.arrow_forward), // 아이콘 생성
-                SizedBox(width: 30) // 아이콘 우측 여백 생성
-              ],
-            ),
+
+          //아래 부분 많이 수정함!!
+
+        : Row(
+            children: [
+              Expanded(
+                child: ListTile(
+                  title: Row(
+
+                    //잠금기능 및 아이콘 삽입 가능한 부분
+                    children: [
+                      Text(text),
+                      if (lockAvailable)
+                        const SizedBox(width: 8.0),
+                        
+                      if (lockAvailable)
+                        const Icon(Icons.lock, color: Colors.grey),
+                    ],
+                  ),
+
+                  onTap: onPressed,
+                ),
+              ),
+              const Icon(Icons.arrow_forward),
+              SizedBox(width: 30),
+            ],
           );
   }
 }

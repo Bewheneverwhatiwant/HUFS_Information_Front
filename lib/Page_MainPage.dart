@@ -1,36 +1,50 @@
 import 'package:flutter/material.dart';
 import 'package:hufs_information/Common_paddingElement.dart';
+import 'package:hufs_information/Page_EtcSuggestion.dart';
+import 'package:hufs_information/Page_EtcTodayMenu.dart';
+import 'package:hufs_information/Page_GatherDelivery.dart';
+import 'package:hufs_information/Page_GatherHelp.dart';
+import 'package:hufs_information/Page_GatherTaxi.dart';
+import 'package:hufs_information/Page_InfoBus.dart';
+import 'package:hufs_information/Page_InfoLecture.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'Common_LogoAppBar.dart';
 import 'MainPage_GatherGroup.dart';
 import 'MainPage_SmallButton.dart';
 import 'MainPage_BannerSlider.dart';
 import 'MainPage_MenuList.dart';
+import 'Page_GatherMyPage.dart';
+import 'Common_NeumorphicBox.dart';
 
 class MainPage extends StatelessWidget {
-  const MainPage({super.key});
+  final BuildContext context; // context 매개변수 추가(슬라이드 바의 버튼을 눌러서 해당 항목으로 이동할 수 있도록 기능을 넣으려면 반드시 추가해야 했음)
+  final bool isButtonEnabled; // 버튼 활성화 여부 추가함!!!
+  const MainPage({required this.context, required this.isButtonEnabled, Key? key});
 
   @override
-  Widget build(BuildContext context) {
-    BorderRadiusGeometry radius = const BorderRadius.only(
+Widget build(BuildContext context) {
+
+  BorderRadiusGeometry radius = const BorderRadius.only(
       // 둥근모서리 속성 미리 정의
       topLeft: Radius.circular(24.0),
       topRight: Radius.circular(24.0),
     );
 
-    return Scaffold(
-        appBar: LogoAppBar(), // [파일 분리] 상단의 앱 바 (AppBar)
-        body: SlidingUpPanel(
-          // 들어올릴 때 나타나는 패널
-          panel: panelInside(), // [분리] 위젯 들어올릴 때 나타날 내용
-          collapsed: panelOutside(radius), // [분리] 축소 시 나타날 내용
-          body: mainBody(), // [분리] 기본 레이아웃(먼저 눈에 보이는 body)
-          borderRadius: radius, // 둥근 모서리
-          backdropEnabled: true,
-          minHeight: 70.0,
-          maxHeight: 600.0,
-        ));
-  }
+  return Scaffold(
+    appBar: LogoAppBar(),
+    body: Builder(builder: (BuildContext context) {
+      return SlidingUpPanel(
+        panel: panelInside(),
+        collapsed: panelOutside(radius),
+        body: mainBody(),
+        borderRadius: radius,
+        backdropEnabled: true,
+        minHeight: 70.0,
+        maxHeight: 600.0,
+      );
+    }),
+  );
+}
 
   Padding mainBody() {
     //내부에 쓰인 marginElement 메소드는 하단에 분리되어있으며, margin을 주는 요소임
@@ -51,18 +65,14 @@ class MainPage extends StatelessWidget {
       children: [
         Expanded(
           child: SmallButton(
-              onPressed: () {
-                print('오늘 메뉴 클릭됨');
-              },
+              onPressed: () {Navigator.of(context).push(MaterialPageRoute(builder: (context) => EtcTodayMenu(context: context)));},
               title: '오늘메뉴는?',
               imageName: 'assets/images/Main_TodayMenu.png'),
         ),
         SizedBox(width: 40),
         Expanded(
           child: SmallButton(
-              onPressed: () {
-                print('건의사항 클릭됨');
-              },
+              onPressed: () {Navigator.of(context).push(MaterialPageRoute(builder: (context) => EtcSuggestion(context: context)));},
               title: '건의할게요!',
               imageName: 'assets/images/Main_Suggestion.png'),
         )
@@ -100,18 +110,22 @@ class MainPage extends StatelessWidget {
         slideBar(),
         const SizedBox(height: 30),
         // [파일분리] MenuList(text:내용, isTitle:제목인가?, onPressed:누르면 할 거)
+
+        //navigator를 적용하기 위해 대폭 수정한 부분. !!꼼꼼한 확인 바람!!
+        //navigator를 사용하기 위해 of 메소드를 썼고, context 변수를 추가한 게 주된 변경사항임!
+        //이로써, 슬라이드를 올리면 나오는 전체메뉴 탭에서 페이지로 바로 이동이 가능해짐.
         MenuList(text: '알뜰모집', isTitle: true),
-        MenuList(text: '택시 같이타!', onPressed: () => print('[전체]택시 같이타')),
-        MenuList(text: '버스 같이타!', onPressed: () => print('[전체]버스 같이타')),
-        MenuList(text: '도와줘요!', onPressed: () => print('[전체]도와줘요')),
-        MenuList(
-            text: '마이포인트 (포인트 적립, 사용)', onPressed: () => print('[전체]마이포인트')),
+        MenuList(text: '택시 같이타!', onPressed: isButtonEnabled ? () {Navigator.of(context).push(MaterialPageRoute(builder: (context) => GatherTaxi(context: context)));}: null, lockAvailable: !isButtonEnabled,),
+        MenuList(text: '배달 같이 해!', onPressed: isButtonEnabled ? () {Navigator.of(context).push(MaterialPageRoute(builder: (context) => GatherDelivery(context: context)));}: null, lockAvailable: !isButtonEnabled,),
+        //택시랑 배달만 lock available을 걸어서 17:00~00:00가 아니라면 회색 자물쇠 아이콘이 옆에 생성되게
+        MenuList(text: '도와줘요!', onPressed: () {Navigator.of(context).push(MaterialPageRoute(builder: (context) => GatherHelp(context: context)));},),
+        MenuList(text: '마이포인트 (포인트 적립, 사용)', onPressed: () {Navigator.of(context).push(MaterialPageRoute(builder: (context) => GatherMyPage(context: context)));},),
         MenuList(text: '실시간 정보', isTitle: true),
-        MenuList(text: '버스 위치 정보', onPressed: () => print('[전체]버스 위치 정보')),
-        MenuList(text: '빈 강의실 찾기', onPressed: () => print('[전체]빈 강의실 찾기')),
+        MenuList(text: '버스 위치 정보', onPressed: () {Navigator.of(context).push(MaterialPageRoute(builder: (context) => InfoBus(context: context)));},),
+        MenuList(text: '빈 강의실 찾기', onPressed: () {Navigator.of(context).push(MaterialPageRoute(builder: (context) => InfoLecture(context: context)));}, ),
         MenuList(text: '기타 메뉴', isTitle: true),
-        MenuList(text: '오늘의 메뉴는?', onPressed: () => print('[전체]오늘의 메뉴')),
-        MenuList(text: '건의할게요!', onPressed: () => print('[전체]건의 사항')),
+        MenuList(text: '오늘의 메뉴는?', onPressed: () {Navigator.of(context).push(MaterialPageRoute(builder: (context) => EtcTodayMenu(context: context)));}, ),
+        MenuList(text: '건의할게요!', onPressed: () {Navigator.of(context).push(MaterialPageRoute(builder: (context) => EtcSuggestion(context: context)));},),
       ],
     );
   }
