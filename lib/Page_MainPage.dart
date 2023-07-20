@@ -114,8 +114,8 @@ Widget build(BuildContext context) {
         //navigator를 적용하기 위해 대폭 수정한 부분. !!꼼꼼한 확인 바람!!
         //navigator를 사용하기 위해 of 메소드를 썼고, context 변수를 추가한 게 주된 변경사항임!
         //이로써, 슬라이드를 올리면 나오는 전체메뉴 탭에서 페이지로 바로 이동이 가능해짐.
-        MenuList(text: '알뜰모집', isTitle: true),
-        MenuList(text: '택시 같이타!', onPressed: isButtonEnabled ? () {Navigator.of(context).push(MaterialPageRoute(builder: (context) => GatherTaxi(context: context)));}: null, lockAvailable: !isButtonEnabled,),
+        MenuList(text: '알뜰모집', isTitle: true,),
+        MenuList(text: '택시 같이타!',onPressed: isButtonEnabled ? () {Navigator.of(context).push(MaterialPageRoute(builder: (context) => GatherTaxi(context: context)));}: null, lockAvailable: !isButtonEnabled,),
         MenuList(text: '배달 같이 해!', onPressed: isButtonEnabled ? () {Navigator.of(context).push(MaterialPageRoute(builder: (context) => GatherDelivery(context: context)));}: null, lockAvailable: !isButtonEnabled,),
         //택시랑 배달만 lock available을 걸어서 17:00~00:00가 아니라면 회색 자물쇠 아이콘이 옆에 생성되게
         MenuList(text: '도와줘요!', onPressed: () {Navigator.of(context).push(MaterialPageRoute(builder: (context) => GatherHelp(context: context)));},),
