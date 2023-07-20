@@ -22,7 +22,7 @@ class AlertMessage extends StatelessWidget {
     required this.plusInfo,
     required this.peopleNum,
     required this.dueTime,
-    required this.isSwitched,
+    required this.isSwitched, required BuildContext context,
   });
 
   @override

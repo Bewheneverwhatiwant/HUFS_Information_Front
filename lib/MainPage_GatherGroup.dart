@@ -11,7 +11,7 @@ class GatherGroup extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final now = DateTime.now();
-    bool isAfterFive = now.hour >= 17; //개발하는 도중 17시 이전에 실행해보고 싶을 때마다 0으로 바꿔주는 중...
+    bool isAfterFive = now.hour >= 0; //개발하는 도중 17시 이전에 실행해보고 싶을 때마다 0으로 바꿔주는 중...
 
     return NeumorphicBox(
         child: Padding(
