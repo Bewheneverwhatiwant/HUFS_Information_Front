@@ -6,8 +6,6 @@ import 'Common_NeumorphicBox.dart';
 import 'Gather_ChattingRoomList.dart';
 import 'Page_AlertMessage.dart';
 import 'Common_SnackBar.dart';
-import 'Common_WriteChatText.dart';
-import 'Common_RealChatList.dart';
 
 //진짜 채팅하는 채팅방을 구현한 파일!
 
@@ -34,7 +32,6 @@ class _ChattingRoomState extends State<ChattingRoom> {
   ];
 
   int confirmedCount = 0; //아이콘 옆에 참가확정 현황을 숫자로 띄우기 위해 둔 변수
-  bool isButtonEnabled = true;
 
   @override
   Widget build(BuildContext context) {
@@ -43,9 +40,7 @@ class _ChattingRoomState extends State<ChattingRoom> {
       body: Column(
         children: [
           notice(), //밑에 있음
-          RealChatList(chatMessages: [],), //입력된 채팅들을 담는 컨테이너
           Spacer(), //버튼을 맨 밑으로 내리기 위한 공간확보? 그런것
-          WriteChatText(displayText: '', onTextSubmitted: (String value) {  },), //채팅을 입력하는 입력창
           wait(), //밑에 있음
           WillYouJoinChat(), //밑에 있음
         ],
@@ -55,65 +50,69 @@ class _ChattingRoomState extends State<ChattingRoom> {
 
 //참가확정 or 취소 버튼
   Padding WillYouJoinChat() {
-  return Padding(
-    padding: const EdgeInsets.all(16.0),
-    child: Center(
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          SizedBox(
-            width: 150,
-            child: NeumorphicButton(
-              onPressed: isButtonEnabled ? () {
-                setState(() {
+    return Padding(
+      padding: const EdgeInsets.all(16.0),
 
-                  //클릭 시 버튼 비활성화(중복 클릭 방지)
-                  isButtonEnabled = false;
+      child: Center(
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+
+            SizedBox(
+              width: 150,
+              child: NeumorphicButton(
+                onPressed: () {
                   showSnackbar(context, '채팅방 참가가 확정되었습니다!');
-                  for (int i = 0; i < icons.length; i++) {
-                    if (icons[i] == Icons.person) {
-                      icons[i] = Icons.person_outline;
-                      confirmedCount++;
-                      break;
-                    }
-                  }
-                });
-              } : null, //비활성화 상태일 때 onPressed를 null로 설정하여 버튼을 비활성화
-              child: Text(
-                '참가확정',
-                style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black, //버튼 색상 조정
-                  
-                ),
-              ),
-            ),
-          ),
-          SizedBox(width: 10),
-          SizedBox(
-            width: 150,
-            child: NeumorphicButton(
-              onPressed: () {
-                showSnackbar(context, '채팅방 참가가 취소되었습니다!');
-                Navigator.popUntil(context, (route) => route.isFirst || route.settings.name == '/Page_MainPage'); //나가기!
-              },
-              child: Text(
-                '나가기',
-                style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black,
-                ),
-              ),
-            ),
-          ),
-        ],
-      ),
-    ),
-  );
-}
 
+                  //icon list의 length만큼 아이콘을 만듦
+                  setState(() {
+                    for (int i = 0; i < icons.length; i++) {
+                      if (icons[i] == Icons.person) {
+                        icons[i] = Icons.person_outline;
+                        confirmedCount++;
+                        break;
+                      }
+                    }
+                  });
+                },
+
+                child: Text(
+                  '참가확정',
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black,
+                  ),
+                ),
+              ),
+            ),
+
+            SizedBox(width: 10),
+            SizedBox(
+              width: 150,
+              child: NeumorphicButton(
+                onPressed: () {
+                  showSnackbar(context, '채팅방 참가가 취소되었습니다!');
+                  //Navigator.popUntil을 써서, 만약 참가 취소를 누르면 메인 페이지로 이동하며 snackbar가 팝업됨
+                  Navigator.popUntil(context, (route) => route.isFirst || route.settings.name == '/Page_MainPage'); //나가기!
+                },
+                child: Text(
+                  '나가기',
+                  style: TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black,
+                  ),
+                ),
+
+              ),
+            ),
+
+          ],
+        ),
+      ),
+    );
+  }
 
 //appBar 밑에 안내사항(?)
   Padding notice() {

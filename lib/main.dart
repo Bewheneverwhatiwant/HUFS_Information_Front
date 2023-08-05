@@ -1,12 +1,13 @@
 import 'package:flutter/material.dart';
 import 'Page_MainPage.dart';
-import 'Splash1_Welcome.dart';
-import 'Splash2_LogInOrSignUp.dart';
 
 void main() {
   runApp(MaterialApp(
     home: Builder(builder: (BuildContext context) {
-      return Splash1_Welcome();
+      return MainPage(
+        context: context,
+        isButtonEnabled: false,
+      );
     }),
   ));
 }
