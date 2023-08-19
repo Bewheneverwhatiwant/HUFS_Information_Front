@@ -5,6 +5,7 @@ import 'Common_NeumorphicButton.dart';
 import 'Page_AlertMessage.dart';
 import 'Page_CreatingChat_Help.dart';
 import 'Page_HowToHelpMe.dart';
+import 'Page_SOSChattingRoom.dart';
 
 // type : 버튼 타입을 의미 (1: 택시같이타, 2:배달같이해, 3: 도와줘요)
 // place : 장소
@@ -58,12 +59,17 @@ Padding ChattingRoomList(BuildContext context, int type, String title, String pl
             children: [
               Text(title,
                   style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
-              Row(children: [
+                  NeumorphicButton(
+              onPressed: () { 
+                Navigator.of(context).push(MaterialPageRoute(builder: (context) => SOSChattingRoom(context: context)));
+               },
+              child: Row(children: [
                 Image.asset('assets/images/Icon-siren.png'),
                 const Text("신고하기",
                     style:
                         TextStyle(fontSize: 12, fontWeight: FontWeight.normal)),
               ])
+                  ),
             ],
           ),
 

@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'Page_MainPage.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flutter/material.dart';
 import 'Splash1_Welcome.dart';
 import 'Splash2_LogInOrSignUp.dart';
 
-void main() {
+void main() async {
+  await dotenv.load();
   runApp(MaterialApp(
     home: Builder(builder: (BuildContext context) {
       return Splash1_Welcome();

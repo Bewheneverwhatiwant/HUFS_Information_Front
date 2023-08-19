@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'Common_LogoAppBar.dart';
 import 'dart:async';
 import 'Splash2_LogInOrSignUp.dart';
+import 'dotenv_init.dart'; // dotenv 초기화 추가
+import 'API_BusInFo.dart';
 
 //첫번째 스플래쉬, welcome 화면
 
@@ -16,6 +18,7 @@ class Splash1_WelcomeState extends State<Splash1_Welcome> {
   @override
   void initState() {
     super.initState();
+    initializeDotEnv(); // dotenv 초기화 추가
     Timer(Duration(milliseconds: splashDuration), () {
       Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => Splash2_LogInOrSignUp()));
     });
@@ -23,6 +26,7 @@ class Splash1_WelcomeState extends State<Splash1_Welcome> {
 
  @override
 Widget build(BuildContext context) {
+  print('SERVICE_KEY: ${ApiCaller.serviceKey}');
   return Scaffold(
     body: Container(
       width: double.infinity,

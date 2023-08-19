@@ -5,8 +5,13 @@ import 'Common_CheckBox.dart';
 import 'Common_SnackBar.dart';
 import 'Page_PersonalInfo.dart';
 import 'Page_HUFSInfoRule.dart';
+import 'API_SignUpAvailable.dart';
+import 'API_SignUp.dart';
+
 
 //나중에 전화번호 인증&&닉네임 통과 시 회원가입 완료!가 활성화되도록 바꿔야 함!
+//또한 현재 입력 필드와 체크박스를 채우기만 하면 회원가입 버튼이 활성화되도록 해두었는데, 이는 원활한 확인을 위함이고
+//마무리 단계에서는 양식을 다 채웠더라도 중복 및 인증에서 '통과'하기 '전에는 회원가입 버튼이 활성화 안되도록' 수정해야함!
 
 class Splash3_SignUp extends StatefulWidget {
   @override
@@ -20,7 +25,32 @@ class _Splash3_SignUpState extends State<Splash3_SignUp> {
   String? _phoneNumber;
   String? _nickName;
   bool _isSignUpButtonEnabled = false;
+  bool _isNicknameAvailable = true;
+  final Api_SignUpAvailable apiService = Api_SignUpAvailable('http://server.infogral.kro.kr/api/members');
 
+  //비동기로 회원가입 처리
+Future<void> _handleSignUp(BuildContext context) async {
+  //회원가입 로직을 수행하고 성공하면 홈화면으로 이동하도록 처리
+
+  //닉네임과 전화번호를 가지고 회원가입 api 호출
+  Api_SignUp? api_signUp = await registerUser( _phoneNumber!, _nickName!,);
+
+  if (api_signUp != null) {
+    //회원가입 성공 시 홈화면으로 이동하고 스낵바를 표시
+    Navigator.of(context).push(MaterialPageRoute(
+      builder: (context) => MainPage(
+        context: context,
+        isButtonEnabled: false,
+      ),
+    ));
+    showSnackbar(context, '회원가입에 성공하였습니다! 닉네임: ${api_signUp.nickname}, 전화번호: ${api_signUp.phoneNumber}');
+  } else {
+    //회원가입 실패 시 실패 스낵바를 표시
+    showSnackbar(context, '회원가입에 실패하였습니다. 다시 시도해주세요.');
+  }
+}
+
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -77,14 +107,20 @@ class _Splash3_SignUpState extends State<Splash3_SignUp> {
               SizedBox(height: 20),
 
               //닉네임 입력 및 입력인식
-              writeNickName(
-                onChanged: (nickName) {
-                  setState(() {
-                    _nickName = nickName;
-                  });
-                  _checkSignUpButtonStatus();
-                },
-              ),
+             writeNickName(
+            onChanged: (nickName) {
+              setState(() {
+                _nickName = nickName;
+              });
+              _checkSignUpButtonStatus(); //입력됐니??
+            },
+            onNicknameAvailabilityChanged: (bool value) {
+              setState(() {
+                _isNicknameAvailable = value; //_isNicknameAvailable 업데이트(중복 or not)
+              });
+              _checkSignUpButtonStatus(); //혹시 중복은 아니니??
+            },
+          ),
               SizedBox(height: 20),
 
               //개인정보 처리 방침 동의
@@ -110,21 +146,11 @@ class _Splash3_SignUpState extends State<Splash3_SignUp> {
               SizedBox(height: 20),
 
               //회원가입 완료! 버튼
-              doYouWannaSignUp(
-                onPressed: _isSignUpButtonEnabled
-                    ? () {
-                        //회원가입 완료 버튼을 누르면 홈화면으로 이동
-                        Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => MainPage(
-                            context: context,
-                            isButtonEnabled: false,
-                          ),
-                        )
-                        );
-                        showSnackbar(context, '회원가입에 성공하였습니다!');
-                      }
-                    : null,
-              ),
+             doYouWannaSignUp(
+                onPressed: _isSignUpButtonEnabled ? () => _handleSignUp(context) : null,
+                isNicknameAvailable: _isNicknameAvailable,
+                isSignUpButtonEnabled: _isSignUpButtonEnabled,
+             ),
               SizedBox(height:30),
             ],
 
@@ -133,6 +159,7 @@ class _Splash3_SignUpState extends State<Splash3_SignUp> {
         ),
       ),
 
+//뒤로가기~
       Positioned(
             top: 20,
             left: 10,
@@ -164,6 +191,7 @@ class _Splash3_SignUpState extends State<Splash3_SignUp> {
 }
 
 //전화번호 입력
+//전화번호 본인인증은 스프링부트에서 구현해야 할듯(번호 입력 -> 문자 입력 -> 서버에서 비교 후 인증)
 class writePhoneNumber extends StatefulWidget {
   final ValueChanged<String?> onChanged;
   writePhoneNumber({Key? key, required this.onChanged}) : super(key: key);
@@ -227,20 +255,54 @@ class _writePhoneNumberState extends State<writePhoneNumber> {
 //닉네임 입력
 class writeNickName extends StatefulWidget {
   final ValueChanged<String?> onChanged;
-  writeNickName({Key? key, required this.onChanged}) : super(key: key);
+  final ValueChanged<bool> onNicknameAvailabilityChanged;
+
+  writeNickName({Key? key, required this.onChanged, required this.onNicknameAvailabilityChanged})
+      : super(key: key);
 
   @override
   _writeNickNameState createState() => _writeNickNameState();
 }
 
 class _writeNickNameState extends State<writeNickName> {
-  String? _nickName;
+  String? nickname;
+  bool _isNicknameAvailable = true;
+  final apiService = Api_SignUpAvailable('http://server.infogral.kro.kr/api/members');
 
   @override
   Widget build(BuildContext context) {
+    
+
+    //닉네임 중복 확인을 위한api 호출 및 스낵바 표시
+    void _checkNicknameAvailability() {
+  if (nickname != null && nickname!.isNotEmpty) {
+    apiService.checkNicknameAvailability(nickname!).then((isAvailable) {
+      setState(() {
+        _isNicknameAvailable = !isAvailable; //사용 가능하면 true
+      });
+
+      //api 호출 결과에 따라 스낵바를 표시
+      if (_isNicknameAvailable) {
+        //중복되지 않은 닉네임인 경우 성공 스낵바 표시
+        showSnackbar(context, '닉네임을 사용할 수 있습니다!');
+      } else {
+        //중복된 닉네임인 경우 실패 스낵바 표시
+        showSnackbar(context, '이미 사용 중인 닉네임입니다.');
+      }
+
+      //중복 확인 결과를 화면에 업데이트
+      widget.onNicknameAvailabilityChanged(_isNicknameAvailable);
+    });
+  }
+}
+
+
+
+
     void _checkSignUpButtonStatus() {
-      if (_nickName != null && _nickName != null) {
-        widget.onChanged(_nickName);
+      if (nickname != null && nickname!.isNotEmpty) {
+        //중복 확인 버튼을 눌렀을 때에만 닉네임 중복 확인 진행
+        _checkNicknameAvailability();
       }
     }
 
@@ -255,25 +317,30 @@ class _writeNickNameState extends State<writeNickName> {
                 child: TextField(
                   onChanged: (value) {
                     setState(() {
-                      _nickName = value;
+                      nickname = value;
                     });
-                    widget.onChanged(_nickName); 
-                    _checkSignUpButtonStatus(); 
+                    widget.onChanged(nickname);
                   },
                 ),
               ),
               SizedBox(width: 10),
               ElevatedButton(
                 onPressed: () {
-                  // 중복 확인 버튼 눌렀을 때 동작
+                  if (nickname != null && nickname!.isNotEmpty) {
+
+                    _checkNicknameAvailability();
+                  } else {
+                    // 닉네임을 입력하지 않았을 때 스낵바로 안내
+                    showSnackbar(context, '닉네임을 입력해주세요.');
+                  }
                 },
                 style: ElevatedButton.styleFrom(
-                backgroundColor: Colors.white,
-                shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(20),
-          ),
-        ),
-                child: Text('중복 확인', style: TextStyle(color:Colors.black),),
+                  backgroundColor: Colors.white,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                ),
+                child: Text('중복 확인', style: TextStyle(color: Colors.black),),
               ),
             ],
           ),
@@ -282,6 +349,8 @@ class _writeNickNameState extends State<writeNickName> {
     );
   }
 }
+
+
 
 //개인정보 동의 체크박스
 class AgreePersonalInfo extends StatefulWidget {
@@ -370,10 +439,14 @@ class _AgreeHUFSInfoRuleState extends State<AgreeHUFSInfoRule> {
 //찐 최종 회원가입 할래?
 class doYouWannaSignUp extends StatelessWidget {
   final VoidCallback? onPressed;
+  final bool isNicknameAvailable;
+  final bool isSignUpButtonEnabled;
 
   doYouWannaSignUp({
     Key? key,
     this.onPressed,
+    required this.isNicknameAvailable,
+    required this.isSignUpButtonEnabled,
   }) : super(key: key);
 
   @override
@@ -386,10 +459,10 @@ class doYouWannaSignUp extends StatelessWidget {
           backgroundColor: Colors.blue,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(20),
-            side: BorderSide(color: Colors.white, width: 2), //테두리 색, 두께
+            side: BorderSide(color: Colors.white, width: 2),
           ),
         ),
-        onPressed: onPressed,
+        onPressed: isNicknameAvailable && isSignUpButtonEnabled ? onPressed : null,
         child: Text(
           '회원가입 완료!',
           style: TextStyle(color: Colors.white),
