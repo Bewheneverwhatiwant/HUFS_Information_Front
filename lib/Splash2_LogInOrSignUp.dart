@@ -45,37 +45,39 @@ class Splash2_LogInOrSignUpState extends State<Splash2_LogInOrSignUp> {
                     child: Text('원하는 플랫폼을 이용하여\n로그인을 진행해주세요',
                         style: TextStyle(color: Colors.white))),
                 Spacer(),
-
                 Container(
                   child: Column(
                     children: [
-
                       //이미지, 텍스트, 다음페이지 받아서 버튼 반환하는 메소드를 밑에 만들어둠!
 
                       createButtonWithImageAndTextAndNavigation(
-                          'assets/images/Icon-AppBar.png',
-                          'SIGN UP',
-                          () {
-                            Navigator.push(context, MaterialPageRoute(builder: (context) => Splash3_SignUp()));
-                          }
-                      ),
+                          'assets/images/Icon-AppBar.png', 'SIGN UP', () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => Splash3_SignUp()));
+                      }),
                       SizedBox(height: 15),
                       createButtonWithImageAndTextAndNavigation(
                           'assets/images/Icon_GoogleLogIn.png',
-                          'SIGN IN BY GOOGLE',
-                          () {
-                            Navigator.push(context, MaterialPageRoute(builder: (context) => Splash4_GoogleLogIn()));
-                          }
-                      ),
+                          'SIGN IN BY GOOGLE', () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => Splash4_GoogleLogIn()));
+                      }),
                       SizedBox(height: 15),
                       createButtonWithImageAndTextAndNavigation(
                           'assets/images/Icon_AppleLogIn.png',
-                          'SIGN IN BY APPLE',
-                          () {
-                            Navigator.push(context, MaterialPageRoute(builder: (context) => Splash5_AppleLogIn()));
-                          }
-                      ),
-                      SizedBox(height: 50,)
+                          'SIGN IN BY APPLE', () {
+                        Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => Splash5_AppleLogIn()));
+                      }),
+                      SizedBox(
+                        height: 50,
+                      )
                     ],
                   ),
                 ),
@@ -99,7 +101,6 @@ Widget createButtonWithImageAndTextAndNavigation(
     child: Container(
       width: 300,
       height: 50,
-
       child: ElevatedButton(
         onPressed: onPressed,
         style: ElevatedButton.styleFrom(
@@ -108,7 +109,6 @@ Widget createButtonWithImageAndTextAndNavigation(
             borderRadius: BorderRadius.circular(20),
           ),
         ),
-
         child: Row(
           children: [
             Image.asset(imagePath),

@@ -26,7 +26,6 @@ class ApiCaller {
     return key ?? 'YOUR_DEFAULT_API_KEY';
   }
 
-
   static Future<Map<String, BusInfo>> fetchBusData(String stationId) async {
     if (testMode) {
       return {
@@ -56,8 +55,9 @@ class ApiCaller {
         final locationNo1 = busArrival['locationNo1'];
         final predictTime1 = busArrival['predictTime1'];
 
-        results[routeId] =
-            BusInfo(location: locationNo1.toString(), predictTime: predictTime1.toString());
+        results[routeId] = BusInfo(
+            location: locationNo1.toString(),
+            predictTime: predictTime1.toString());
       }
 
       return results;

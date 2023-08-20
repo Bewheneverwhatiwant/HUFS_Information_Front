@@ -27,10 +27,16 @@ class LogoAppBar extends StatelessWidget implements PreferredSizeWidget {
         Row(
           children: [
             CircleButton(
-                onPressed: () {Navigator.of(context).push(MaterialPageRoute(builder: (context) => Share(context: context)));},
+                onPressed: () {
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => Share(context: context)));
+                },
                 child: Image.asset('assets/images/Icon-share.png')),
             CircleButton(
-                onPressed: () {Navigator.of(context).push(MaterialPageRoute(builder: (context) => Share(context: context)));},
+                onPressed: () {
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => Share(context: context)));
+                },
                 child: Image.asset('assets/images/Icon-setting.png')),
           ],
         ),

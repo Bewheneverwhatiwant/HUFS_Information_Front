@@ -29,7 +29,9 @@ class _GatherHelpState extends State<GatherHelp> {
             children: [
               LogoAppBar(),
               PointContainer(),
-              SizedBox(height: 20,),
+              SizedBox(
+                height: 20,
+              ),
               WhichCampus(), //체크박스 2개가 Row로 배치
               SizedBox(height: 16),
               _getSelectedCampusContainer(), //어떤 체크박스를 선택하느냐에 따라 캠퍼스가 달라짐
@@ -45,7 +47,8 @@ class _GatherHelpState extends State<GatherHelp> {
                   MaterialPageRoute(builder: (context) => CreatingChat_Help()),
                 );
               },
-              child: Text('+', style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold)),
+              child: Text('+',
+                  style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold)),
             ),
           ),
         ],
@@ -59,40 +62,39 @@ class _GatherHelpState extends State<GatherHelp> {
       children: [
         Row(
           children: [
-        Checkbox(
-          onChanged: (value) {
-            setState(() {
-              isFirstCheckBoxChecked = true; //기본적으로 글로벌캠퍼스의 채팅방 목록이 먼저 보이도록 함
-              isSecondCheckBoxChecked = false; //서울캠퍼스 채팅방 목록
-            });
-
-          },
-          value: isFirstCheckBoxChecked,
-          
-        ),
-        
-        SizedBox(width: 30),
-        Text('글로벌캠퍼스', style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),),
+            Checkbox(
+              onChanged: (value) {
+                setState(() {
+                  isFirstCheckBoxChecked =
+                      true; //기본적으로 글로벌캠퍼스의 채팅방 목록이 먼저 보이도록 함
+                  isSecondCheckBoxChecked = false; //서울캠퍼스 채팅방 목록
+                });
+              },
+              value: isFirstCheckBoxChecked,
+            ),
+            SizedBox(width: 30),
+            Text(
+              '글로벌캠퍼스',
+              style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+            ),
           ],
         ),
-
-      Row(
-        children: [
-        Checkbox(
-          onChanged: (value) {
-            setState(() {
-              isFirstCheckBoxChecked = false;
-              isSecondCheckBoxChecked = true; //서울캠퍼스가 선택된 상태!!
-            });
-          },
-
-          value: isSecondCheckBoxChecked,
+        Row(
+          children: [
+            Checkbox(
+              onChanged: (value) {
+                setState(() {
+                  isFirstCheckBoxChecked = false;
+                  isSecondCheckBoxChecked = true; //서울캠퍼스가 선택된 상태!!
+                });
+              },
+              value: isSecondCheckBoxChecked,
+            ),
+            SizedBox(width: 30),
+            Text('서울캠퍼스',
+                style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold)),
+          ],
         ),
-
-        SizedBox(width: 30),
-        Text('서울캠퍼스', style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold)),
-        ],
-      ),
       ],
     );
   }
@@ -113,12 +115,18 @@ class _GatherHelpState extends State<GatherHelp> {
     return Container(
       child: Column(
         children: [
-          ChattingRoomList(context, 3, '바퀴벌레 잡아주세요 ㅠㅠ', '이든하우스', '30000원', 3, '18:25', true, true, TextEditingController()),
-          ChattingRoomList(context, 3, '테스트1', '장소 입력', '가격 입력', 7, '12:34', true, true, TextEditingController()),
-          ChattingRoomList(context, 3, '테스트2', '장소 입력', '가격 입력', 7, '12:34', true, true, TextEditingController()),
-          ChattingRoomList(context, 3, '테스트3', '장소 입력', '가격 입력', 7, '12:34', true, true, TextEditingController()),
-          ChattingRoomList(context, 3, '테스트4', '장소 입력', '가격 입력', 7, '12:34', true, true, TextEditingController()),
-          ChattingRoomList(context, 3, '테스트5', '장소 입력', '가격 입력', 7, '12:34', true, true, TextEditingController()),
+          ChattingRoomList(context, 3, '바퀴벌레 잡아주세요 ㅠㅠ', '이든하우스', '30000원', 3,
+              '18:25', true, true, TextEditingController()),
+          ChattingRoomList(context, 3, '테스트1', '장소 입력', '가격 입력', 7, '12:34',
+              true, true, TextEditingController()),
+          ChattingRoomList(context, 3, '테스트2', '장소 입력', '가격 입력', 7, '12:34',
+              true, true, TextEditingController()),
+          ChattingRoomList(context, 3, '테스트3', '장소 입력', '가격 입력', 7, '12:34',
+              true, true, TextEditingController()),
+          ChattingRoomList(context, 3, '테스트4', '장소 입력', '가격 입력', 7, '12:34',
+              true, true, TextEditingController()),
+          ChattingRoomList(context, 3, '테스트5', '장소 입력', '가격 입력', 7, '12:34',
+              true, true, TextEditingController()),
         ],
       ),
     );
@@ -128,12 +136,18 @@ class _GatherHelpState extends State<GatherHelp> {
     return Container(
       child: Column(
         children: [
-          ChattingRoomList(context, 3, '설캠 기숙사 짐 좀 옮겨주세요', '이든하우스', '30000원', 3, '18:25', true, true, TextEditingController()),
-          ChattingRoomList(context, 3, '테스트1', '장소 입력', '가격 입력', 7, '12:34', true, true, TextEditingController()),
-          ChattingRoomList(context, 3, '테스트2', '장소 입력', '가격 입력', 7, '12:34', true, true, TextEditingController()),
-          ChattingRoomList(context, 3, '테스트3', '장소 입력', '가격 입력', 7, '12:34', true, true, TextEditingController()),
-          ChattingRoomList(context, 3, '테스트4', '장소 입력', '가격 입력', 7, '12:34', true, true, TextEditingController()),
-          ChattingRoomList(context, 3, '테스트5', '장소 입력', '가격 입력', 7, '12:34', true, true, TextEditingController()),
+          ChattingRoomList(context, 3, '설캠 기숙사 짐 좀 옮겨주세요', '이든하우스', '30000원', 3,
+              '18:25', true, true, TextEditingController()),
+          ChattingRoomList(context, 3, '테스트1', '장소 입력', '가격 입력', 7, '12:34',
+              true, true, TextEditingController()),
+          ChattingRoomList(context, 3, '테스트2', '장소 입력', '가격 입력', 7, '12:34',
+              true, true, TextEditingController()),
+          ChattingRoomList(context, 3, '테스트3', '장소 입력', '가격 입력', 7, '12:34',
+              true, true, TextEditingController()),
+          ChattingRoomList(context, 3, '테스트4', '장소 입력', '가격 입력', 7, '12:34',
+              true, true, TextEditingController()),
+          ChattingRoomList(context, 3, '테스트5', '장소 입력', '가격 입력', 7, '12:34',
+              true, true, TextEditingController()),
         ],
       ),
     );

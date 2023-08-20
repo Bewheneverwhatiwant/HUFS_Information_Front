@@ -20,12 +20,12 @@ class NeumorphicBox extends StatelessWidget {
       width: width,
       padding: const EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(8.0),
-        color: Colors.white,
-        boxShadow: const [
-          BoxShadow(
-              offset: Offset(4, 4), blurRadius: 12, color: Color(0xFFBECBD9))
-        ]),
+          borderRadius: BorderRadius.circular(8.0),
+          color: Colors.white,
+          boxShadow: const [
+            BoxShadow(
+                offset: Offset(4, 4), blurRadius: 12, color: Color(0xFFBECBD9))
+          ]),
       child: Align(
         alignment: alignment,
         child: child,

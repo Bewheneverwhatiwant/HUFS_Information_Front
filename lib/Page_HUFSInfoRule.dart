@@ -9,12 +9,9 @@ class HUFSInfoRule extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: LogoAppBar(),
-     body: paddingElement(
-      Column(children: [
-        Text('이용약관 저쩌구 동의동의')
-      ],)
-     )
-    );
+        appBar: LogoAppBar(),
+        body: paddingElement(Column(
+          children: [Text('이용약관 저쩌구 동의동의')],
+        )));
   }
 }

@@ -18,34 +18,35 @@ import 'Common_NeumorphicBox.dart';
 import 'Page_InfoLecture.dart';
 
 class MainPage extends StatelessWidget {
-  final BuildContext context; // context 매개변수 추가(슬라이드 바의 버튼을 눌러서 해당 항목으로 이동할 수 있도록 기능을 넣으려면 반드시 추가해야 했음)
+  final BuildContext
+      context; // context 매개변수 추가(슬라이드 바의 버튼을 눌러서 해당 항목으로 이동할 수 있도록 기능을 넣으려면 반드시 추가해야 했음)
   final bool isButtonEnabled; // 버튼 활성화 여부 추가함!!!
-  const MainPage({required this.context, required this.isButtonEnabled, Key? key});
+  const MainPage(
+      {required this.context, required this.isButtonEnabled, Key? key});
 
   @override
-Widget build(BuildContext context) {
-
-  BorderRadiusGeometry radius = const BorderRadius.only(
+  Widget build(BuildContext context) {
+    BorderRadiusGeometry radius = const BorderRadius.only(
       // 둥근모서리 속성 미리 정의
       topLeft: Radius.circular(24.0),
       topRight: Radius.circular(24.0),
     );
 
-  return Scaffold(
-    appBar: LogoAppBar(),
-    body: Builder(builder: (BuildContext context) {
-      return SlidingUpPanel(
-        panel: panelInside(),
-        collapsed: panelOutside(radius),
-        body: mainBody(),
-        borderRadius: radius,
-        backdropEnabled: true,
-        minHeight: 70.0,
-        maxHeight: 600.0,
-      );
-    }),
-  );
-}
+    return Scaffold(
+      appBar: LogoAppBar(),
+      body: Builder(builder: (BuildContext context) {
+        return SlidingUpPanel(
+          panel: panelInside(),
+          collapsed: panelOutside(radius),
+          body: mainBody(),
+          borderRadius: radius,
+          backdropEnabled: true,
+          minHeight: 70.0,
+          maxHeight: 600.0,
+        );
+      }),
+    );
+  }
 
   Padding mainBody() {
     //내부에 쓰인 marginElement 메소드는 하단에 분리되어있으며, margin을 주는 요소임
@@ -66,14 +67,20 @@ Widget build(BuildContext context) {
       children: [
         Expanded(
           child: SmallButton(
-              onPressed: () {Navigator.of(context).push(MaterialPageRoute(builder: (context) => EtcTodayMenu(context: context)));},
+              onPressed: () {
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => EtcTodayMenu(context: context)));
+              },
               title: '오늘메뉴는?',
               imageName: 'assets/images/Main_TodayMenu.png'),
         ),
         SizedBox(width: 40),
         Expanded(
           child: SmallButton(
-              onPressed: () {Navigator.of(context).push(MaterialPageRoute(builder: (context) => EtcSuggestion(context: context)));},
+              onPressed: () {
+                Navigator.of(context).push(MaterialPageRoute(
+                    builder: (context) => EtcSuggestion(context: context)));
+              },
               title: '건의할게요!',
               imageName: 'assets/images/Main_Suggestion.png'),
         )
@@ -115,18 +122,77 @@ Widget build(BuildContext context) {
         //navigator를 적용하기 위해 대폭 수정한 부분. !!꼼꼼한 확인 바람!!
         //navigator를 사용하기 위해 of 메소드를 썼고, context 변수를 추가한 게 주된 변경사항임!
         //이로써, 슬라이드를 올리면 나오는 전체메뉴 탭에서 페이지로 바로 이동이 가능해짐.
-        MenuList(text: '알뜰모집', isTitle: true,),
-        MenuList(text: '택시 같이타!',onPressed: isButtonEnabled ? () {Navigator.of(context).push(MaterialPageRoute(builder: (context) => GatherTaxi(context: context)));}: null, lockAvailable: !isButtonEnabled,),
-        MenuList(text: '배달 같이 해!', onPressed: isButtonEnabled ? () {Navigator.of(context).push(MaterialPageRoute(builder: (context) => GatherDelivery(context: context)));}: null, lockAvailable: !isButtonEnabled,),
+        MenuList(
+          text: '알뜰모집',
+          isTitle: true,
+        ),
+        MenuList(
+          text: '택시 같이타!',
+          onPressed: isButtonEnabled
+              ? () {
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => GatherTaxi(context: context)));
+                }
+              : null,
+          lockAvailable: !isButtonEnabled,
+        ),
+        MenuList(
+          text: '배달 같이 해!',
+          onPressed: isButtonEnabled
+              ? () {
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: (context) => GatherDelivery(context: context)));
+                }
+              : null,
+          lockAvailable: !isButtonEnabled,
+        ),
         //택시랑 배달만 lock available을 걸어서 17:00~00:00가 아니라면 회색 자물쇠 아이콘이 옆에 생성되게
-        MenuList(text: '도와줘요!', onPressed: () {Navigator.of(context).push(MaterialPageRoute(builder: (context) => GatherHelp(context: context)));},),
-        MenuList(text: '마이포인트 (포인트 적립, 사용)', onPressed: () {Navigator.of(context).push(MaterialPageRoute(builder: (context) => GatherMyPage(context: context)));},),
+        MenuList(
+          text: '도와줘요!',
+          onPressed: () {
+            Navigator.of(context).push(MaterialPageRoute(
+                builder: (context) => GatherHelp(context: context)));
+          },
+        ),
+        MenuList(
+          text: '마이포인트 (포인트 적립, 사용)',
+          onPressed: () {
+            Navigator.of(context).push(MaterialPageRoute(
+                builder: (context) => GatherMyPage(context: context)));
+          },
+        ),
         MenuList(text: '실시간 정보', isTitle: true),
-        MenuList(text: '버스 위치 정보', onPressed: () {Navigator.of(context).push(MaterialPageRoute(builder: (context) => InfoBus(context: context)));},),
-        MenuList(text: '빈 강의실 찾기', onPressed: () {Navigator.of(context).push(MaterialPageRoute(builder: (context) => InfoLecture(context: context,)));}, ),
+        MenuList(
+          text: '버스 위치 정보',
+          onPressed: () {
+            Navigator.of(context).push(MaterialPageRoute(
+                builder: (context) => InfoBus(context: context)));
+          },
+        ),
+        MenuList(
+          text: '빈 강의실 찾기',
+          onPressed: () {
+            Navigator.of(context).push(MaterialPageRoute(
+                builder: (context) => InfoLecture(
+                      context: context,
+                    )));
+          },
+        ),
         MenuList(text: '기타 메뉴', isTitle: true),
-        MenuList(text: '오늘의 메뉴는?', onPressed: () {Navigator.of(context).push(MaterialPageRoute(builder: (context) => EtcTodayMenu(context: context)));}, ),
-        MenuList(text: '건의할게요!', onPressed: () {Navigator.of(context).push(MaterialPageRoute(builder: (context) => EtcSuggestion(context: context)));},),
+        MenuList(
+          text: '오늘의 메뉴는?',
+          onPressed: () {
+            Navigator.of(context).push(MaterialPageRoute(
+                builder: (context) => EtcTodayMenu(context: context)));
+          },
+        ),
+        MenuList(
+          text: '건의할게요!',
+          onPressed: () {
+            Navigator.of(context).push(MaterialPageRoute(
+                builder: (context) => EtcSuggestion(context: context)));
+          },
+        ),
       ],
     );
   }

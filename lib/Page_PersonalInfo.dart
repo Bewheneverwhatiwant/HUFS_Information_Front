@@ -10,11 +10,9 @@ class PersonalInfo extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: LogoAppBar(),
-      body: paddingElement(
-        Column(children: [
-          Text('개인정보 어쩌구 동의동의')
-        ],)
-      ),
+      body: paddingElement(Column(
+        children: [Text('개인정보 어쩌구 동의동의')],
+      )),
     );
   }
 }

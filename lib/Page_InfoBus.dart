@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'Common_LogoAppBar.dart';
 import 'Common_NeumorphicBox.dart';
@@ -7,7 +6,6 @@ import 'API_BusList.dart';
 
 //현재 service key도 인식 잘 되고 api 호출도 200인데 로드가 안되고 멈추는 것을 보아, 비동기/동기 문제거나 api 속도 문제거나... 그렇다.
 //xml -> JSON기능이 필요할듯...?
-
 
 class InfoBus extends StatefulWidget {
   final BuildContext context;
@@ -27,145 +25,153 @@ class _InfoBusState extends State<InfoBus> {
   }
 
   static Future<Map<String, List<int>>> fetchBusLocations() async {
-  try {
-    BusList busList = BusList();
-    final result = await busList.fetchBusLocations();
-    return result ?? {'busLocations': []};
-  } catch (e) {
-    print('Error fetching bus locations: $e');
-    return {'busLocations': []};
+    try {
+      BusList busList = BusList();
+      final result = await busList.fetchBusLocations();
+      return result ?? {'busLocations': []};
+    } catch (e) {
+      print('Error fetching bus locations: $e');
+      return {'busLocations': []};
+    }
   }
-}
-
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: LogoAppBar(),
-      body: 
-      paddingElement(
-      ListView(
-         
-        children: [
+      body: paddingElement(
+        ListView(children: [
           UpOrDown(), //상행/하행 표지판(?)
           SizedBox(height: 50),
           TopCurved(), //상단 곡선으로 이어진 부분
           //buildCustomColumn(), //중간 동그라미 + 막대 반복되는 부분
 
           FutureBuilder<Map<String, List<int>>>(
-  future: _busLocationsFuture,
-  builder: (context, snapshot) {
-    if (snapshot.connectionState == ConnectionState.waiting) {
-      return Center(
-        child: CircularProgressIndicator(),
-      );
-    } else if (snapshot.connectionState == ConnectionState.done) { // 변경된 부분
-      if (snapshot.hasData) {
-        final busLocations = snapshot.data!['busLocations'] ?? [];
-        final mapData = {'busLocations': busLocations};
-        return BuildCustomColumn(mapData);
-      } else if (snapshot.hasError) {
-        return Center(
-          child: Text('Error: ${snapshot.error}'),
-        );
-      } else {
-        return Center(
-          child: Text('No data'),
-        );
-      }
-    } else {
-      // 비정상적인 상태 처리
-      return Center(
-        child: Text('Unexpected connection state'),
-      );
-    }
-  },
-),
-
+            future: _busLocationsFuture,
+            builder: (context, snapshot) {
+              if (snapshot.connectionState == ConnectionState.waiting) {
+                return Center(
+                  child: CircularProgressIndicator(),
+                );
+              } else if (snapshot.connectionState == ConnectionState.done) {
+                // 변경된 부분
+                if (snapshot.hasData) {
+                  final busLocations = snapshot.data!['busLocations'] ?? [];
+                  final mapData = {'busLocations': busLocations};
+                  return BuildCustomColumn(mapData);
+                } else if (snapshot.hasError) {
+                  return Center(
+                    child: Text('Error: ${snapshot.error}'),
+                  );
+                } else {
+                  return Center(
+                    child: Text('No data'),
+                  );
+                }
+              } else {
+                // 비정상적인 상태 처리
+                return Center(
+                  child: Text('Unexpected connection state'),
+                );
+              }
+            },
+          ),
 
           BottomCurved(), //하단 곡선으로 이어진 부분
-          SizedBox(height: 30,),
-        ]
+          SizedBox(
+            height: 30,
+          ),
+        ]),
       ),
-      ),
-      );
+    );
   }
 
 //하단 곡선 부분
   Container BottomCurved() {
-    
     return Container(
-      
       child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          
-          children: [
-          
-              CustomPaint(
-                 painter: CurvePainter(startX: 0, startY: 0, controlPoint1X: 0, controlPoint1Y: 50, endPointX: 50, endPointY: 50),
-                  child: Container(
-                  width: 50.0,
-                  height: 50.0,
-                      ),
-                     ),
-                     
-                     Transform.translate(
-                  offset: Offset(0, 25), //Y축 방향으로 이동함!!
-                  child: 
-                  CustomPaint(
-                      painter: HorizontalLinePainter(),
-                      size: Size(50, 10),
-                        )
-                  ),
-            
-              CustomPaint(
-                 painter: CurvePainter(startX: 0, startY: 50, controlPoint1X: 50, controlPoint1Y: 50, endPointX: 50, endPointY: 0), //좌 하단
-                  child: Container(
-                  width: 50.0, 
-                  height: 50.0, 
-                      ),
-                     ),
-                     
-              
-          ],
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          CustomPaint(
+            painter: CurvePainter(
+                startX: 0,
+                startY: 0,
+                controlPoint1X: 0,
+                controlPoint1Y: 50,
+                endPointX: 50,
+                endPointY: 50),
+            child: Container(
+              width: 50.0,
+              height: 50.0,
+            ),
+          ),
+          Transform.translate(
+              offset: Offset(0, 25), //Y축 방향으로 이동함!!
+              child: CustomPaint(
+                painter: HorizontalLinePainter(),
+                size: Size(50, 10),
+              )),
+          CustomPaint(
+            painter: CurvePainter(
+                startX: 0,
+                startY: 50,
+                controlPoint1X: 50,
+                controlPoint1Y: 50,
+                endPointX: 50,
+                endPointY: 0), //좌 하단
+            child: Container(
+              width: 50.0,
+              height: 50.0,
+            ),
+          ),
+        ],
       ),
-            );
+    );
   }
 
 //상단 곡선 부분
   Container TopCurved() {
     return Container(
       child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-              
-              //1번
-              CustomPaint(
-                 painter: CurvePainter(startX: 0, startY: 50, controlPoint1X: 0, controlPoint1Y: 0, endPointX: 50, endPointY: 0), //좌 하단
-                  child: Container(
-                  width: 50.0,
-                  height: 50.0,
-                      ),
-                     ),
-                
-                 Transform.translate(
-                  offset: Offset(0, -25), //Y축 방향으로 이동함!!
-                  child: 
-                  CustomPaint(
-                      painter: HorizontalLinePainter(),
-                      size: Size(50, 10),
-                        )
-                  ),
-                
-                     //2번
-              CustomPaint(
-                 painter: CurvePainter(startX: 0, startY: 0, controlPoint1X: 50, controlPoint1Y: 0, endPointX: 50, endPointY: 50), //좌 하단
-                  child: Container(
-                  width: 50.0,
-                  height: 50.0,
-                      ),
-                     ),
-          ],
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          //1번
+          CustomPaint(
+            painter: CurvePainter(
+                startX: 0,
+                startY: 50,
+                controlPoint1X: 0,
+                controlPoint1Y: 0,
+                endPointX: 50,
+                endPointY: 0), //좌 하단
+            child: Container(
+              width: 50.0,
+              height: 50.0,
+            ),
+          ),
+
+          Transform.translate(
+              offset: Offset(0, -25), //Y축 방향으로 이동함!!
+              child: CustomPaint(
+                painter: HorizontalLinePainter(),
+                size: Size(50, 10),
+              )),
+
+          //2번
+          CustomPaint(
+            painter: CurvePainter(
+                startX: 0,
+                startY: 0,
+                controlPoint1X: 50,
+                controlPoint1Y: 0,
+                endPointX: 50,
+                endPointY: 50), //좌 하단
+            child: Container(
+              width: 50.0,
+              height: 50.0,
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -214,7 +220,6 @@ class CurvePainter extends CustomPainter {
     return false;
   }
 }
-
 
 //원 그리기용
 Widget buildCircleContainer(double widthSize, double heightSize, Color color) {
@@ -273,11 +278,7 @@ class HorizontalLinePainter extends CustomPainter {
   }
 }
 
-
-
-
 //동그라미랑 막대 합쳐서 반복 돌리기
-
 
 Widget BuildCustomColumn(Map<String, List<int>>? mapData) {
   if (mapData == null) {
@@ -341,7 +342,8 @@ Widget BuildCustomColumn(Map<String, List<int>>? mapData) {
                         alignment: Alignment.center,
                         child: Text(
                           textList[i],
-                          style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold),
+                          style: TextStyle(
+                              fontSize: 13, fontWeight: FontWeight.bold),
                         ),
                       ),
                     ),
@@ -388,27 +390,23 @@ Widget BuildCustomColumn(Map<String, List<int>>? mapData) {
   );
 }
 
-
-
-
 //화면 맨 위의 상행/하행 표지판(?)
 
 Container UpOrDown() {
-  return Container( 
-    padding: EdgeInsets.all(16),
-    child: Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-      children: [
-      NeumorphicBox(
-        child: Text('상행버스', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold))
-      ),
-      
-      Text('무료구간 광역버스의\n실시간 도착 정보입니다.', textAlign: TextAlign.center),
-      NeumorphicBox(
-        child: Text('하행버스', style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold))
-        )
-    ],)
-  );
+  return Container(
+      padding: EdgeInsets.all(16),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          NeumorphicBox(
+              child: Text('상행버스',
+                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold))),
+          Text('무료구간 광역버스의\n실시간 도착 정보입니다.', textAlign: TextAlign.center),
+          NeumorphicBox(
+              child: Text('하행버스',
+                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)))
+        ],
+      ));
 }
 
 //버스 번호가 뜰 박스(?)
@@ -420,23 +418,17 @@ class CircleWithText extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return NeumorphicBox(
-    
-    child: 
-        Container(
-          width: 23,
-          height: 10,
-          
-          child: Center(
-            child: Text(
-              text,
-              style: TextStyle(color: Colors.black, fontSize: 10, fontWeight: FontWeight.bold),
-            ),
+      child: Container(
+        width: 23,
+        height: 10,
+        child: Center(
+          child: Text(
+            text,
+            style: TextStyle(
+                color: Colors.black, fontSize: 10, fontWeight: FontWeight.bold),
           ),
         ),
-        );
-      
+      ),
+    );
   }
 }
-
-
-

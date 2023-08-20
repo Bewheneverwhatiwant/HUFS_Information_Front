@@ -8,9 +8,11 @@ class ChatMessage {
   final DateTime sentTime;
   final String displayText;
 
-  ChatMessage({required this.nickName, required this.displayText, required this.sentTime});
+  ChatMessage(
+      {required this.nickName,
+      required this.displayText,
+      required this.sentTime});
 }
-
 
 class RealChatContainer extends StatelessWidget {
   final List<dynamic> messages; // List<dynamic>로 변경

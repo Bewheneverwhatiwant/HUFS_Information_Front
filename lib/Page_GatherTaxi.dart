@@ -29,7 +29,9 @@ class _GatherTaxiState extends State<GatherTaxi> {
             children: [
               LogoAppBar(),
               PointContainer(),
-              SizedBox(height: 20,),
+              SizedBox(
+                height: 20,
+              ),
               WhichCampus(), //체크박스 2개가 Row로 배치
               SizedBox(height: 16),
               _getSelectedCampusContainer(), //어떤 체크박스를 선택하느냐에 따라 캠퍼스가 달라짐
@@ -45,7 +47,8 @@ class _GatherTaxiState extends State<GatherTaxi> {
                   MaterialPageRoute(builder: (context) => CreatingChat_Help()),
                 );
               },
-              child: Text('+', style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold)),
+              child: Text('+',
+                  style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold)),
             ),
           ),
         ],
@@ -59,40 +62,39 @@ class _GatherTaxiState extends State<GatherTaxi> {
       children: [
         Row(
           children: [
-        Checkbox(
-          onChanged: (value) {
-            setState(() {
-              isFirstCheckBoxChecked = true; //기본적으로 글로벌캠퍼스의 채팅방 목록이 먼저 보이도록 함
-              isSecondCheckBoxChecked = false; //서울캠퍼스 채팅방 목록
-            });
-
-          },
-          value: isFirstCheckBoxChecked,
-          
-        ),
-        
-        SizedBox(width: 30),
-        Text('글로벌캠퍼스', style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),),
+            Checkbox(
+              onChanged: (value) {
+                setState(() {
+                  isFirstCheckBoxChecked =
+                      true; //기본적으로 글로벌캠퍼스의 채팅방 목록이 먼저 보이도록 함
+                  isSecondCheckBoxChecked = false; //서울캠퍼스 채팅방 목록
+                });
+              },
+              value: isFirstCheckBoxChecked,
+            ),
+            SizedBox(width: 30),
+            Text(
+              '글로벌캠퍼스',
+              style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold),
+            ),
           ],
         ),
-
-      Row(
-        children: [
-        Checkbox(
-          onChanged: (value) {
-            setState(() {
-              isFirstCheckBoxChecked = false;
-              isSecondCheckBoxChecked = true; //서울캠퍼스가 선택된 상태!!
-            });
-          },
-
-          value: isSecondCheckBoxChecked,
+        Row(
+          children: [
+            Checkbox(
+              onChanged: (value) {
+                setState(() {
+                  isFirstCheckBoxChecked = false;
+                  isSecondCheckBoxChecked = true; //서울캠퍼스가 선택된 상태!!
+                });
+              },
+              value: isSecondCheckBoxChecked,
+            ),
+            SizedBox(width: 30),
+            Text('서울캠퍼스',
+                style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold)),
+          ],
         ),
-
-        SizedBox(width: 30),
-        Text('서울캠퍼스', style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold)),
-        ],
-      ),
       ],
     );
   }
@@ -111,12 +113,18 @@ class _GatherTaxiState extends State<GatherTaxi> {
     return Container(
       child: Column(
         children: [
-          ChattingRoomList(context, 1, '서현가실 분', '외대 -> 서현', '', 3, '18:25', true, false, TextEditingController()),
-              ChattingRoomList(context, 1, '테스트1', '장소 입력', '', 7, '12:34', true, false, TextEditingController()),
-              ChattingRoomList(context, 1, '테스트2', '장소 입력', '', 7, '12:34', true, false, TextEditingController()),
-              ChattingRoomList(context, 1, '테스트3', '장소 입력', '', 7, '12:34', true, false, TextEditingController()),
-              ChattingRoomList(context, 1, '테스트4', '장소 입력', '', 7, '12:34', true, false, TextEditingController()),
-              ChattingRoomList(context, 1, '테스트5', '장소 입력', '', 7, '12:34', true, false, TextEditingController()),
+          ChattingRoomList(context, 1, '서현가실 분', '외대 -> 서현', '', 3, '18:25',
+              true, false, TextEditingController()),
+          ChattingRoomList(context, 1, '테스트1', '장소 입력', '', 7, '12:34', true,
+              false, TextEditingController()),
+          ChattingRoomList(context, 1, '테스트2', '장소 입력', '', 7, '12:34', true,
+              false, TextEditingController()),
+          ChattingRoomList(context, 1, '테스트3', '장소 입력', '', 7, '12:34', true,
+              false, TextEditingController()),
+          ChattingRoomList(context, 1, '테스트4', '장소 입력', '', 7, '12:34', true,
+              false, TextEditingController()),
+          ChattingRoomList(context, 1, '테스트5', '장소 입력', '', 7, '12:34', true,
+              false, TextEditingController()),
         ],
       ),
     );
@@ -126,12 +134,18 @@ class _GatherTaxiState extends State<GatherTaxi> {
     return Container(
       child: Column(
         children: [
-          ChattingRoomList(context, 1, '서울에서 대전 있나요??', '강남역 11번 출구 -> 대전역', '', 3, '12:10', true, false, TextEditingController()),
-              ChattingRoomList(context, 1, '테스트1', '장소 입력', '', 7, '12:34', true, false, TextEditingController()),
-              ChattingRoomList(context, 1, '테스트2', '장소 입력', '', 7, '12:34', true, false, TextEditingController()),
-              ChattingRoomList(context, 1, '테스트3', '장소 입력', '', 7, '12:34', true, false, TextEditingController()),
-              ChattingRoomList(context, 1, '테스트4', '장소 입력', '', 7, '12:34', true, false, TextEditingController()),
-              ChattingRoomList(context, 1, '테스트5', '장소 입력', '', 7, '12:34', true, false, TextEditingController())
+          ChattingRoomList(context, 1, '서울에서 대전 있나요??', '강남역 11번 출구 -> 대전역', '',
+              3, '12:10', true, false, TextEditingController()),
+          ChattingRoomList(context, 1, '테스트1', '장소 입력', '', 7, '12:34', true,
+              false, TextEditingController()),
+          ChattingRoomList(context, 1, '테스트2', '장소 입력', '', 7, '12:34', true,
+              false, TextEditingController()),
+          ChattingRoomList(context, 1, '테스트3', '장소 입력', '', 7, '12:34', true,
+              false, TextEditingController()),
+          ChattingRoomList(context, 1, '테스트4', '장소 입력', '', 7, '12:34', true,
+              false, TextEditingController()),
+          ChattingRoomList(context, 1, '테스트5', '장소 입력', '', 7, '12:34', true,
+              false, TextEditingController())
         ],
       ),
     );
