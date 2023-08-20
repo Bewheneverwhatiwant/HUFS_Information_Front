@@ -1,11 +1,42 @@
+
 import 'package:flutter/material.dart';
 import 'Common_LogoAppBar.dart';
 import 'Common_NeumorphicBox.dart';
 import 'Common_paddingElement.dart';
+import 'API_BusList.dart';
 
-class InfoBus extends StatelessWidget {
+//현재 service key도 인식 잘 되고 api 호출도 200인데 로드가 안되고 멈추는 것을 보아, 비동기/동기 문제거나 api 속도 문제거나... 그렇다.
+//xml -> JSON기능이 필요할듯...?
+
+
+class InfoBus extends StatefulWidget {
   final BuildContext context;
   const InfoBus({required this.context, Key? key});
+
+  @override
+  _InfoBusState createState() => _InfoBusState();
+}
+
+class _InfoBusState extends State<InfoBus> {
+  late Future<Map<String, List<int>>> _busLocationsFuture; // Future로 변경
+
+  @override
+  void initState() {
+    super.initState();
+    _busLocationsFuture = fetchBusLocations();
+  }
+
+  static Future<Map<String, List<int>>> fetchBusLocations() async {
+  try {
+    BusList busList = BusList();
+    final result = await busList.fetchBusLocations();
+    return result ?? {'busLocations': []};
+  } catch (e) {
+    print('Error fetching bus locations: $e');
+    return {'busLocations': []};
+  }
+}
+
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +50,39 @@ class InfoBus extends StatelessWidget {
           UpOrDown(), //상행/하행 표지판(?)
           SizedBox(height: 50),
           TopCurved(), //상단 곡선으로 이어진 부분
-          buildCustomColumn(), //중간 동그라미 + 막대 반복되는 부분
+          //buildCustomColumn(), //중간 동그라미 + 막대 반복되는 부분
+
+          FutureBuilder<Map<String, List<int>>>(
+  future: _busLocationsFuture,
+  builder: (context, snapshot) {
+    if (snapshot.connectionState == ConnectionState.waiting) {
+      return Center(
+        child: CircularProgressIndicator(),
+      );
+    } else if (snapshot.connectionState == ConnectionState.done) { // 변경된 부분
+      if (snapshot.hasData) {
+        final busLocations = snapshot.data!['busLocations'] ?? [];
+        final mapData = {'busLocations': busLocations};
+        return BuildCustomColumn(mapData);
+      } else if (snapshot.hasError) {
+        return Center(
+          child: Text('Error: ${snapshot.error}'),
+        );
+      } else {
+        return Center(
+          child: Text('No data'),
+        );
+      }
+    } else {
+      // 비정상적인 상태 처리
+      return Center(
+        child: Text('Unexpected connection state'),
+      );
+    }
+  },
+),
+
+
           BottomCurved(), //하단 곡선으로 이어진 부분
           SizedBox(height: 30,),
         ]
@@ -58,8 +121,8 @@ class InfoBus extends StatelessWidget {
               CustomPaint(
                  painter: CurvePainter(startX: 0, startY: 50, controlPoint1X: 50, controlPoint1Y: 50, endPointX: 50, endPointY: 0), //좌 하단
                   child: Container(
-                  width: 50.0, // 임의의 컨테이너 크기
-                  height: 50.0, // 임의의 컨테이너 크기
+                  width: 50.0, 
+                  height: 50.0, 
                       ),
                      ),
                      
@@ -216,35 +279,27 @@ class HorizontalLinePainter extends CustomPainter {
 //동그라미랑 막대 합쳐서 반복 돌리기
 
 
-Widget buildCustomColumn() {
-  List<String> textList = ['파란지붕', '도서관', '기숙사', '모현지석묘', '외대입구', '외대사거리'];
-  List<List<String>> UpBus = [
-    ['1303'],
-    ['1150', '1005', '1117', '1303'],
-    ['1303'],
-    [], // 모현지석묘에는 도착하는 버스가 없는 상황!!
-    ['1005', '1117'],
-    ['1150']
-  ];
-  List<List<String>> DownBus = [
-    ['1303'],
-    ['1150', '1005', '1303', '1117'],
-    ['1303'],
-    ['1117'],
-    ['1005', '1117'],
-    []
-  ];
+Widget BuildCustomColumn(Map<String, List<int>>? mapData) {
+  if (mapData == null) {
+    return Center(
+      child: Text('No data'),
+    );
+  }
+
+  List<String> textList = ['파란지붕', '도서관', '기숙사', '모현지석묘', '외대입구'];
+  List<int> upList = mapData['upList']!;
+  List<int> downList = mapData['downList']!;
 
   List<Widget> columns = [];
 
-  for (int i = 0; i < 6; i++) {
+  for (int i = 0; i < 5; i++) {
     List<Widget> upWidgets = [];
     List<Widget> downWidgets = [];
 
-    if (UpBus[i].isNotEmpty) {
-      for (int j = 0; j < UpBus[i].length; j++) {
+    if (upList.isNotEmpty) {
+      for (int j = 0; j < upList.length; j++) {
         upWidgets.add(
-          CircleWithText(UpBus[i][j]),
+          CircleWithText(upList[j].toString()),
         );
         upWidgets.add(
           SizedBox(height: 10),
@@ -252,10 +307,10 @@ Widget buildCustomColumn() {
       }
     }
 
-    if (DownBus[i].isNotEmpty) {
-      for (int j = 0; j < DownBus[i].length; j++) {
+    if (downList.isNotEmpty) {
+      for (int j = 0; j < downList.length; j++) {
         downWidgets.add(
-          CircleWithText(DownBus[i][j]),
+          CircleWithText(downList[j].toString()),
         );
         downWidgets.add(
           SizedBox(height: 10),
@@ -269,18 +324,13 @@ Widget buildCustomColumn() {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-
-              //constrainedBox로 버스 번호가 뜨는 컨테이너 크기 강제
               ConstrainedBox(
                 constraints: BoxConstraints.tightFor(width: 80, height: 10),
                 child: Wrap(
                   alignment: WrapAlignment.center,
-                  children: upWidgets, //상행버스 리스트 출력되는 부분!
+                  children: upWidgets,
                 ),
               ),
-
-              //Column{Row(동글 + 정류장 + 동글)} * length.textList가 되는것임!!
-
               Container(
                 child: Row(
                   children: [
@@ -308,7 +358,6 @@ Widget buildCustomColumn() {
               ),
             ],
           ),
-          // 막대
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -338,6 +387,7 @@ Widget buildCustomColumn() {
     children: columns,
   );
 }
+
 
 
 
