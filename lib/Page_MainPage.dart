@@ -15,6 +15,7 @@ import 'MainPage_BannerSlider.dart';
 import 'MainPage_MenuList.dart';
 import 'Page_GatherMyPage.dart';
 import 'Common_NeumorphicBox.dart';
+import 'Page_InfoLecture.dart';
 
 class MainPage extends StatelessWidget {
   final BuildContext context; // context 매개변수 추가(슬라이드 바의 버튼을 눌러서 해당 항목으로 이동할 수 있도록 기능을 넣으려면 반드시 추가해야 했음)
@@ -122,7 +123,7 @@ Widget build(BuildContext context) {
         MenuList(text: '마이포인트 (포인트 적립, 사용)', onPressed: () {Navigator.of(context).push(MaterialPageRoute(builder: (context) => GatherMyPage(context: context)));},),
         MenuList(text: '실시간 정보', isTitle: true),
         MenuList(text: '버스 위치 정보', onPressed: () {Navigator.of(context).push(MaterialPageRoute(builder: (context) => InfoBus(context: context)));},),
-        MenuList(text: '빈 강의실 찾기', onPressed: () {Navigator.of(context).push(MaterialPageRoute(builder: (context) => InfoLecture(context: context)));}, ),
+        MenuList(text: '빈 강의실 찾기', onPressed: () {Navigator.of(context).push(MaterialPageRoute(builder: (context) => InfoLecture(context: context,)));}, ),
         MenuList(text: '기타 메뉴', isTitle: true),
         MenuList(text: '오늘의 메뉴는?', onPressed: () {Navigator.of(context).push(MaterialPageRoute(builder: (context) => EtcTodayMenu(context: context)));}, ),
         MenuList(text: '건의할게요!', onPressed: () {Navigator.of(context).push(MaterialPageRoute(builder: (context) => EtcSuggestion(context: context)));},),
