@@ -21,6 +21,9 @@ class BusList {
     return locations;
   }
 
+//upList와 downList를 이차원 배열로 만듦
+//BusInfo의 locations 속성으로 위치를 설정하고, busStops list의 인덱스로 딕셔너리에 버스 번호를 추가
+//즉, busListData의 key는 정류장, value는 도착한 버스 번호 리스트가 됨
   Map<String, List<int>> getBusListData(Map<String, BusInfo> busLocations) {
     Map<String, List<int>> busListData = {};
 
@@ -40,6 +43,7 @@ class BusList {
 }
 
 //현재 upList와 downList 출력이 이루어지지 않는 상황. 수정 필요
+// (service key가 null -> InfoBus.dart의 Future 객체에서 null을 이용불가 -> 버스 페이지 로딩 오류)
 void PrintBusList() async {
   BusList busList = BusList();
   Map<String, Map<String, List<int>>> locations =

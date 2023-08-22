@@ -4,14 +4,26 @@ import 'Common_NeumorphicButton.dart';
 import 'Common_NeumorphicBox.dart';
 import 'Common_CheckBox.dart';
 import 'Page_LikeEmptyRoom.dart';
+import 'Common_Snackbar.dart';
+import 'dart:io'; //즐겨찾기 페이지에 정보를 넘겨주기 위해, txt를 거쳐야 하므로, txt 파일 생성을 위해 import
+import 'package:shared_preferences/shared_preferences.dart';
 
 //빈강의실을 찾아주는 페이지. 'HUFS 빈강의실 찾기' 기존 어플의 절차를 참고하여 만들었음!
 //서울 또는 글로벌 -> 건물 또는 시간 -> 건물이면 6개 중 택1 / 시간이면 9개 중 1개 이상 선택(모두 보기 또는 1개 이상 만족하는 결과 보기)
 
 class InfoLecture extends StatefulWidget {
   const InfoLecture({required this.context, Key? key});
-
+  static List<String> selectedLectureRooms = []; // Public and static
   final BuildContext context;
+
+  void navigateToLikeEmptyRoom(List<String> selectedLectureRooms) {
+    Navigator.of(context).push(MaterialPageRoute(
+      builder: (context) => LikeEmptyRoom(
+        selectedLectureRooms: selectedLectureRooms,
+        //context: context,
+      ),
+    ));
+  }
 
   @override
   _InfoLectureState createState() => _InfoLectureState();
@@ -28,9 +40,9 @@ class _InfoLectureState extends State<InfoLecture> {
   String bottomText = "";
   bool _isChecked = false;
   bool isFinded = false; //빈강의실 목록이 처음에 안보이게 하기 위한 변수
-  //List<String> selectedLectureRooms = []; // 체크된 강의실을 저장하는 리스트
-  List<bool> lectureRoomCheckStates =
-      List.generate(8, (index) => false); // 예시로 길이 8로 초기화
+  static List<String> selectedLectureRooms = []; //체크된 강의실을 저장하는 리스트
+  List<bool> lectureRoomCheckStates = List.generate(
+      8, (index) => false); //대충  길이 8로 초기화. 마찬가지로 체크된 항목들을 저장하는 리스트(rue, false)
 
 //실제 빈강의실 정보를 하나하나 담은 컨테이너인데, checkbox가 있어서 stateful class 안에 선언했음
   Widget LectureRoomContainer(
@@ -45,8 +57,14 @@ class _InfoLectureState extends State<InfoLecture> {
               onChanged: (value) {
                 setState(() {
                   //해당 인덱스의 lectureRoomCheckStates 항목 update(절대 절대, onChanged 내부에서 is~=true로 하지 말 것. 직접 컨트롤은 반영x)
-                  lectureRoomCheckStates[index] = value ?? false;
+                  lectureRoomCheckStates[index] =
+                      value ?? false; //체크박스를 클릭하면, value가 true가 됨
                 });
+                if (value == true) {
+                  // 체크박스가 체크되었을 때 스낵바 표시
+                  showSnackbar(context, '즐겨찾기 목록에 저장되었습니다!');
+                  saveSelectedLectureRooms(); // saveSelectedLectureRooms 함수 호출
+                }
               },
               value: lectureRoomCheckStates[index], //목록에서 값 찾기
             ),
@@ -58,6 +76,22 @@ class _InfoLectureState extends State<InfoLecture> {
         ),
       ),
     );
+  }
+
+  void saveSelectedLectureRooms() async {
+    // SharedPreferences prefs =
+    //await SharedPreferences.getInstance(); //sharedPreferences를 사용해보자~! -> 나중에 알아보도록 하자~! 오류 폭탄~(화면 로딩 멈춤(?))
+
+    for (int i = 0; i < lectureRoomCheckStates.length; i++) {
+      if (lectureRoomCheckStates[i]) {
+        String roomInfo = '강의실번호,요일,시간'; //만약 체크됐다면(value==true), roomInfo에 담음
+
+        selectedLectureRooms.add(roomInfo); //리스트에 체크된 항목들을 String으로 담음
+      }
+    }
+    //await prefs.setStringList(
+    //'selected_lecture_rooms', selectedLectureRooms); //즐겨찾기를 저장
+    print('저장된 즐겨찾기: $selectedLectureRooms');
   }
 
   @override
@@ -498,7 +532,10 @@ class _InfoLectureState extends State<InfoLecture> {
         child: NeumorphicButton(
             onPressed: () {
               Navigator.of(context).push(MaterialPageRoute(
-                  builder: (context) => LikeEmptyRoom(context: context)));
+                  builder: (context) => LikeEmptyRoom(
+                        //context: context,
+                        selectedLectureRooms: selectedLectureRooms,
+                      )));
             },
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
