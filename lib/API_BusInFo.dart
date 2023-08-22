@@ -14,12 +14,12 @@ class BusInfo {
   BusInfo({required this.location, required this.predictTime});
 
   factory BusInfo.fromXml(xml.XmlElement xmlElement) {
-    final location = xmlElement.getElement('locationNo1')?.text ?? 'N/A';
-    final predictTime = xmlElement.getElement('predictTime1')?.text ?? 'N/A';
+    final location = xmlElement.getElement('locationNo1')?.text;
+    final predictTime = xmlElement.getElement('predictTime1')?.text;
 
     return BusInfo(
-      location: location,
-      predictTime: predictTime,
+      location: location ?? '',
+      predictTime: predictTime ?? '',
     );
   }
 }
@@ -54,6 +54,7 @@ class ApiCaller {
       print('성공!');
       Map<String, BusInfo> results = {};
       final xmlDoc = xml.XmlDocument.parse(response.body);
+      print('xmlDoc: $xmlDoc'); //xml 파싱을 제대로 하고있는가??
       final busArrivalList = xmlDoc.findAllElements('item');
       //final jsonData = json.decode(response.body);
       //final busArrivalList = jsonData['busArrivalList'];

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'API_BusList.dart';
 import 'Page_MainPage.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter/material.dart';
@@ -7,6 +8,7 @@ import 'Splash2_LogInOrSignUp.dart';
 
 void main() async {
   await dotenv.load();
+  PrintBusList();
   runApp(MaterialApp(
     home: Builder(builder: (BuildContext context) {
       return Splash1_Welcome();

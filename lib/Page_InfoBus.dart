@@ -24,11 +24,24 @@ class _InfoBusState extends State<InfoBus> {
     _busLocationsFuture = fetchBusLocations();
   }
 
+/*
   static Future<Map<String, List<int>>> fetchBusLocations() async {
     try {
       BusList busList = BusList();
       final result = await busList.fetchBusLocations();
       return result ?? {'busLocations': []};
+    } catch (e) {
+      print('Error fetching bus locations: $e');
+      return {'busLocations': []};
+    }
+  }
+  */
+
+  static Future<Map<String, List<int>>> fetchBusLocations() async {
+    try {
+      BusList busList = BusList();
+      final result = await busList.fetchBusLocations();
+      return result['downList'] ?? {'busLocations': []};
     } catch (e) {
       print('Error fetching bus locations: $e');
       return {'busLocations': []};
