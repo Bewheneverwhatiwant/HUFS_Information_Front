@@ -47,17 +47,17 @@ class _InfoBusState extends State<InfoBus> {
           //buildCustomColumn(), //중간 동그라미 + 막대 반복되는 부분
 
           FutureBuilder<Map<String, List<int>>>(
-            future: _busLocationsFuture,
+            future: _busLocationsFuture, //어떻게 초기회되는지 확인해야함!
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return Center(
                   child: CircularProgressIndicator(),
                 );
               } else if (snapshot.connectionState == ConnectionState.done) {
-                // 변경된 부분
                 if (snapshot.hasData) {
-                  final busLocations = snapshot.data!['busLocations'] ?? [];
-                  final mapData = {'busLocations': busLocations};
+                  //final busLocations = snapshot.data!['busLocations'] ?? [];
+                  //final mapData = {'busLocations': busLocations};
+                  final mapData = snapshot.data ?? {}; //null 대신 빈 맵 사용
                   return BuildCustomColumn(mapData);
                 } else if (snapshot.hasError) {
                   return Center(
