@@ -9,6 +9,7 @@ import 'Page_AlertMessage.dart';
 import 'Common_SnackBar.dart';
 import 'Common_WriteChatText.dart';
 import 'Common_RealChatList.dart';
+import 'Common_RealChatContainer.dart';
 
 //진짜 채팅하는 채팅방을 구현한 파일!
 
@@ -47,6 +48,18 @@ class _ChattingRoomState extends State<ChattingRoom> {
   bool isAllAgree = false; // 모든 참가자 동의 여부 상태 변수
   int isDone = 0; //약속한 내용 완료?
 
+  List<ChatMessageContainer> _convertMessages(List<ChatMessage> messages) {
+    return messages
+        .where((message) => message.type == widget.type)
+        .map((message) => ChatMessageContainer(
+              nickName: message.nickName,
+              displayText: message.displayText,
+              sentTime: message.sentTime,
+              isMe: message.isMe,
+            ))
+        .toList();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -57,36 +70,8 @@ class _ChattingRoomState extends State<ChattingRoom> {
           SizedBox(
             height: 5,
           ),
-          /*
-          RealChatList(
-            type: 1,
-            chatMessages: [
-              ChatMessage(
-                isMe: false,
-                nickName: '꼬마개발자',
-                displayText: '안녕하세요',
-                sentTime: DateTime.now(),
-              ),
-              ChatMessage(
-                isMe: false,
-                nickName: '거부기',
-                displayText: '혹시 언제 주문하실건가요?',
-                sentTime: DateTime.now().add(Duration(minutes: 5)),
-              ),
-              ChatMessage(
-                isMe: true,
-                nickName: '기니피그',
-                displayText: '나는 언제나 배고프다',
-                sentTime: DateTime.now().add(Duration(minutes: 5)),
-              ),
-            ],
-          ), //입력된 채팅들을 담는 컨테이너
-          */
-          RealChatList(
-            chatMessages: [], // 빈 리스트로 시작
-            type: widget.type, // ChattingRoom의 type 값 전달
-          ),
-          //Spacer(), //버튼을 맨 밑으로 내리기 위한 공간확보
+
+          RealChatContainer(messages: _convertMessages(messages)),
           WriteChatText(
             displayText: '',
             onTextSubmitted: (String value) {},
