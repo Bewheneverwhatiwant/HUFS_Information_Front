@@ -14,6 +14,7 @@ class AlertMessage extends StatelessWidget {
   final int peopleNum;
   final String dueTime;
   final bool isSwitched;
+  final int type;
 
   //변수 넘겨주기
   AlertMessage({
@@ -22,7 +23,9 @@ class AlertMessage extends StatelessWidget {
     required this.plusInfo,
     required this.peopleNum,
     required this.dueTime,
-    required this.isSwitched, required BuildContext context,
+    required this.isSwitched,
+    required BuildContext context,
+    required this.type,
   });
 
   @override
@@ -49,7 +52,8 @@ class AlertMessage extends StatelessWidget {
       child: CupertinoAlertDialog(
         title: buildTitle(), // 제목 부분
         content: buildContent(), // 본문 부분
-        actions: buildActions(context), // alert message 하단 버튼. 버튼 추가 생성 시 Action 추가
+        actions:
+            buildActions(context), // alert message 하단 버튼. 버튼 추가 생성 시 Action 추가
       ),
     );
   }
@@ -57,7 +61,8 @@ class AlertMessage extends StatelessWidget {
   Column buildTitle() {
     return Column(
       children: [
-        Text('다음 모임에 참가하시겠습니까?', style: TextStyle(fontSize: 12, fontWeight: FontWeight.normal)),
+        Text('다음 모임에 참가하시겠습니까?',
+            style: TextStyle(fontSize: 12, fontWeight: FontWeight.normal)),
         SizedBox(height: 10),
         Text(title), // 채팅방 제목 받아오기
         SizedBox(height: 16),
@@ -73,7 +78,8 @@ class AlertMessage extends StatelessWidget {
           // infoRowEnd/Start 는 하단에 분리된 메소드로, 텍스트 -> 색상 -> 굵기 순서대로 리스트를 받아 매핑함.
           infoRowEnd(['기본 배달료: ', plusInfo], [null, Colors.red], [bold, bold]),
           infoRowEnd(['수령장소: ', place], [null, Colors.blue], [bold, bold]),
-          infoRowStart(["현재 ", peopleNum.toString(), "명 참가중"], [null, Colors.red, null], [null, bold, null]),
+          infoRowStart(["현재 ", peopleNum.toString(), "명 참가중"],
+              [null, Colors.red, null], [null, bold, null]),
           infoRowStart([dueTime, " 까지 모집"], [Colors.blue, null], [bold, null]),
           infoPhoneOpen(),
           infoCurrentPoint(7000),
@@ -88,12 +94,14 @@ class AlertMessage extends StatelessWidget {
     FontWeight superbold = FontWeight.w900;
     return Column(
       children: [
-        infoRowEnd(['전화번호 ', isSwitched ? '공개' : '비공개', ' 방'], [null, isSwitched ? Colors.green : Colors.red, null],
+        infoRowEnd(
+            ['전화번호 ', isSwitched ? '공개' : '비공개', ' 방'],
+            [null, isSwitched ? Colors.green : Colors.red, null],
             [bold, bold, null]),
         const Align(
           alignment: Alignment.centerRight,
-          child:
-              Text('방장과 본인의 전화번호가 모두 공개됩니다.\n상호간의 노쇼 방지', textAlign: TextAlign.right, style: TextStyle(fontSize: 10)),
+          child: Text('방장과 본인의 전화번호가 모두 공개됩니다.\n상호간의 노쇼 방지',
+              textAlign: TextAlign.right, style: TextStyle(fontSize: 10)),
         ),
         SizedBox(height: 16),
       ],
@@ -105,8 +113,13 @@ class AlertMessage extends StatelessWidget {
       return Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
-          Text(text, style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold)),
-          Text('$point P', style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold, color: Colors.blue)),
+          Text(text,
+              style: TextStyle(fontSize: 12, fontWeight: FontWeight.bold)),
+          Text('$point P',
+              style: TextStyle(
+                  fontSize: 12,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.blue)),
         ],
       );
     }
@@ -115,7 +128,10 @@ class AlertMessage extends StatelessWidget {
       children: [
         pointInfo('현재 포인트: ', currentPoint),
         pointInfo('차감 예정 포인트: ', -300),
-        Divider(height: 16, thickness: 1, color: Colors.black), // 검정색 수평선(구분선) 그리는 코드임
+        Divider(
+            height: 16,
+            thickness: 1,
+            color: Colors.black), // 검정색 수평선(구분선) 그리는 코드임
         pointInfo('최종 포인트: ', currentPoint - 300),
         SizedBox(height: 12),
       ],
@@ -152,7 +168,12 @@ class AlertMessage extends StatelessWidget {
         child: const Text("참가", style: TextStyle(fontWeight: FontWeight.bold)),
         onPressed: () {
           //이 부분을 수정함!!
-          Navigator.of(context).push(MaterialPageRoute(builder: (context) => ChattingRoom(context: context, title: title)));
+          Navigator.of(context).push(MaterialPageRoute(
+              builder: (context) => ChattingRoom(
+                    context: context,
+                    title: title,
+                    type: type,
+                  )));
           showSnackbar(context, '성공적으로 입장하셨습니다!');
         },
       ),
@@ -166,26 +187,32 @@ class AlertMessage extends StatelessWidget {
     ];
   }
 
-  Row infoRowEnd(List<String> texts, List<Color?> colors, List<FontWeight?> weights) {
+  Row infoRowEnd(
+      List<String> texts, List<Color?> colors, List<FontWeight?> weights) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.end,
       children: texts
           .asMap()
           .entries
           .map((entry) => Text(entry.value,
-              style: TextStyle(color: colors[entry.key], fontWeight: weights[entry.key] ?? FontWeight.normal)))
+              style: TextStyle(
+                  color: colors[entry.key],
+                  fontWeight: weights[entry.key] ?? FontWeight.normal)))
           .toList(),
     );
   }
 
-  Row infoRowStart(List<String> texts, List<Color?> colors, List<FontWeight?> weights) {
+  Row infoRowStart(
+      List<String> texts, List<Color?> colors, List<FontWeight?> weights) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.start,
       children: texts
           .asMap()
           .entries
           .map((entry) => Text(entry.value,
-              style: TextStyle(color: colors[entry.key], fontWeight: weights[entry.key] ?? FontWeight.normal)))
+              style: TextStyle(
+                  color: colors[entry.key],
+                  fontWeight: weights[entry.key] ?? FontWeight.normal)))
           .toList(),
     );
   }

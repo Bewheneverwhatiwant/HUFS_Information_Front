@@ -5,6 +5,8 @@ import 'Page_AlertMessage.dart';
 import 'Common_NeumorphicButton.dart';
 import 'Common_NeumorphicBox.dart';
 import 'Common_CheckBox.dart';
+import 'Gather_ChattingRoomList.dart';
+import 'Page_ChattingRoom.dart';
 
 //gather help에서 채팅방을 누르면 나오는 구체적인 도움 내용을 띄우는 화면임!
 
@@ -16,6 +18,7 @@ class HowToHelpMe extends StatefulWidget {
   final int peopleNum;
   final String dueTime;
   final bool isSwitched;
+  final int type;
   bool isIntermediatePage =
       false; //gather help는 도움 내용을 띄우는 화면이 중간에 필요함 -> 이 변수가 false면 바로 alert, true면 새 화면을 띄우게 함!!
   //반드시 꼭 false로 해줘야 함!! 아니면 아무리 실행해도 안보임..!
@@ -29,6 +32,7 @@ class HowToHelpMe extends StatefulWidget {
     required this.dueTime,
     required this.isSwitched,
     required this.isIntermediatePage,
+    required this.type,
   });
 
   @override
@@ -90,6 +94,7 @@ class _HowToHelpMeState extends State<HowToHelpMe> {
                           dueTime: widget.dueTime,
                           isSwitched: widget.isSwitched,
                           context: context,
+                          type: widget.type,
                         ),
                       );
                     } else {
@@ -104,6 +109,7 @@ class _HowToHelpMeState extends State<HowToHelpMe> {
                             isSwitched: widget.isSwitched,
                             helpText: widget.helpText,
                             dueTime: widget.dueTime,
+                            type: widget.type,
                             isIntermediatePage: false,
                           ),
                         ),

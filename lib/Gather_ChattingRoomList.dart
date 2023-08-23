@@ -10,14 +10,22 @@ import 'Page_SOSChattingRoom.dart';
 // type : 버튼 타입을 의미 (1: 택시같이타, 2:배달같이해, 3: 도와줘요)
 // place : 장소
 // plusInfo : 추가 정보
-Padding ChattingRoomList(BuildContext context, int type, String title, String place, String plusInfo,
-    int peopleNum, String dueTime, bool isSwitched, bool isIntermediatePage, TextEditingController helpController) {
+Padding ChattingRoomList(
+    BuildContext context,
+    int type,
+    String title,
+    String place,
+    String plusInfo,
+    int peopleNum,
+    String dueTime,
+    bool isSwitched,
+    bool isIntermediatePage,
+    TextEditingController helpController) {
   return Padding(
     padding: const EdgeInsets.fromLTRB(12, 12, 12, 0),
     child: NeumorphicButton(
-       onPressed: () {
-
-          if (isIntermediatePage) {
+      onPressed: () {
+        if (isIntermediatePage) {
           // 수정: HowToHelpMe 페이지로 이동하도록 설정
           Navigator.push(
             context,
@@ -30,6 +38,7 @@ Padding ChattingRoomList(BuildContext context, int type, String title, String pl
                 isSwitched: isSwitched,
                 helpText: helpController.text,
                 dueTime: dueTime,
+                type: type,
                 isIntermediatePage: false, // Alert Message를 띄우기 위해 false로 설정
               ),
             ),
@@ -37,7 +46,8 @@ Padding ChattingRoomList(BuildContext context, int type, String title, String pl
         } else {
           showDialog(
             context: context,
-            barrierDismissible: false, // 배경을 터치해도 알림창이 닫히지 않도록 설정!(무조건 확인 또는 취소를 눌러야 하니까)
+            barrierDismissible:
+                false, // 배경을 터치해도 알림창이 닫히지 않도록 설정!(무조건 확인 또는 취소를 눌러야 하니까)
             builder: (BuildContext context) => AlertMessage(
               title: title,
               place: place,
@@ -46,11 +56,11 @@ Padding ChattingRoomList(BuildContext context, int type, String title, String pl
               dueTime: dueTime,
               isSwitched: isSwitched,
               context: context,
+              type: type,
             ),
           );
         }
       },
-
       child: Column(
         children: [
           //첫번째 Row
@@ -59,17 +69,18 @@ Padding ChattingRoomList(BuildContext context, int type, String title, String pl
             children: [
               Text(title,
                   style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
-                  NeumorphicButton(
-              onPressed: () { 
-                Navigator.of(context).push(MaterialPageRoute(builder: (context) => SOSChattingRoom(context: context)));
-               },
-              child: Row(children: [
-                Image.asset('assets/images/Icon-siren.png'),
-                const Text("신고하기",
-                    style:
-                        TextStyle(fontSize: 12, fontWeight: FontWeight.normal)),
-              ])
-                  ),
+              NeumorphicButton(
+                  onPressed: () {
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) =>
+                            SOSChattingRoom(context: context)));
+                  },
+                  child: Row(children: [
+                    Image.asset('assets/images/Icon-siren.png'),
+                    const Text("신고하기",
+                        style: TextStyle(
+                            fontSize: 12, fontWeight: FontWeight.normal)),
+                  ])),
             ],
           ),
 
