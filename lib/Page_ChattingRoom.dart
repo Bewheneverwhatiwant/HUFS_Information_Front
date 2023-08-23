@@ -18,7 +18,7 @@ class ChattingRoom extends StatefulWidget {
 
   final BuildContext context;
   final String title;
-  final int type; // type 값을 받아오는 변수 추가
+  final int type; //배달, 택시, 도움 중 하나
 
   const ChattingRoom(
       {required this.context,
