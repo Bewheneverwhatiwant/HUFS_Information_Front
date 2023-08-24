@@ -51,26 +51,6 @@ class _InfoLectureState extends State<InfoLecture> {
   List<String> whichDays = [];
   List<String> AllTimes = [];
 
-/*
-//비동기 함수에서 UI blocking이 일어나는 것 같아서(체크 시 화면 멈춤 현상), 개선하고자 새로 만들어본 함수
-  Future<void> updateSelectedLectureRooms() async {
-    List<String> updatedLectureRooms = [];
-
-    for (int i = 0; i < lectureRoomCheckStates.length; i++) {
-      if (lectureRoomCheckStates[i]) {
-        String roomInfo = '${RoomNumbers[i]}, ${whichDays[i]}, ${AllTimes[i]}';
-        updatedLectureRooms.add(roomInfo);
-      }
-    }
-
-    setState(() {
-      selectedLectureRooms = updatedLectureRooms;
-    });
-
-    print('저장된 즐겨찾기: $selectedLectureRooms');
-  }
-  */
-
 //실제 빈강의실 정보를 하나하나 담은 컨테이너인데, checkbox가 있어서 stateful class 안에 선언했음
   Widget LectureRoomContainer(
       int index, String RoomNumber, String whichDay, String AllTime) {

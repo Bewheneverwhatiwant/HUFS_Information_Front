@@ -8,6 +8,8 @@ import 'Splash2_LogInOrSignUp.dart';
 import 'Page_InfoLecture.dart';
 import 'Page_LikeEmptyRoom.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:provider/provider.dart';
+import 'Common_Provider.dart';
 
 void main() async {
   await dotenv.load();
@@ -21,35 +23,23 @@ void main() async {
   ));
 }
 
-/*
-void loadSelectedLectureRooms() async {
-  SharedPreferences prefs = await SharedPreferences.getInstance();
-
-  // Load selectedLectureRooms from SharedPreferences
-  List<String>? savedLectureRooms =
-      prefs.getStringList('selected_lecture_rooms');
-
-  // 만약 저장된 정보가 있다면 selectedLectureRooms에 할당
-  if (savedLectureRooms != null) {
-    InfoLecture.selectedLectureRooms = savedLectureRooms;
-  }
-}
-*/
-
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'HUFS 정보모아',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-        fontFamily: 'Pretendard',
-      ),
-      home: MainPage(
-        context: context,
-        isButtonEnabled: false,
+    return ChangeNotifierProvider(
+      create: (context) => SelectedLectureRoomsProvider(), // Provider 생성
+      child: MaterialApp(
+        title: 'HUFS 정보모아',
+        theme: ThemeData(
+          primarySwatch: Colors.blue,
+          fontFamily: 'Pretendard',
+        ),
+        home: MainPage(
+          context: context,
+          isButtonEnabled: false,
+        ),
       ),
     );
   }
