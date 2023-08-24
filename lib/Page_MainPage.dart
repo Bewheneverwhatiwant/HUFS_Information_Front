@@ -8,7 +8,7 @@ import 'package:hufs_information/Page_GatherTaxi.dart';
 import 'package:hufs_information/Page_InfoBus.dart';
 import 'package:hufs_information/Page_InfoLecture.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
-import 'Common_LogoAppBar.dart';
+import 'Common_LogoAppBar_NoBack.dart';
 import 'MainPage_GatherGroup.dart';
 import 'MainPage_SmallButton.dart';
 import 'MainPage_BannerSlider.dart';
@@ -33,7 +33,7 @@ class MainPage extends StatelessWidget {
     );
 
     return Scaffold(
-      appBar: LogoAppBar(),
+      appBar: LogoAppBar_NoBack(),
       body: Builder(builder: (BuildContext context) {
         return SlidingUpPanel(
           panel: panelInside(),

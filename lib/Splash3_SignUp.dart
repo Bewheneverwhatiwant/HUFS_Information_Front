@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hufs_information/Splash2_LogInOrSignUp.dart';
 import 'Page_MainPage.dart';
 import 'Common_paddingElement.dart';
 import 'Common_CheckBox.dart';
@@ -171,7 +172,12 @@ class _Splash3_SignUpState extends State<Splash3_SignUp> {
                 color: Colors.white,
               ),
               onPressed: () {
-                Navigator.pop(context);
+                //Navigator.pop(context);
+                Navigator.pushReplacement(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => Splash2_LogInOrSignUp()),
+                );
               },
             ),
           ),

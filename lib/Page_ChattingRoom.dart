@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hufs_information/Common_NeumorphicButton.dart';
 import 'package:hufs_information/Page_MainPage.dart';
-import 'Common_LogoAppBar.dart';
+import 'Common_LogoAppBar_NoBack.dart';
 import 'Common_paddingElement.dart';
 import 'Common_NeumorphicBox.dart';
 import 'Gather_ChattingRoomList.dart';
@@ -60,24 +60,45 @@ class _ChattingRoomState extends State<ChattingRoom> {
         .toList();
   }
 
+//화면 상단과 하단 부분은 항상 고정하고, 중간의 채팅 부분만 스크롤 가능하도록 수정함
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: LogoAppBar(),
-      body: ListView(
+      appBar: LogoAppBar_NoBack(),
+      body: Column(
         children: [
-          notice(), //안내사항
-          SizedBox(
-            height: 5,
+          Container(
+            child: Column(
+              children: [
+                notice(), //안내사항
+                SizedBox(
+                  height: 5,
+                ),
+              ],
+            ),
           ),
-
-          RealChatContainer(messages: _convertMessages(messages)),
-          WriteChatText(
-            displayText: '',
-            onTextSubmitted: (String value) {},
-          ), //채팅을 입력하는 입력창
-          wait(), //참가자 수 아이콘과 안내사항
-          WillYouJoinChat(), //참가확정 등 버튼 네가지
+          SizedBox(height: 10),
+          Expanded(
+            child: ListView(
+              children: [
+                RealChatContainer(messages: _convertMessages(messages)),
+              ],
+            ),
+          ),
+          Container(
+            child: Column(
+              children: [
+                Divider(),
+                SizedBox(height: 5),
+                WriteChatText(
+                  displayText: '',
+                  onTextSubmitted: (String value) {},
+                ), //채팅을 입력하는 입력창
+                wait(), //참가자 수 아이콘과 안내사항
+                WillYouJoinChat(), //참가확정 등 버튼 네가지
+              ],
+            ),
+          ),
         ],
       ),
     );

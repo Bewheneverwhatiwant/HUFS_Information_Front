@@ -30,12 +30,14 @@ class RealChatContainer extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        for (var entry in messages)
-          if (entry is ChatMessageContainer)
-            entry.isMe ? IfIsMe(context, entry) : IfIsNotMe(context, entry),
-      ],
+    return paddingElement(
+      Column(
+        children: [
+          for (var entry in messages)
+            if (entry is ChatMessageContainer)
+              entry.isMe ? IfIsMe(context, entry) : IfIsNotMe(context, entry),
+        ],
+      ),
     );
   }
 
@@ -71,6 +73,7 @@ class RealChatContainer extends StatelessWidget {
           DateFormat('MM월 dd일 HH시 mm분').format(entry.sentTime),
           style: TextStyle(fontSize: 10),
         ),
+        SizedBox(height: 5),
       ],
     );
   }
