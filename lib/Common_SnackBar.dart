@@ -21,10 +21,11 @@ class CustomSnackbar extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.all(12.0),
           child: Center(
-          child: Text(
-            message,
-            style: TextStyle(color: Colors.black, fontWeight: FontWeight.normal),
-          ),
+            child: Text(
+              message,
+              style:
+                  TextStyle(color: Colors.black, fontWeight: FontWeight.normal),
+            ),
           ),
         ),
       ),

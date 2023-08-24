@@ -64,7 +64,7 @@ class _InfoBusState extends State<InfoBus> {
             builder: (context, snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return Center(
-                  child: CircularProgressIndicator(),
+                  child: CircularProgressIndicator(), //응답 대기 시 빙글빙글 원 띄우기
                 );
               } else if (snapshot.connectionState == ConnectionState.done) {
                 if (snapshot.hasData) {
@@ -75,6 +75,11 @@ class _InfoBusState extends State<InfoBus> {
                 } else if (snapshot.hasError) {
                   return Center(
                     child: Text('Error: ${snapshot.error}'),
+                  );
+                } else if (snapshot.data == null) {
+                  //snapshot.data가 null일 때 예외 처리
+                  return Center(
+                    child: Text('No data'),
                   );
                 } else {
                   return Center(
@@ -301,8 +306,10 @@ Widget BuildCustomColumn(Map<String, List<int>>? mapData) {
   }
 
   List<String> textList = ['파란지붕', '도서관', '기숙사', '모현지석묘', '외대입구'];
-  List<int> upList = mapData['upList']!;
-  List<int> downList = mapData['downList']!;
+
+  //이 부분에서 null처리를 하여 화면 오류를 해결함~
+  List<int> upList = mapData['upList'] ?? [];
+  List<int> downList = mapData['downList'] ?? [];
 
   List<Widget> columns = [];
 
