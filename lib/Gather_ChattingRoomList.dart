@@ -71,9 +71,10 @@ Padding ChattingRoomList(
                   style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
               NeumorphicButton(
                   onPressed: () {
-                    Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) =>
-                            SOSChattingRoom(context: context)));
+                    //Navigator.of(context).push(MaterialPageRoute(
+                    //  builder: (context) =>
+                    //    SOSChattingRoom(context: context)));
+                    showCustomAlertDialog(context);
                   },
                   child: Row(children: [
                     Image.asset('assets/images/Icon-siren.png'),

@@ -51,8 +51,7 @@ class RealChatContainer extends StatelessWidget {
           children: [
             NeumorphicButton(
               onPressed: () {
-                Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => UserSOS(context: context)));
+                showCustomAlertDialog_user(context);
               },
               child: Text(entry.nickName),
             ),

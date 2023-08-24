@@ -47,7 +47,7 @@ class Splash2_LogInOrSignUpState extends State<Splash2_LogInOrSignUp> {
       showSnackbar(context, '숫자만 입력해주세요!');
     } else {
       String phoneNumber = _phoneNumberController.text;
-      if (phoneNumber == '01045957817') {
+      if (phoneNumber == '01045957817' || phoneNumber == '01040694033') {
         showSnackbar(context, '계정이 있으시군요, 로그인되었습니다!');
         Navigator.of(context).push(MaterialPageRoute(
             builder: (context) => MainPage(
