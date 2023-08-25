@@ -86,8 +86,8 @@ List<ChatMessage> messages = [
   ),
   ChatMessage(
     type: 3,
-    nickName: '나영이',
-    displayText: '그렇고말고',
+    nickName: '수혁이',
+    displayText: '그렇고말고22',
     sentTime: DateTime.now().subtract(Duration(minutes: 5)),
     isMe: false,
     isHost: true,
@@ -102,8 +102,8 @@ List<ChatMessage> messages = [
   ),
   ChatMessage(
     type: 3,
-    nickName: '나영이',
-    displayText: '그렇고말고',
+    nickName: '수혁이',
+    displayText: '그렇고말고33',
     sentTime: DateTime.now().subtract(Duration(minutes: 5)),
     isMe: false,
     isHost: true,
@@ -118,8 +118,8 @@ List<ChatMessage> messages = [
   ),
   ChatMessage(
     type: 3,
-    nickName: '나영이',
-    displayText: '그렇고말고',
+    nickName: '수혁이',
+    displayText: '그렇고말고44',
     sentTime: DateTime.now().subtract(Duration(minutes: 5)),
     isMe: false,
     isHost: true,

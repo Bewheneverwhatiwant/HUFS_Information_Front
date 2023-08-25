@@ -7,8 +7,6 @@ import 'Page_UserSOS.dart';
 import 'Common_paddingElement.dart';
 import 'Page_GatherMyPage.dart';
 
-//채팅 말풍선 하나에 채팅을 담는 것
-
 class ChatMessageContainer {
   final String nickName;
   final DateTime sentTime;
@@ -35,7 +33,7 @@ class RealChatContainer extends StatefulWidget {
 }
 
 class _RealChatContainerState extends State<RealChatContainer> {
-  String targetNickName = ""; // Initialize targetNickName
+  String targetNickName = "";
 
   @override
   Widget build(BuildContext context) {
@@ -50,7 +48,6 @@ class _RealChatContainerState extends State<RealChatContainer> {
     );
   }
 
-//채팅을 보내는 사람이 본인이 아닐 때, 화면의 왼쪽에 대화목록이 나오게 한다
   Column IfIsNotMe(BuildContext context, ChatMessageContainer entry) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -61,10 +58,11 @@ class _RealChatContainerState extends State<RealChatContainer> {
             NeumorphicButton(
               onPressed: () {
                 setState(() {
-                  targetNickName = entry.nickName; // Set targetNickName
+                  targetNickName =
+                      entry.nickName; //버튼을 클릭하면, 버튼에 있는 닉네임이 타겟닉네임에 담김
                 });
-                showCustomAlertDialog_user(
-                    context, entry.isHost); //방장인지 아닌지 유무를 전달해준다!
+                showCustomAlertDialog_user(context, entry.isHost,
+                    entry.nickName, widget.messages); //방장인지 아닌지 유무를 전달해준다!
               },
               child: Text(entry.nickName),
             ),
@@ -112,7 +110,7 @@ class _RealChatContainerState extends State<RealChatContainer> {
                 NeumorphicButton(
                   onPressed: () {
                     setState(() {
-                      targetNickName = entry.nickName; // Set targetNickName
+                      targetNickName = entry.nickName;
                     });
                     Navigator.of(context).push(MaterialPageRoute(
                         builder: (context) => GatherMyPage(context: context)));

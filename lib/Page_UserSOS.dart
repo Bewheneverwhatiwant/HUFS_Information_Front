@@ -10,7 +10,14 @@ import 'Common_SnackBar.dart';
 class UserSOS extends StatefulWidget {
   final BuildContext context;
   final bool isHost;
-  const UserSOS({required this.context, required this.isHost, Key? key})
+  final String targetNickName;
+  final List<dynamic> messages;
+  const UserSOS(
+      {required this.context,
+      required this.isHost,
+      required this.targetNickName,
+      required this.messages,
+      Key? key})
       : super(key: key);
 
   @override
@@ -117,8 +124,17 @@ class _UserSOSState extends State<UserSOS> {
                             actions: [
                               TextButton(
                                 onPressed: () {
-                                  Navigator.of(context).pop();
-                                  Navigator.of(context).pop();
+                                  // RealChatContainer 내부의 해당 유저의 모든 메시지를 블라인드 처리
+                                  widget.messages.forEach((entry) {
+                                    if (entry is ChatMessageContainer &&
+                                        entry.nickName ==
+                                            widget.targetNickName) {
+                                      entry.displayText = '블라인드 처리된 메시지입니다';
+                                    }
+                                  });
+
+                                  Navigator.of(context).pop(); // 현재 다이얼로그 닫기
+                                  Navigator.of(context).pop(); // 이전 다이얼로그 닫기
 
                                   showSnackbar(context, '블라인드 처리가 완료되었습니다.');
                                 },
@@ -126,8 +142,9 @@ class _UserSOSState extends State<UserSOS> {
                               ),
                               TextButton(
                                 onPressed: () {
-                                  Navigator.of(context).pop();
-                                  Navigator.of(context).pop();
+                                  Navigator.of(context).pop(); // 현재 다이얼로그 닫기
+                                  Navigator.of(context).pop(); // 이전 다이얼로그 닫기
+
                                   showSnackbar(context, '블라인드 처리가 취소되었습니다.');
                                 },
                                 child: Text('취소'),
@@ -152,6 +169,24 @@ class _UserSOSState extends State<UserSOS> {
                         textAlign: TextAlign.center,
                       ),
                     ),
+                  ))),
+          Container(
+              width: double.infinity,
+              child: ElevatedButton(
+                  style: ElevatedButton.styleFrom(
+                    primary: Colors.white,
+                  ),
+                  onPressed: () {},
+                  child: Container(
+                    height: 40,
+                    child: Align(
+                      alignment: Alignment.center,
+                      child: Text(
+                        '이 사용자 차단하기',
+                        style: TextStyle(color: Colors.red),
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
                   )))
         ],
       ),
@@ -159,14 +194,17 @@ class _UserSOSState extends State<UserSOS> {
   }
 }
 
-void showCustomAlertDialog_user(BuildContext context, bool isHost) {
+void showCustomAlertDialog_user(BuildContext context, bool isHost,
+    String targetNickName, List<dynamic> messages) {
   showDialog(
     context: context,
     barrierDismissible: false,
     builder: (BuildContext context) {
       return UserSOS(
         context: context,
-        isHost: isHost, //방장 유무 정보 넘기기
+        isHost: isHost,
+        targetNickName: targetNickName, // targetNickName을 전달
+        messages: messages,
       );
     },
   );

@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 
-
 //채팅을 입력하는 부분
 class WriteChatText extends StatefulWidget {
-  final String displayText;
+  String displayText;
   final ValueChanged<String> onTextSubmitted; //전송여부
 
   WriteChatText({required this.displayText, required this.onTextSubmitted});
@@ -35,7 +34,8 @@ class WriteChatTextState extends State<WriteChatText> {
               ),
               ElevatedButton(
                 onPressed: () {
-                  widget.onTextSubmitted(_textEditingController.text); //전송 버튼 누를 때 호출
+                  widget.onTextSubmitted(
+                      _textEditingController.text); //전송 버튼 누를 때 호출
                   _textEditingController.clear();
                 },
                 child: Text('전송'),
