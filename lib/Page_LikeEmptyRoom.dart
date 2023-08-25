@@ -6,8 +6,9 @@ import 'Common_CheckBox.dart';
 import 'Common_NeumorphicButton.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-//a, b, c, d, e를 추가하고 b, c를 삭제 후 뒤로가기를 했다가 다시 돌아가면, 삭제했던 b, c가 부활해있다
-//귀신이 곡할 노릇이다. 해결 방안은 아직 미지수, 해결 필요
+//오늘의 교훈: 가려운 곳을 정확히 찾아서 긁도록 하자. 쓸데없는 리스트를 늘어놓지 말자.
+//페이지 전환 시 즐겨찾기 삭제 반영되도록 수정, 그러나 main page로 갔다가 다시 들어가면 즐겨찾기 내역이 사라짐(정보 저장 안됨)
+//shared preferences 적용 시도 중
 
 class LikeEmptyRoom extends StatefulWidget {
   final List<String> selectedLectureRooms;
@@ -20,16 +21,6 @@ class LikeEmptyRoom extends StatefulWidget {
 
 class _LikeEmptyRoomState extends State<LikeEmptyRoom> {
   List<String> selectedToDelete = [];
-  List<WidgetWithCheckbox> widgetList = [];
-
-  @override
-  void initState() {
-    super.initState();
-
-    widgetList = widget.selectedLectureRooms
-        .map((room) => WidgetWithCheckbox(text: room))
-        .toList();
-  }
 
   void _showDeleteConfirmationDialog() {
     showDialog(
@@ -42,12 +33,12 @@ class _LikeEmptyRoomState extends State<LikeEmptyRoom> {
             TextButton(
               onPressed: () {
                 setState(() {
-                  widgetList.removeWhere(
-                    (widget) => selectedToDelete.contains(widget.text),
+                  widget.selectedLectureRooms.removeWhere(
+                    (room) => selectedToDelete.contains(room),
                   );
                   selectedToDelete.clear();
                 });
-                Navigator.pop(context); // 다이얼로그 닫기
+                Navigator.pop(context);
               },
               child: Text('확인'),
             ),
@@ -56,7 +47,7 @@ class _LikeEmptyRoomState extends State<LikeEmptyRoom> {
                 setState(() {
                   selectedToDelete.clear();
                 });
-                Navigator.pop(context); // 다이얼로그 닫기
+                Navigator.pop(context);
               },
               child: Text('취소'),
             ),
@@ -74,28 +65,29 @@ class _LikeEmptyRoomState extends State<LikeEmptyRoom> {
         children: [
           Expanded(
             child: ListView.builder(
-              itemCount: widgetList.length,
+              itemCount: widget.selectedLectureRooms.length,
               itemBuilder: (context, index) {
                 return paddingElement(
                   NeumorphicBox(
                     child: Row(
                       children: [
                         Checkbox(
-                          key: ValueKey(widgetList[index]
-                              .text), //각 요소마다 고유한 Key 부여!! ListView 쓸거만 무조건 요소를 구분해야함
-                          value: widgetList[index].isChecked,
+                          key: ValueKey(widget.selectedLectureRooms[index]),
+                          value: selectedToDelete
+                              .contains(widget.selectedLectureRooms[index]),
                           onChanged: (value) {
                             setState(() {
-                              widgetList[index].isChecked = value ?? false;
                               if (value ?? false) {
-                                selectedToDelete.add(widgetList[index].text);
+                                selectedToDelete
+                                    .add(widget.selectedLectureRooms[index]);
                               } else {
-                                selectedToDelete.remove(widgetList[index].text);
+                                selectedToDelete
+                                    .remove(widget.selectedLectureRooms[index]);
                               }
                             });
                           },
                         ),
-                        Text(widgetList[index].text),
+                        Text(widget.selectedLectureRooms[index]),
                       ],
                     ),
                   ),
@@ -119,11 +111,4 @@ class _LikeEmptyRoomState extends State<LikeEmptyRoom> {
       ),
     );
   }
-}
-
-class WidgetWithCheckbox {
-  final String text;
-  bool isChecked;
-
-  WidgetWithCheckbox({required this.text, this.isChecked = false});
 }
