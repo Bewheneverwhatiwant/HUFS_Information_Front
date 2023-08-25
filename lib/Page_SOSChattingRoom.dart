@@ -9,6 +9,8 @@ class SOSChattingRoom extends StatefulWidget {
   _SOSChattingRoomState createState() => _SOSChattingRoomState();
 }
 
+//디자인 수정 완료
+
 class _SOSChattingRoomState extends State<SOSChattingRoom> {
   @override
   Widget build(BuildContext context) {
@@ -44,10 +46,14 @@ class _SOSChattingRoomState extends State<SOSChattingRoom> {
         primary: Colors.white,
       ),
       child: Container(
-        width: double.infinity,
-        child: Text(
-          buttonText,
-          style: TextStyle(color: Colors.black),
+        height: 40,
+        child: Align(
+          alignment: Alignment.center,
+          child: Text(
+            buttonText,
+            style: TextStyle(color: Colors.black),
+            textAlign: TextAlign.center,
+          ),
         ),
       ),
     );
@@ -69,16 +75,23 @@ class _SOSChattingRoomState extends State<SOSChattingRoom> {
               width: double.infinity,
               child: ElevatedButton(
                   style: ElevatedButton.styleFrom(
-                    primary: Colors.white, // 배경색을 하얀색으로 변경
+                    primary: Colors.white,
                   ),
                   onPressed: () {
                     Navigator.of(context).pop();
                     showSnackbar(context, '신고가 취소되었습니다!');
                   },
-                  child: Text(
-                    '신고취소',
-                    style: TextStyle(color: Colors.blue),
-                  )))
+                  child: Container(
+                    height: 40,
+                    child: Align(
+                      alignment: Alignment.center,
+                      child: Text(
+                        '신고취소',
+                        style: TextStyle(color: Colors.blue),
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                  ))),
         ],
       ),
     );

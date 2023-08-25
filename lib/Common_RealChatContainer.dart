@@ -12,28 +12,37 @@ import 'Page_GatherMyPage.dart';
 class ChatMessageContainer {
   final String nickName;
   final DateTime sentTime;
-  final String displayText;
+  String displayText; //final 제거(메시지 블라인드를 위해)
   bool isMe = false;
+  bool isHost = false;
 
   ChatMessageContainer({
     required this.nickName,
     required this.displayText,
     required this.sentTime,
     required this.isMe,
+    required this.isHost,
   });
 }
 
-class RealChatContainer extends StatelessWidget {
+class RealChatContainer extends StatefulWidget {
   final List<dynamic> messages;
 
   RealChatContainer({required this.messages});
+
+  @override
+  _RealChatContainerState createState() => _RealChatContainerState();
+}
+
+class _RealChatContainerState extends State<RealChatContainer> {
+  String targetNickName = ""; // Initialize targetNickName
 
   @override
   Widget build(BuildContext context) {
     return paddingElement(
       Column(
         children: [
-          for (var entry in messages)
+          for (var entry in widget.messages)
             if (entry is ChatMessageContainer)
               entry.isMe ? IfIsMe(context, entry) : IfIsNotMe(context, entry),
         ],
@@ -51,7 +60,11 @@ class RealChatContainer extends StatelessWidget {
           children: [
             NeumorphicButton(
               onPressed: () {
-                showCustomAlertDialog_user(context);
+                setState(() {
+                  targetNickName = entry.nickName; // Set targetNickName
+                });
+                showCustomAlertDialog_user(
+                    context, entry.isHost); //방장인지 아닌지 유무를 전달해준다!
               },
               child: Text(entry.nickName),
             ),
@@ -98,6 +111,9 @@ class RealChatContainer extends StatelessWidget {
                 SizedBox(width: 5),
                 NeumorphicButton(
                   onPressed: () {
+                    setState(() {
+                      targetNickName = entry.nickName; // Set targetNickName
+                    });
                     Navigator.of(context).push(MaterialPageRoute(
                         builder: (context) => GatherMyPage(context: context)));
                   },

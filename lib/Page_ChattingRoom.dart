@@ -56,6 +56,7 @@ class _ChattingRoomState extends State<ChattingRoom> {
               displayText: message.displayText,
               sentTime: message.sentTime,
               isMe: message.isMe,
+              isHost: message.isHost,
             ))
         .toList();
   }

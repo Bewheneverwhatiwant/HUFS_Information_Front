@@ -6,7 +6,8 @@ class ChatMessage {
   final String nickName;
   final DateTime sentTime;
   final String displayText;
-  bool isMe = false;
+  bool isMe = false; //채팅 보내는 사람이 본인인가?
+  bool isHost = false; //방장인가?
 
   ChatMessage({
     required this.type,
@@ -14,6 +15,7 @@ class ChatMessage {
     required this.displayText,
     required this.sentTime,
     required this.isMe,
+    required this.isHost,
   });
 }
 
@@ -24,6 +26,7 @@ List<ChatMessage> messages = [
     displayText: '사료를 달라',
     sentTime: DateTime.now().subtract(Duration(minutes: 10)),
     isMe: true,
+    isHost: false,
   ),
   ChatMessage(
     type: 1,
@@ -31,6 +34,7 @@ List<ChatMessage> messages = [
     displayText: '너 너무 살쪄서 안돼.',
     sentTime: DateTime.now().subtract(Duration(minutes: 10)),
     isMe: false,
+    isHost: true,
   ),
   ChatMessage(
     type: 1,
@@ -38,6 +42,7 @@ List<ChatMessage> messages = [
     displayText: '시무룩...',
     sentTime: DateTime.now().subtract(Duration(minutes: 10)),
     isMe: true,
+    isHost: false,
   ),
   ChatMessage(
     type: 2,
@@ -45,6 +50,7 @@ List<ChatMessage> messages = [
     displayText: '월요일 조아아',
     sentTime: DateTime.now().subtract(Duration(minutes: 5)),
     isMe: true,
+    isHost: true,
   ),
   ChatMessage(
     type: 2,
@@ -52,6 +58,7 @@ List<ChatMessage> messages = [
     displayText: '한심한 해면 녀석 같으니라고',
     sentTime: DateTime.now().subtract(Duration(minutes: 5)),
     isMe: false,
+    isHost: false,
   ),
   ChatMessage(
     type: 2,
@@ -59,6 +66,7 @@ List<ChatMessage> messages = [
     displayText: '징징아! 그래도 난 널 사랑해!',
     sentTime: DateTime.now().subtract(Duration(minutes: 5)),
     isMe: true,
+    isHost: true,
   ),
   ChatMessage(
     type: 3,
@@ -66,6 +74,7 @@ List<ChatMessage> messages = [
     displayText: '돈은 언제나 옳다!',
     sentTime: DateTime.now().subtract(Duration(minutes: 5)),
     isMe: true,
+    isHost: false,
   ),
   ChatMessage(
     type: 3,
@@ -73,6 +82,7 @@ List<ChatMessage> messages = [
     displayText: '그렇고말고',
     sentTime: DateTime.now().subtract(Duration(minutes: 5)),
     isMe: false,
+    isHost: true,
   ),
   ChatMessage(
     type: 3,
@@ -80,6 +90,7 @@ List<ChatMessage> messages = [
     displayText: '그렇고말고',
     sentTime: DateTime.now().subtract(Duration(minutes: 5)),
     isMe: false,
+    isHost: true,
   ),
   ChatMessage(
     type: 3,
@@ -87,6 +98,7 @@ List<ChatMessage> messages = [
     displayText: '그렇고말고',
     sentTime: DateTime.now().subtract(Duration(minutes: 5)),
     isMe: false,
+    isHost: true,
   ),
   ChatMessage(
     type: 3,
@@ -94,6 +106,7 @@ List<ChatMessage> messages = [
     displayText: '그렇고말고',
     sentTime: DateTime.now().subtract(Duration(minutes: 5)),
     isMe: false,
+    isHost: true,
   ),
   ChatMessage(
     type: 3,
@@ -101,6 +114,7 @@ List<ChatMessage> messages = [
     displayText: '그렇고말고',
     sentTime: DateTime.now().subtract(Duration(minutes: 5)),
     isMe: false,
+    isHost: true,
   ),
   ChatMessage(
     type: 3,
@@ -108,6 +122,7 @@ List<ChatMessage> messages = [
     displayText: '그렇고말고',
     sentTime: DateTime.now().subtract(Duration(minutes: 5)),
     isMe: false,
+    isHost: true,
   ),
   ChatMessage(
     type: 3,
@@ -115,6 +130,7 @@ List<ChatMessage> messages = [
     displayText: '그렇고말고',
     sentTime: DateTime.now().subtract(Duration(minutes: 5)),
     isMe: false,
+    isHost: true,
   ),
   ChatMessage(
     type: 3,
@@ -122,6 +138,7 @@ List<ChatMessage> messages = [
     displayText: '그렇고말고',
     sentTime: DateTime.now().subtract(Duration(minutes: 5)),
     isMe: false,
+    isHost: true,
   ),
   ChatMessage(
     type: 3,
@@ -129,6 +146,7 @@ List<ChatMessage> messages = [
     displayText: '그렇고말고',
     sentTime: DateTime.now().subtract(Duration(minutes: 5)),
     isMe: false,
+    isHost: true,
   ),
   ChatMessage(
     type: 3,
@@ -136,6 +154,7 @@ List<ChatMessage> messages = [
     displayText: '그렇고말고',
     sentTime: DateTime.now().subtract(Duration(minutes: 5)),
     isMe: false,
+    isHost: true,
   ),
   ChatMessage(
     type: 3,
@@ -143,6 +162,7 @@ List<ChatMessage> messages = [
     displayText: '그렇고말고',
     sentTime: DateTime.now().subtract(Duration(minutes: 5)),
     isMe: false,
+    isHost: true,
   ),
   ChatMessage(
     type: 3,
@@ -150,6 +170,7 @@ List<ChatMessage> messages = [
     displayText: '그렇고말고',
     sentTime: DateTime.now().subtract(Duration(minutes: 5)),
     isMe: false,
+    isHost: true,
   ),
   ChatMessage(
     type: 3,
@@ -157,5 +178,6 @@ List<ChatMessage> messages = [
     displayText: '그렇고말고',
     sentTime: DateTime.now().subtract(Duration(minutes: 5)),
     isMe: false,
+    isHost: true,
   ),
 ];
