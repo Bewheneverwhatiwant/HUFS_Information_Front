@@ -1,9 +1,21 @@
 import 'package:flutter/material.dart';
 import 'Common_SnackBar.dart';
+import 'package:provider/provider.dart';
+import 'Common_Provider.dart';
+
+//clickCountProvider과 clickCountProvider_Room으로 provider를 따로 만들어두었으나, 현재 여기에 clickCountProvider_Room 연결 시
+//provider를 찾을 수 없다는, context와 관련된 오류 발생 중이기 때문에
+//일단 clickCountProvider로 돌려놓았음(오류만 안나도록). 나중에 분리해야함
+//clickCountProvider는 유저신고 누적을 저장하는 provider, clickCountProvider_Room은 채팅방 신고 누적을 저장하는 provider
+//유저가 특정 사용자/채팅방을 한번만 신고 가능하도록 구현하기 위해 만듦
+//현재 상황은, 유저 신고와 채팅방 신고가 모두 clickCountProvider를 쓰고있으므로, 잘못된 스낵바 작동이 이루어지는 상태
 
 class SOSChattingRoom extends StatefulWidget {
+  final ClickCountProvider clickCountProvider;
   final BuildContext context;
-  const SOSChattingRoom({required this.context, Key? key}) : super(key: key);
+  const SOSChattingRoom(
+      {required this.context, required this.clickCountProvider, Key? key})
+      : super(key: key);
 
   @override
   _SOSChattingRoomState createState() => _SOSChattingRoomState();
@@ -12,6 +24,24 @@ class SOSChattingRoom extends StatefulWidget {
 //디자인 수정 완료
 
 class _SOSChattingRoomState extends State<SOSChattingRoom> {
+  int clickCount = 0; //신고를 한번으로 제한하기 위해
+
+  void handleButtonClick() {
+    final clickCountProvider = widget.clickCountProvider;
+
+    clickCountProvider.incrementClickCount();
+    int clickCount = clickCountProvider.clickCount;
+
+    print("Click count_Room: $clickCount");
+    if (clickCount > 1) {
+      Navigator.of(context).pop();
+      showSnackbar(context, '신고는 한 번만 가능합니다!');
+    } else {
+      Navigator.of(context).pop();
+      showSnackbar(context, '채팅방 신고가 완료되었습니다.\n신고 누적 시 이 채팅방의 입장이 제한됩니다.');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -40,7 +70,7 @@ class _SOSChattingRoomState extends State<SOSChattingRoom> {
     return ElevatedButton(
       onPressed: () {
         Navigator.of(context).pop();
-        showSnackbar(context, '채팅방 신고가 완료되었습니다. 신고 누적 시 채팅방 이용이 제한됩니다.');
+        handleButtonClick();
       },
       style: ElevatedButton.styleFrom(
         primary: Colors.white,
@@ -99,11 +129,14 @@ class _SOSChattingRoomState extends State<SOSChattingRoom> {
 }
 
 void showCustomAlertDialog(BuildContext context) {
+  final clickCountProvider =
+      Provider.of<ClickCountProvider>(context, listen: false);
   showDialog(
     context: context,
     barrierDismissible: false,
     builder: (BuildContext context) {
       return SOSChattingRoom(
+        clickCountProvider: clickCountProvider,
         context: context,
       );
     },

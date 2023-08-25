@@ -27,3 +27,26 @@ class SelectedLectureRoomsProvider extends ChangeNotifier {
     notifyListeners();
   }
 }
+
+//유저 신고 clickCount 관리를 위한 provider
+class ClickCountProvider extends ChangeNotifier {
+  int _clickCount = 0;
+
+  int get clickCount => _clickCount;
+
+  void incrementClickCount() {
+    _clickCount++;
+    notifyListeners();
+  }
+}
+
+class ClickCountProvider_Room extends ChangeNotifier {
+  int _clickCount = 0;
+
+  int get clickCount => _clickCount;
+
+  void incrementClickCount() {
+    _clickCount++;
+    notifyListeners();
+  }
+}

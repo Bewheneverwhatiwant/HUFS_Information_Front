@@ -10,17 +10,20 @@ import 'Page_LikeEmptyRoom.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:provider/provider.dart';
 import 'Common_Provider.dart';
+import 'Page_SOSChattingRoom.dart';
 
 void main() async {
   await dotenv.load();
   PrintBusList();
   //await loadSelectedLectureRooms();
   //loadSelectedLectureRooms();
-  runApp(MaterialApp(
-    home: Builder(builder: (BuildContext context) {
-      return Splash1_Welcome();
-    }),
-  ));
+  runApp(ChangeNotifierProvider(
+      create: (context) => ClickCountProvider(),
+      child: MaterialApp(
+        home: Builder(builder: (BuildContext context) {
+          return Splash1_Welcome();
+        }),
+      )));
 }
 
 class MyApp extends StatelessWidget {
@@ -28,8 +31,18 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (context) => SelectedLectureRoomsProvider(), // Provider 생성
+    return MultiProvider(
+      // 여러 개의 프로바이더 제공
+      providers: [
+        ChangeNotifierProvider(
+            create: (context) =>
+                SelectedLectureRoomsProvider()), // SelectedLectureRoomsProvider 제공
+        ChangeNotifierProvider(
+            create: (context) => ClickCountProvider()), // ClickCountProvider 제공
+        ChangeNotifierProvider(
+            create: (context) =>
+                ClickCountProvider_Room()), // ClickCountProvider_Room 제공
+      ],
       child: MaterialApp(
         title: 'HUFS 정보모아',
         theme: ThemeData(

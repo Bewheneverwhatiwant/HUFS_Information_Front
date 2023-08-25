@@ -34,6 +34,13 @@ class RealChatContainer extends StatefulWidget {
 
 class _RealChatContainerState extends State<RealChatContainer> {
   String targetNickName = "";
+  int clickCount = 0;
+
+  void incrementClickCount() {
+    setState(() {
+      clickCount++; // 클릭 횟수 증가
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -61,8 +68,13 @@ class _RealChatContainerState extends State<RealChatContainer> {
                   targetNickName =
                       entry.nickName; //버튼을 클릭하면, 버튼에 있는 닉네임이 타겟닉네임에 담김
                 });
-                showCustomAlertDialog_user(context, entry.isHost,
-                    entry.nickName, widget.messages); //방장인지 아닌지 유무를 전달해준다!
+                showCustomAlertDialog_user(
+                    context,
+                    entry.isHost,
+                    entry.nickName,
+                    widget.messages,
+                    clickCount,
+                    incrementClickCount); //방장인지 아닌지 유무를 전달해준다!
               },
               child: Text(entry.nickName),
             ),

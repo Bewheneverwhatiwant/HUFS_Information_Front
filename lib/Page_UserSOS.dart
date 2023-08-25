@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'Common_SnackBar.dart';
 import 'Common_RealChatContainer.dart';
 import 'Common_SnackBar.dart';
+import 'Common_Provider.dart';
+import 'package:provider/provider.dart';
 
 //유저신고 페이지!!
 //다른 유저 클릭 시 '메시지 블라인드' 버튼이 있고, 내가 방장이라면 블라인드 가능하도록 틀만 만들어둠
@@ -12,11 +14,16 @@ class UserSOS extends StatefulWidget {
   final bool isHost;
   final String targetNickName;
   final List<dynamic> messages;
+  //final int clickCount; // 클릭 횟수 변수 추가
+  final VoidCallback incrementClickCount; // 클릭 증가 함수 추가
+
   const UserSOS(
       {required this.context,
       required this.isHost,
       required this.targetNickName,
       required this.messages,
+      //required this.clickCount,
+      required this.incrementClickCount,
       Key? key})
       : super(key: key);
 
@@ -25,6 +32,25 @@ class UserSOS extends StatefulWidget {
 }
 
 class _UserSOSState extends State<UserSOS> {
+  int clickCount = 0; //신고를 한번으로 제한하기 위해
+
+  void handleButtonClick() {
+    ClickCountProvider clickCountProvider =
+        Provider.of<ClickCountProvider>(context, listen: false);
+
+    clickCountProvider.incrementClickCount();
+    int clickCount = clickCountProvider.clickCount;
+
+    print("Click count: $clickCount");
+    if (clickCount > 1) {
+      Navigator.of(context).pop();
+      showSnackbar(context, '신고는 한 번만 가능합니다!');
+    } else {
+      Navigator.of(context).pop();
+      showSnackbar(context, '이용자 신고가 완료되었습니다.\n신고 누적 시 이 유저의 활동이 제한됩니다.');
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Stack(
@@ -52,8 +78,7 @@ class _UserSOSState extends State<UserSOS> {
   Widget createSOSButton(String buttonText) {
     return ElevatedButton(
       onPressed: () {
-        Navigator.of(context).pop();
-        showSnackbar(context, '이용자 신고가 완료되었습니다.\n신고 누적 시 이 유저의 활동이 제한됩니다.');
+        handleButtonClick();
       },
       style: ElevatedButton.styleFrom(
         primary: Colors.white,
@@ -133,8 +158,8 @@ class _UserSOSState extends State<UserSOS> {
                                     }
                                   });
 
-                                  Navigator.of(context).pop(); // 현재 다이얼로그 닫기
-                                  Navigator.of(context).pop(); // 이전 다이얼로그 닫기
+                                  Navigator.of(context).pop();
+                                  Navigator.of(context).pop();
 
                                   showSnackbar(context, '블라인드 처리가 완료되었습니다.');
                                 },
@@ -142,8 +167,8 @@ class _UserSOSState extends State<UserSOS> {
                               ),
                               TextButton(
                                 onPressed: () {
-                                  Navigator.of(context).pop(); // 현재 다이얼로그 닫기
-                                  Navigator.of(context).pop(); // 이전 다이얼로그 닫기
+                                  Navigator.of(context).pop();
+                                  Navigator.of(context).pop();
 
                                   showSnackbar(context, '블라인드 처리가 취소되었습니다.');
                                 },
@@ -176,7 +201,12 @@ class _UserSOSState extends State<UserSOS> {
                   style: ElevatedButton.styleFrom(
                     primary: Colors.white,
                   ),
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                    //Navigator.of(context).pop();
+                    showSnackbar(context,
+                        '이 사용자를 차단했습니다\n이 사용자는 이제 유저님이 개설하신 채팅방에는 입장이 불가합니다.');
+                  },
                   child: Container(
                     height: 40,
                     child: Align(
@@ -194,8 +224,13 @@ class _UserSOSState extends State<UserSOS> {
   }
 }
 
-void showCustomAlertDialog_user(BuildContext context, bool isHost,
-    String targetNickName, List<dynamic> messages) {
+void showCustomAlertDialog_user(
+    BuildContext context,
+    bool isHost,
+    String targetNickName,
+    List<dynamic> messages,
+    int clickCount,
+    VoidCallback incrementClickCount) {
   showDialog(
     context: context,
     barrierDismissible: false,
@@ -205,6 +240,8 @@ void showCustomAlertDialog_user(BuildContext context, bool isHost,
         isHost: isHost,
         targetNickName: targetNickName, // targetNickName을 전달
         messages: messages,
+        //clickCount: clickCount,
+        incrementClickCount: incrementClickCount,
       );
     },
   );
