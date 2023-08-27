@@ -4,8 +4,106 @@ import 'package:hufs_information/Common_paddingElement.dart';
 import 'Page_BuyRandomBox.dart';
 import 'Page_BuyTicketByPoint.dart';
 import 'Page_EarnPointByWatch.dart';
+import 'Common_SnackBar.dart';
+import 'Page_EarnPointByWatch.dart';
 
-class PointContainer extends StatelessWidget {
+class PointContainer extends StatefulWidget {
+  @override
+  _PointContainerState createState() => _PointContainerState();
+}
+
+class _PointContainerState extends State<PointContainer> {
+  int _quantity = 1;
+  bool _isCheckbox1Checked = false;
+  bool _isCheckbox2Checked = false;
+
+  void _incrementQuantity() {
+    setState(() {
+      _quantity++;
+    });
+  }
+
+  void _decrementQuantity() {
+    if (_quantity > 1) {
+      setState(() {
+        _quantity--;
+      });
+    }
+  }
+
+//구매하기 버튼 클릭 시 띄울 alert message
+  void _showConfirmationDialog() {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext context) {
+        return StatefulBuilder(
+          builder: (context, setState) {
+            return AlertDialog(
+              title: Text('영상보고 포인트 충전하기'),
+              content: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                    '광고를 시청하고 포인트를 충전합니다.',
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                  SizedBox(height: 10),
+                  Row(
+                    children: [
+                      Checkbox(
+                        onChanged: (bool? value) {
+                          setState(() {
+                            _isCheckbox1Checked = value ?? false;
+                          });
+                        },
+                        value: _isCheckbox1Checked,
+                      ),
+                      Text('광고 시청 후 200P~500P를 랜덤으로 받게됩니다.'),
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      Checkbox(
+                        onChanged: (bool? value) {
+                          setState(() {
+                            _isCheckbox2Checked = value ?? false;
+                          });
+                        },
+                        value: _isCheckbox2Checked,
+                      ),
+                      Text('30초 동안 뒤로가기를 할 수 없습니다.'),
+                    ],
+                  ),
+                ],
+              ),
+              actions: [
+                TextButton(
+                  onPressed: () {
+                    Navigator.of(context).pop();
+                    showSnackbar(context, '광고 시청 후 티켓 구매가 취소되었습니다!');
+                  },
+                  child: Text('취소'),
+                ),
+                ElevatedButton(
+                  onPressed: (_isCheckbox1Checked && _isCheckbox2Checked)
+                      ? () {
+                          showSnackbar(context, '광고 영상으로 이동합니다!');
+                          Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) =>
+                                  EarnPointByWatch(context: context)));
+                        }
+                      : null,
+                  child: Text('확인'),
+                ),
+              ],
+            );
+          },
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return paddingElement(Row(
@@ -20,7 +118,8 @@ class PointContainer extends StatelessWidget {
     return Column(
       mainAxisAlignment: MainAxisAlignment.center, //세로로 중앙 정렬되도록 함
       children: [
-        const Text("현재 티켓 현황", style: TextStyle(fontSize: 25, fontWeight: FontWeight.w800)),
+        const Text("현재 티켓 현황",
+            style: TextStyle(fontSize: 25, fontWeight: FontWeight.w800)),
         const SizedBox(height: 16), // 세 위젯 사이의 간격을 위한 SizedBox
         Column(
           children: [
@@ -29,7 +128,8 @@ class PointContainer extends StatelessWidget {
           ],
         ),
         const SizedBox(height: 16), // 세 위젯 사이의 간격을 위한 SizedBox
-        ButtonForPointContainer(130, 'assets/images/GoogleIcon.png', '티켓 구매', null),
+        ButtonForPointContainer(
+            130, 'assets/images/GoogleIcon.png', '티켓 구매', null),
       ],
     );
   }
@@ -41,40 +141,62 @@ class PointContainer extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
-              const Text("적립된 포인트", style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold)),
+              const Text("적립된 포인트",
+                  style: TextStyle(fontSize: 15, fontWeight: FontWeight.bold)),
               Row(
                 children: [
                   coloredText("7000", 20),
-                  const Text("P", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold))
+                  const Text("P",
+                      style:
+                          TextStyle(fontSize: 20, fontWeight: FontWeight.bold))
                 ],
               ),
             ],
           ),
           const SizedBox(height: 16),
-          ButtonForPointContainer(200, 'assets/images/BuyTicketAsPoint.png', '포인트로 티켓 구매', () {Navigator.of(context).push(MaterialPageRoute(builder: (context) => BuyTicketByPoint(context: context)));}),
+          ButtonForPointContainer(
+              200, 'assets/images/BuyTicketAsPoint.png', '포인트로 티켓 구매', () {
+            Navigator.of(context).push(MaterialPageRoute(
+                builder: (context) => BuyTicketByPoint(context: context)));
+          }),
           const SizedBox(height: 16),
-          ButtonForPointContainer(200, 'assets/images/chargingByWatching.png', '영상 보고 충전하기', () {Navigator.of(context).push(MaterialPageRoute(builder: (context) => EarnPointByWatch(context: context)));}),
+          ButtonForPointContainer(
+              200, 'assets/images/chargingByWatching.png', '영상 보고 충전하기', () {
+            // Navigator.of(context).push(MaterialPageRoute(
+            //     builder: (context) => EarnPointByWatch(context: context)));
+            _showConfirmationDialog();
+          }),
           const SizedBox(height: 16),
-          ButtonForPointContainer(200, 'assets/images/BuyRandomBox.png', '랜덤박스 구매하기', () {Navigator.of(context).push(MaterialPageRoute(builder: (context) => BuyRandomBox(context: context)));}),
+          ButtonForPointContainer(
+              200, 'assets/images/BuyRandomBox.png', '랜덤박스 구매하기', () {
+            Navigator.of(context).push(MaterialPageRoute(
+                builder: (context) => BuyRandomBox(context: context)));
+          }),
         ]);
   }
 
   Row ticketCount(String name, int count, String unit) {
     return Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-      Text(name, style: const TextStyle(fontSize: 15, fontWeight: FontWeight.bold)),
+      Text(name,
+          style: const TextStyle(fontSize: 15, fontWeight: FontWeight.bold)),
       const SizedBox(width: 5),
       coloredText(count.toString(), 25),
       const SizedBox(width: 5),
-      Text(unit, style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+      Text(unit,
+          style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
     ]);
   }
 
   Text coloredText(String text, double size) {
     return Text(text,
-        style: TextStyle(fontSize: size, fontWeight: FontWeight.bold, color: const Color.fromRGBO(66, 124, 239, 1)));
+        style: TextStyle(
+            fontSize: size,
+            fontWeight: FontWeight.bold,
+            color: const Color.fromRGBO(66, 124, 239, 1)));
   }
 
-  NeumorphicButton ButtonForPointContainer(double width, imageUrl, text, onPressed) {
+  NeumorphicButton ButtonForPointContainer(
+      double width, imageUrl, text, onPressed) {
     return NeumorphicButton(
       lockAvailable: true,
       width: width,
@@ -84,7 +206,9 @@ class PointContainer extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
           Image.asset(imageUrl),
-          Text(text, style: const TextStyle(fontSize: 15, fontWeight: FontWeight.bold)),
+          Text(text,
+              style:
+                  const TextStyle(fontSize: 15, fontWeight: FontWeight.bold)),
         ],
       ),
     );
