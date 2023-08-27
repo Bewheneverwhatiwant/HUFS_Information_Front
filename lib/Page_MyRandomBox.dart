@@ -10,12 +10,12 @@ class MyRandomBox extends StatelessWidget {
   // final int Point;
 
   // MyRandomBox({
-  //   // required this.context,
-  //   // required this.image,
-  //   // required this.title,
-  //   // required this.subTitle,
-  //   // required this.price,
-  //   // required this.Point,
+  //   required this.context,
+  //   required this.image,
+  //   required this.title,
+  //   required this.subTitle,
+  //   required this.price,
+  //   required this.Point,
   // });
 
   @override

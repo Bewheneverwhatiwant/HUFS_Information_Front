@@ -187,13 +187,13 @@ class BuyRandomBox extends StatelessWidget {
         onPressed: () {
           Navigator.of(context).push(MaterialPageRoute(
             builder: (context) => MyRandomBox(
-              context: context,
-              image: image, // 이미지 변수 전달
-              title: title,
-              subTitle: subTitle,
-              price: price,
-              Point: Point,
-            ),
+                // context: context,
+                // image: image,
+                // title: title,
+                // subTitle: subTitle,
+                // price: price,
+                // Point: Point,
+                ),
           ));
         },
         child: Row(
