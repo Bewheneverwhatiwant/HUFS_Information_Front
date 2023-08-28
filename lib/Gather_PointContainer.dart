@@ -13,24 +13,6 @@ class PointContainer extends StatefulWidget {
 }
 
 class _PointContainerState extends State<PointContainer> {
-  int _quantity = 1;
-  bool _isCheckbox1Checked = false;
-  bool _isCheckbox2Checked = false;
-
-  void _incrementQuantity() {
-    setState(() {
-      _quantity++;
-    });
-  }
-
-  void _decrementQuantity() {
-    if (_quantity > 1) {
-      setState(() {
-        _quantity--;
-      });
-    }
-  }
-
 //구매하기 버튼 클릭 시 띄울 alert message
   void _showConfirmationDialog() {
     showDialog(
@@ -40,42 +22,9 @@ class _PointContainerState extends State<PointContainer> {
         return StatefulBuilder(
           builder: (context, setState) {
             return AlertDialog(
-              title: Text('영상보고 포인트 충전하기'),
-              content: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Text(
-                    '광고를 시청하고 포인트를 충전합니다.',
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  ),
-                  SizedBox(height: 10),
-                  Row(
-                    children: [
-                      Checkbox(
-                        onChanged: (bool? value) {
-                          setState(() {
-                            _isCheckbox1Checked = value ?? false;
-                          });
-                        },
-                        value: _isCheckbox1Checked,
-                      ),
-                      Text('광고 시청 후 200P~500P를 랜덤으로 받게됩니다.'),
-                    ],
-                  ),
-                  Row(
-                    children: [
-                      Checkbox(
-                        onChanged: (bool? value) {
-                          setState(() {
-                            _isCheckbox2Checked = value ?? false;
-                          });
-                        },
-                        value: _isCheckbox2Checked,
-                      ),
-                      Text('30초 동안 뒤로가기를 할 수 없습니다.'),
-                    ],
-                  ),
-                ],
+              content: Text(
+                '30초 광고를 시청하고 포인트를 충전합니다.',
+                style: TextStyle(fontWeight: FontWeight.normal),
               ),
               actions: [
                 TextButton(
@@ -86,14 +35,12 @@ class _PointContainerState extends State<PointContainer> {
                   child: Text('취소'),
                 ),
                 ElevatedButton(
-                  onPressed: (_isCheckbox1Checked && _isCheckbox2Checked)
-                      ? () {
-                          showSnackbar(context, '광고 영상으로 이동합니다!');
-                          Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) =>
-                                  EarnPointByWatch(context: context)));
-                        }
-                      : null,
+                  onPressed: () {
+                    showSnackbar(context, '광고 영상으로 이동합니다!');
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) =>
+                            EarnPointByWatch(context: context)));
+                  },
                   child: Text('확인'),
                 ),
               ],
