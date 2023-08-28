@@ -3,13 +3,6 @@ import 'Common_SnackBar.dart';
 import 'package:provider/provider.dart';
 import 'Common_Provider.dart';
 
-//clickCountProvider과 clickCountProvider_Room으로 provider를 따로 만들어두었으나, 현재 여기에 clickCountProvider_Room 연결 시
-//provider를 찾을 수 없다는, context와 관련된 오류 발생 중이기 때문에
-//일단 clickCountProvider로 돌려놓았음(오류만 안나도록). 나중에 분리해야함
-//clickCountProvider는 유저신고 누적을 저장하는 provider, clickCountProvider_Room은 채팅방 신고 누적을 저장하는 provider
-//유저가 특정 사용자/채팅방을 한번만 신고 가능하도록 구현하기 위해 만듦
-//현재 상황은, 유저 신고와 채팅방 신고가 모두 clickCountProvider를 쓰고있으므로, 잘못된 스낵바 작동이 이루어지는 상태
-
 class SOSChattingRoom extends StatefulWidget {
   //final ClickCountProvider clickCountProvider;
   final VoidCallback incrementClickCount; // 클릭 증가 함수 추가
@@ -29,29 +22,30 @@ class SOSChattingRoom extends StatefulWidget {
 //디자인 수정 완료
 
 class _SOSChattingRoomState extends State<SOSChattingRoom> {
-  //int clickCount = 0; //신고를 한번으로 제한하기 위해
-
+  int clickCount = 0; //클릭 횟
   void handleButtonClick() {
-    ClickCountProvider_Room clickCountProvider_room =
-        Provider.of<ClickCountProvider_Room>(context, listen: false);
+    //보통 예제에 나오듯이, 이렇게 하면 안됨!!
+    // ClickCountProvider_Room clickCountProvider_room =
+    //     Provider.of<ClickCountProvider_Room>(context, listen: false);
 
-    clickCountProvider_room.incrementClickCount();
-    int clickCount = clickCountProvider_room.clickCount;
-
-    print("Click count_Room: $clickCount");
-    if (clickCount > 1) {
-      //Navigator.of(context).pop();
-      showSnackbar(context, '신고는 한 번만 가능합니다!');
-    } else {
-      //Navigator.of(context).pop();
-      showSnackbar(context, '채팅방 신고가 완료되었습니다.\n신고 누적 시 이 채팅방의 입장이 제한됩니다.');
-    }
+    // clickCountProvider_room.incrementClickCount();
+    // int clickCount = clickCountProvider_room.clickCount;
+    widget
+        .incrementClickCount(); //이미 생성된 인스턴스를 사용하여 clickCount 업데이트. 인스턴스를 재생성하면, 당연히 clickCount 누적이 불가능함!
+    clickCount = widget.clickCount + 1;
+    setState(() {
+      //int clickCount = widget.clickCount;
+      print("Click count_Room: $clickCount");
+      if (clickCount > 1) {
+        showSnackbar(context, '신고는 한 번만 가능합니다!');
+      } else {
+        showSnackbar(context, '채팅방 신고가 완료되었습니다.\n신고 누적 시 이 채팅방의 입장이 제한됩니다.');
+      }
+    });
   }
 
   @override
   Widget build(BuildContext context) {
-    // ClickCountProvider_Room clickCountProvider_room =
-    //     Provider.of<ClickCountProvider_Room>(context, listen: false);
     return Stack(
       children: [
         ModalBarrier(
@@ -61,12 +55,10 @@ class _SOSChattingRoomState extends State<SOSChattingRoom> {
         Center(
           child: Container(
             width: 250,
-            //height: 40,
             decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.circular(10.0),
             ),
-            //padding: EdgeInsets.all(16.0),
             child: SOSDialog(),
           ),
         ),
@@ -142,13 +134,10 @@ void showCustomAlertDialog(
     context: context,
     barrierDismissible: false,
     builder: (BuildContext context) {
-      return ChangeNotifierProvider<ClickCountProvider_Room>(
-        create: (context) => ClickCountProvider_Room(),
-        child: SOSChattingRoom(
-          context: context,
-          clickCount: clickCount,
-          incrementClickCount: incrementClickCount,
-        ),
+      return SOSChattingRoom(
+        context: context,
+        incrementClickCount: incrementClickCount,
+        clickCount: clickCount,
       );
     },
   );
