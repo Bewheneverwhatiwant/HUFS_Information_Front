@@ -5,9 +5,8 @@ import 'Common_LogoAppBar.dart';
 
 class SelectedLectureRoomsProvider extends ChangeNotifier {
   List<String> selectedLectureRooms = [];
-//빈강의실 추가
-  void addSelectedLectureRoom(String room) {
-    selectedLectureRooms.add(room);
+  void updateSelectedLectureRooms(List<String> updatedRooms) {
+    selectedLectureRooms = updatedRooms;
     notifyListeners();
   }
 }

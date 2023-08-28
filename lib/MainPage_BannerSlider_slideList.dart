@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hufs_information/Common_Provider.dart';
 import 'package:hufs_information/Page_GatherHelp.dart';
 import 'package:hufs_information/Page_InfoBus.dart';
 import 'Page_InfoLecture.dart';
@@ -81,11 +82,14 @@ GestureDetector slide1(context) {
 
 GestureDetector slide2(context) {
   return GestureDetector(
-
     onTap: () async {
       await Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => InfoLecture(context: context)),
+        MaterialPageRoute(
+            builder: (context) => InfoLecture(
+                  context: context,
+                  selectedLectureProvider: SelectedLectureRoomsProvider(),
+                )),
       );
     },
 
@@ -97,7 +101,6 @@ GestureDetector slide2(context) {
           right: 10,
           child: Image.asset('assets/images/Main_LectureRoom.png', width: 180),
         ),
-
         const Positioned(
           left: 10,
           top: 10,
@@ -122,9 +125,7 @@ GestureDetector slide2(context) {
             ],
           ),
         ),
-
       ],
-
     ),
   );
 }

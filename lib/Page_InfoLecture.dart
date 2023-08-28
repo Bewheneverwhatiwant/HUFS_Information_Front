@@ -12,22 +12,23 @@ import 'package:provider/provider.dart';
 //서울 또는 글로벌 -> 건물 또는 시간 -> 건물이면 6개 중 택1 / 시간이면 9개 중 1개 이상 선택(모두 보기 또는 1개 이상 만족하는 결과 보기)
 
 class InfoLecture extends StatefulWidget {
-  const InfoLecture({required this.context, Key? key});
+  const InfoLecture(
+      {required this.context, required this.selectedLectureProvider, Key? key});
   static List<String> selectedLectureRooms = [];
   final BuildContext context;
+  final SelectedLectureRoomsProvider selectedLectureProvider;
 
-//이 페이지의 정보를 즐겨찾기 페이지로 넘겨주는 함수
+  //이 페이지의 정보를 즐겨찾기 페이지로 넘겨주는 함수. provider 적용하여 수정 필요!
   void navigateToLikeEmptyRoom(List<String> selectedLectureRooms) {
     Navigator.of(context).push(MaterialPageRoute(
       builder: (context) => LikeEmptyRoom(
         selectedLectureRooms: selectedLectureRooms,
-        //context: context,
       ),
     ));
   }
 
   @override
-  _InfoLectureState createState() => _InfoLectureState();
+  _InfoLectureState createState() => _InfoLectureState(context);
 }
 
 class _InfoLectureState extends State<InfoLecture> {
@@ -49,6 +50,11 @@ class _InfoLectureState extends State<InfoLecture> {
   List<String> RoomNumbers = [];
   List<String> whichDays = [];
   List<String> AllTimes = [];
+  late BuildContext _widgetContext; // 저장할 context 변수
+
+  _InfoLectureState(BuildContext widgetContext) {
+    _widgetContext = widgetContext;
+  }
 
 //실제 빈강의실 정보를 하나하나 담은 컨테이너인데, checkbox가 있어서 stateful class 안에 선언했음
   Widget LectureRoomContainer(
@@ -60,7 +66,7 @@ class _InfoLectureState extends State<InfoLecture> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             Checkbox(
-              onChanged: (value) async {
+              onChanged: (value) {
                 setState(() {
                   lectureRoomCheckStates[index] = value ?? false;
                 });
@@ -71,7 +77,7 @@ class _InfoLectureState extends State<InfoLecture> {
                   AllTimes.add(AllTime);
 
                   //await updateSelectedLectureRooms(); //비동기 함수 호출 ->이렇게 했는데도 UI blocking 발생 중
-                  saveSelectedLectureRooms();
+                  saveSelectedLectureRooms(context);
                 }
               },
               value: lectureRoomCheckStates[index],
@@ -87,7 +93,7 @@ class _InfoLectureState extends State<InfoLecture> {
   }
 
 //UI 블로킹을 개선하지 않았지만, 즐겨찾기 페이지에 출력되는 것을 확인하기 위해 남겨둔 함수
-  void saveSelectedLectureRooms() async {
+  void saveSelectedLectureRooms(BuildContext context) {
     selectedLectureRooms.clear(); //이거 추가 꼭 해야함
 
     for (int i = 0; i < lectureRoomCheckStates.length; i++) {
@@ -99,10 +105,11 @@ class _InfoLectureState extends State<InfoLecture> {
         selectedLectureRooms.add(roomInfo); //리스트에 체크된 항목들을 String으로 담음
       }
     }
-
-    //await prefs.setStringList(
-    //'selected_lecture_rooms', selectedLectureRooms); //즐겨찾기를 저장
     print('저장된 즐겨찾기: $selectedLectureRooms');
+
+//여기서 프로바이더를 부름!!
+    widget.selectedLectureProvider
+        .updateSelectedLectureRooms(selectedLectureRooms);
   }
 
   @override
@@ -211,7 +218,7 @@ class _InfoLectureState extends State<InfoLecture> {
                   '3. 아래에서 원하시는 건물 또는 교시를 선택해주세요.',
                   style: TextStyle(fontWeight: FontWeight.normal, fontSize: 20),
                 ),
-                _buildSelectedWidgets(),
+                _buildSelectedWidgets(context),
               ]),
             ),
             Column(
@@ -238,7 +245,7 @@ class _InfoLectureState extends State<InfoLecture> {
     );
   }
 
-  Widget _buildSelectedWidgets() {
+  Widget _buildSelectedWidgets(BuildContext context) {
     if (selectedOption == 'a' && selectedSubOption == 'c') {
       return seoul_building();
     } else if (selectedOption == 'a' && selectedSubOption == 'd') {

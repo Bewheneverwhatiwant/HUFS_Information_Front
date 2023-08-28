@@ -16,6 +16,8 @@ import 'MainPage_MenuList.dart';
 import 'Page_GatherMyPage.dart';
 import 'Common_NeumorphicBox.dart';
 import 'Page_InfoLecture.dart';
+import 'Common_Provider.dart';
+import 'package:provider/provider.dart';
 
 class MainPage extends StatelessWidget {
   final BuildContext
@@ -23,6 +25,16 @@ class MainPage extends StatelessWidget {
   final bool isButtonEnabled; // 버튼 활성화 여부 추가함!!!
   const MainPage(
       {required this.context, required this.isButtonEnabled, Key? key});
+
+//계층구조 확인 결과, InfoLecture 위젯이 MainPage와 같은 레벨이라서, MainPage에서 InfoLecture로 전환될 때 provider를 넘겨줘야만 InfoLecture에서 provider 사용가능
+  void _navigateToInfoLecture(BuildContext context) {
+    final selectedLectureProvider =
+        Provider.of<SelectedLectureRoomsProvider>(context, listen: false);
+    Navigator.of(context).push(MaterialPageRoute(
+      builder: (context) => InfoLecture(
+          context: context, selectedLectureProvider: selectedLectureProvider),
+    ));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -175,6 +187,7 @@ class MainPage extends StatelessWidget {
             Navigator.of(context).push(MaterialPageRoute(
                 builder: (context) => InfoLecture(
                       context: context,
+                      selectedLectureProvider: SelectedLectureRoomsProvider(),
                     )));
           },
         ),

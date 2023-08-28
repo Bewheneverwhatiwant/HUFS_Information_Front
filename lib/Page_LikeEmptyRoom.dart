@@ -8,6 +8,8 @@ import 'Common_Provider.dart';
 import 'Common_Provider.dart';
 import 'package:provider/provider.dart';
 
+//이 페이지에서도 InfoLecture 페이지에서 provider로 관리되는 selectedToDelete를 받아와서 띄워야 함. 수정 필요!
+
 class LikeEmptyRoom extends StatefulWidget {
   final List<String> selectedLectureRooms;
 
