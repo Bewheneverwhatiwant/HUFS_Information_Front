@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'Common_LogoAppBar.dart';
 import 'MainPage_MenuList.dart';
-import 'Page_LogOut.dart';
+import 'Common_CustomAlertMessage.dart';
 import 'Common_NeumorphicButton.dart';
 import 'Page_DeleteAccount.dart';
 import 'Common_NeumorphicBox.dart';
@@ -11,6 +11,9 @@ import 'Page_BuyTicketByPoint.dart';
 import 'Page_EarnPointByWatch.dart';
 import 'Page_BuyRandomBox.dart';
 import 'Page_BuyTicketAsMoney.dart';
+import 'Common_SnackBar.dart';
+import 'Splash2_LogInOrSignUp.dart';
+import 'Common_CustomAlertMessage.dart';
 
 class GatherMyPage extends StatelessWidget {
   final BuildContext context;
@@ -109,8 +112,14 @@ class GatherMyPage extends StatelessWidget {
                 width: 200,
                 child: NeumorphicButton(
                   onPressed: () {
-                    Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => LogOut(context: context)));
+                    // Navigator.of(context).push(MaterialPageRoute(
+                    //     builder: (context) => LogOut(context: context)));
+                    showConfirmationDialogWithNavigation(
+                      context,
+                      '로그아웃하시겠습니까?',
+                      '로그아웃 되었습니다!',
+                      Splash2_LogInOrSignUp(),
+                    );
                   },
                   child: Text('로그아웃'),
                 ),
@@ -120,8 +129,12 @@ class GatherMyPage extends StatelessWidget {
                 width: 200,
                 child: NeumorphicButton(
                   onPressed: () {
-                    Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) => DeleteAccount(context: context)));
+                    showConfirmationDialogWithNavigation(
+                      context,
+                      '계정을 삭제하시겠습니까?',
+                      'HUFS Infogral 계정이 삭제되었습니다!',
+                      Splash2_LogInOrSignUp(),
+                    );
                   },
                   child: Text('회원탈퇴'),
                 ),
@@ -147,9 +160,14 @@ class GatherMyPage extends StatelessWidget {
                 width: 200,
                 child: NeumorphicButton(
                   onPressed: () {
-                    Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) =>
-                            EarnPointByWatch(context: context)));
+                    showConfirmationDialogWithNavigation(
+                      context,
+                      '30초 광고 시청 후 포인트를 충전합니다.',
+                      'HUFS Infogral 계정이 삭제되었습니다!',
+                      EarnPointByWatch(
+                        context: context,
+                      ),
+                    );
                   },
                   child: Text('영상 보고 포인트 충전'),
                 ),

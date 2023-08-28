@@ -6,6 +6,7 @@ import 'Page_BuyTicketByPoint.dart';
 import 'Page_EarnPointByWatch.dart';
 import 'Common_SnackBar.dart';
 import 'Page_EarnPointByWatch.dart';
+import 'Common_CustomAlertMessage.dart';
 
 class PointContainer extends StatefulWidget {
   @override
@@ -13,44 +14,6 @@ class PointContainer extends StatefulWidget {
 }
 
 class _PointContainerState extends State<PointContainer> {
-//구매하기 버튼 클릭 시 띄울 alert message
-  void _showConfirmationDialog() {
-    showDialog(
-      context: context,
-      barrierDismissible: false,
-      builder: (BuildContext context) {
-        return StatefulBuilder(
-          builder: (context, setState) {
-            return AlertDialog(
-              content: Text(
-                '30초 광고를 시청하고 포인트를 충전합니다.',
-                style: TextStyle(fontWeight: FontWeight.normal),
-              ),
-              actions: [
-                TextButton(
-                  onPressed: () {
-                    Navigator.of(context).pop();
-                    showSnackbar(context, '광고 시청 후 티켓 구매가 취소되었습니다!');
-                  },
-                  child: Text('취소'),
-                ),
-                ElevatedButton(
-                  onPressed: () {
-                    showSnackbar(context, '광고 영상으로 이동합니다!');
-                    Navigator.of(context).push(MaterialPageRoute(
-                        builder: (context) =>
-                            EarnPointByWatch(context: context)));
-                  },
-                  child: Text('확인'),
-                ),
-              ],
-            );
-          },
-        );
-      },
-    );
-  }
-
   @override
   Widget build(BuildContext context) {
     return paddingElement(Row(
@@ -109,9 +72,14 @@ class _PointContainerState extends State<PointContainer> {
           const SizedBox(height: 16),
           ButtonForPointContainer(
               200, 'assets/images/chargingByWatching.png', '영상 보고 충전하기', () {
-            // Navigator.of(context).push(MaterialPageRoute(
-            //     builder: (context) => EarnPointByWatch(context: context)));
-            _showConfirmationDialog();
+            showConfirmationDialogWithNavigation(
+              context,
+              '30초 광고를 시청하고 포인트를 충전합니다.',
+              '영상으로 이동합니다!',
+              EarnPointByWatch(
+                context: context,
+              ),
+            );
           }),
           const SizedBox(height: 16),
           ButtonForPointContainer(

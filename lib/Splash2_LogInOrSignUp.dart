@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'Common_LogoAppBar.dart';
 import 'Splash3_SignUp.dart';
-import 'Splash4_GoogleLogIn.dart';
-import 'Splash5_AppleLogIn.dart';
 import 'Common_paddingElement.dart';
 import 'Splash1_Welcome.dart';
 import 'Page_MainPage.dart';
