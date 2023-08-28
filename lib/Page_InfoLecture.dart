@@ -5,16 +5,15 @@ import 'Common_NeumorphicBox.dart';
 import 'Common_CheckBox.dart';
 import 'Page_LikeEmptyRoom.dart';
 import 'Common_Snackbar.dart';
-import 'dart:io'; //즐겨찾기 페이지에 정보를 넘겨주기 위해, txt를 거쳐야 하므로, txt 파일 생성을 위해 import
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:flutter/foundation.dart';
+import 'Common_Provider.dart';
+import 'package:provider/provider.dart';
 
 //빈강의실을 찾아주는 페이지. 'HUFS 빈강의실 찾기' 기존 어플의 절차를 참고하여 만들었음!
 //서울 또는 글로벌 -> 건물 또는 시간 -> 건물이면 6개 중 택1 / 시간이면 9개 중 1개 이상 선택(모두 보기 또는 1개 이상 만족하는 결과 보기)
 
 class InfoLecture extends StatefulWidget {
   const InfoLecture({required this.context, Key? key});
-  static List<String> selectedLectureRooms = []; // Public and static
+  static List<String> selectedLectureRooms = [];
   final BuildContext context;
 
 //이 페이지의 정보를 즐겨찾기 페이지로 넘겨주는 함수
@@ -90,8 +89,6 @@ class _InfoLectureState extends State<InfoLecture> {
 //UI 블로킹을 개선하지 않았지만, 즐겨찾기 페이지에 출력되는 것을 확인하기 위해 남겨둔 함수
   void saveSelectedLectureRooms() async {
     selectedLectureRooms.clear(); //이거 추가 꼭 해야함
-    // SharedPreferences prefs =
-    //await SharedPreferences.getInstance(); //sharedPreferences를 사용해보자~! -> 나중에 알아보도록 하자~! 오류 폭탄~(화면 로딩 멈춤(?))
 
     for (int i = 0; i < lectureRoomCheckStates.length; i++) {
       if (lectureRoomCheckStates[i]) {

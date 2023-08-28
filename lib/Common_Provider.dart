@@ -10,22 +10,6 @@ class SelectedLectureRoomsProvider extends ChangeNotifier {
     selectedLectureRooms.add(room);
     notifyListeners();
   }
-
-//빈강의실 삭제
-  void removeSelectedLectureRoom(String room) {
-    selectedLectureRooms.remove(room);
-    notifyListeners();
-  }
-
-//빈강의실 추가, 삭제 등 상태관리를 위한 provider 만들기
-  void updateSelectedRooms({
-    required String RoomNumber,
-    required String whichDay,
-    required String AllTime,
-  }) {
-    selectedLectureRooms.add('$RoomNumber, $whichDay, $AllTime');
-    notifyListeners();
-  }
 }
 
 //유저 신고 clickCount 관리를 위한 provider
