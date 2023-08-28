@@ -11,10 +11,15 @@ import 'Common_Provider.dart';
 //현재 상황은, 유저 신고와 채팅방 신고가 모두 clickCountProvider를 쓰고있으므로, 잘못된 스낵바 작동이 이루어지는 상태
 
 class SOSChattingRoom extends StatefulWidget {
-  final ClickCountProvider clickCountProvider;
+  //final ClickCountProvider clickCountProvider;
+  final VoidCallback incrementClickCount; // 클릭 증가 함수 추가
+  final int clickCount;
   final BuildContext context;
   const SOSChattingRoom(
-      {required this.context, required this.clickCountProvider, Key? key})
+      {required this.context,
+      required this.incrementClickCount,
+      Key? key,
+      required this.clickCount})
       : super(key: key);
 
   @override
@@ -24,26 +29,29 @@ class SOSChattingRoom extends StatefulWidget {
 //디자인 수정 완료
 
 class _SOSChattingRoomState extends State<SOSChattingRoom> {
-  int clickCount = 0; //신고를 한번으로 제한하기 위해
+  //int clickCount = 0; //신고를 한번으로 제한하기 위해
 
   void handleButtonClick() {
-    final clickCountProvider = widget.clickCountProvider;
+    ClickCountProvider_Room clickCountProvider_room =
+        Provider.of<ClickCountProvider_Room>(context, listen: false);
 
-    clickCountProvider.incrementClickCount();
-    int clickCount = clickCountProvider.clickCount;
+    clickCountProvider_room.incrementClickCount();
+    int clickCount = clickCountProvider_room.clickCount;
 
     print("Click count_Room: $clickCount");
     if (clickCount > 1) {
-      Navigator.of(context).pop();
+      //Navigator.of(context).pop();
       showSnackbar(context, '신고는 한 번만 가능합니다!');
     } else {
-      Navigator.of(context).pop();
+      //Navigator.of(context).pop();
       showSnackbar(context, '채팅방 신고가 완료되었습니다.\n신고 누적 시 이 채팅방의 입장이 제한됩니다.');
     }
   }
 
   @override
   Widget build(BuildContext context) {
+    // ClickCountProvider_Room clickCountProvider_room =
+    //     Provider.of<ClickCountProvider_Room>(context, listen: false);
     return Stack(
       children: [
         ModalBarrier(
@@ -128,16 +136,19 @@ class _SOSChattingRoomState extends State<SOSChattingRoom> {
   }
 }
 
-void showCustomAlertDialog(BuildContext context) {
-  final clickCountProvider =
-      Provider.of<ClickCountProvider>(context, listen: false);
+void showCustomAlertDialog(
+    BuildContext context, int clickCount, VoidCallback incrementClickCount) {
   showDialog(
     context: context,
     barrierDismissible: false,
     builder: (BuildContext context) {
-      return SOSChattingRoom(
-        clickCountProvider: clickCountProvider,
-        context: context,
+      return ChangeNotifierProvider<ClickCountProvider_Room>(
+        create: (context) => ClickCountProvider_Room(),
+        child: SOSChattingRoom(
+          context: context,
+          clickCount: clickCount,
+          incrementClickCount: incrementClickCount,
+        ),
       );
     },
   );

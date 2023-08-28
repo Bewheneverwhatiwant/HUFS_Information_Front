@@ -19,6 +19,13 @@ class GatherTaxi extends StatefulWidget {
 class _GatherTaxiState extends State<GatherTaxi> {
   bool isFirstCheckBoxChecked = true;
   bool isSecondCheckBoxChecked = false;
+  int clickCount = 0;
+
+  void incrementClickCount() {
+    setState(() {
+      clickCount++;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -101,51 +108,85 @@ class _GatherTaxiState extends State<GatherTaxi> {
 
   Widget _getSelectedCampusContainer() {
     if (isFirstCheckBoxChecked) {
-      return GlobalCampus();
+      return GlobalCampus(
+        incrementClickCount: incrementClickCount,
+        clickCount: clickCount,
+      );
     } else if (isSecondCheckBoxChecked) {
-      return SeoulCampus();
+      return SeoulCampus(
+        incrementClickCount: incrementClickCount,
+        clickCount: clickCount,
+      );
     } else {
       return SizedBox.shrink(); // 아무 체크박스도 선택되지 않은 경우 빈 공간을 반환
     }
   }
 
-  Widget GlobalCampus() {
+  Widget GlobalCampus({
+    required VoidCallback incrementClickCount,
+    required int clickCount,
+  }) {
     return Container(
       child: Column(
         children: [
-          ChattingRoomList(context, 1, '서현가실 분', '외대 -> 서현', '', 3, '18:25',
-              true, false, TextEditingController()),
-          ChattingRoomList(context, 1, '테스트1', '장소 입력', '', 7, '12:34', true,
-              false, TextEditingController()),
-          ChattingRoomList(context, 1, '테스트2', '장소 입력', '', 7, '12:34', true,
-              false, TextEditingController()),
-          ChattingRoomList(context, 1, '테스트3', '장소 입력', '', 7, '12:34', true,
-              false, TextEditingController()),
-          ChattingRoomList(context, 1, '테스트4', '장소 입력', '', 7, '12:34', true,
-              false, TextEditingController()),
-          ChattingRoomList(context, 1, '테스트5', '장소 입력', '', 7, '12:34', true,
-              false, TextEditingController()),
+          ChattingRoomList(
+              context,
+              incrementClickCount,
+              clickCount,
+              1,
+              '서현가실 분',
+              '외대 -> 서현',
+              '',
+              3,
+              '18:25',
+              true,
+              false,
+              TextEditingController()),
+          ChattingRoomList(context, incrementClickCount, clickCount, 1, '테스트1',
+              '장소 입력', '', 7, '12:34', true, false, TextEditingController()),
+          ChattingRoomList(context, incrementClickCount, clickCount, 1, '테스트2',
+              '장소 입력', '', 7, '12:34', true, false, TextEditingController()),
+          ChattingRoomList(context, incrementClickCount, clickCount, 1, '테스트3',
+              '장소 입력', '', 7, '12:34', true, false, TextEditingController()),
+          ChattingRoomList(context, incrementClickCount, clickCount, 1, '테스트4',
+              '장소 입력', '', 7, '12:34', true, false, TextEditingController()),
+          ChattingRoomList(context, incrementClickCount, clickCount, 1, '테스트5',
+              '장소 입력', '', 7, '12:34', true, false, TextEditingController()),
         ],
       ),
     );
   }
 
-  Widget SeoulCampus() {
+  Widget SeoulCampus({
+    required VoidCallback incrementClickCount,
+    required int clickCount,
+  }) {
     return Container(
       child: Column(
         children: [
-          ChattingRoomList(context, 1, '서울에서 대전 있나요??', '강남역 11번 출구 -> 대전역', '',
-              3, '12:10', true, false, TextEditingController()),
-          ChattingRoomList(context, 1, '테스트1', '장소 입력', '', 7, '12:34', true,
-              false, TextEditingController()),
-          ChattingRoomList(context, 1, '테스트2', '장소 입력', '', 7, '12:34', true,
-              false, TextEditingController()),
-          ChattingRoomList(context, 1, '테스트3', '장소 입력', '', 7, '12:34', true,
-              false, TextEditingController()),
-          ChattingRoomList(context, 1, '테스트4', '장소 입력', '', 7, '12:34', true,
-              false, TextEditingController()),
-          ChattingRoomList(context, 1, '테스트5', '장소 입력', '', 7, '12:34', true,
-              false, TextEditingController())
+          ChattingRoomList(
+              context,
+              incrementClickCount,
+              clickCount,
+              1,
+              '서울에서 대전 있나요??',
+              '강남역 11번 출구 -> 대전역',
+              '',
+              3,
+              '12:10',
+              true,
+              false,
+              TextEditingController()),
+          ChattingRoomList(context, incrementClickCount, clickCount, 1, '테스트1',
+              '장소 입력', '', 7, '12:34', true, false, TextEditingController()),
+          ChattingRoomList(context, incrementClickCount, clickCount, 1, '테스트2',
+              '장소 입력', '', 7, '12:34', true, false, TextEditingController()),
+          ChattingRoomList(context, incrementClickCount, clickCount, 1, '테스트3',
+              '장소 입력', '', 7, '12:34', true, false, TextEditingController()),
+          ChattingRoomList(context, incrementClickCount, clickCount, 1, '테스트4',
+              '장소 입력', '', 7, '12:34', true, false, TextEditingController()),
+          ChattingRoomList(context, incrementClickCount, clickCount, 1, '테스트5',
+              '장소 입력', '', 7, '12:34', true, false, TextEditingController())
         ],
       ),
     );

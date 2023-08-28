@@ -19,6 +19,13 @@ class GatherHelp extends StatefulWidget {
 class _GatherHelpState extends State<GatherHelp> {
   bool isFirstCheckBoxChecked = true;
   bool isSecondCheckBoxChecked = false;
+  int clickCount = 0;
+
+  void incrementClickCount() {
+    setState(() {
+      clickCount++;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -101,9 +108,15 @@ class _GatherHelpState extends State<GatherHelp> {
 
   Widget _getSelectedCampusContainer() {
     if (isFirstCheckBoxChecked) {
-      return GlobalCampus();
+      return GlobalCampus(
+        incrementClickCount: incrementClickCount,
+        clickCount: clickCount,
+      );
     } else if (isSecondCheckBoxChecked) {
-      return SeoulCampus();
+      return SeoulCampus(
+        incrementClickCount: incrementClickCount,
+        clickCount: clickCount,
+      );
     } else {
       return SizedBox.shrink(); // 아무 체크박스도 선택되지 않은 경우 빈 공간을 반환
     }
@@ -111,43 +124,181 @@ class _GatherHelpState extends State<GatherHelp> {
 
   //도움 내용을 입력한 걸 받아오기 위해 파라미터 추가!
 
-  Widget GlobalCampus() {
+  Widget GlobalCampus({
+    required VoidCallback incrementClickCount,
+    required int clickCount,
+  }) {
     return Container(
       child: Column(
         children: [
-          ChattingRoomList(context, 3, '바퀴벌레 잡아주세요 ㅠㅠ', '이든하우스', '30000원', 3,
-              '18:25', true, true, TextEditingController()),
-          ChattingRoomList(context, 3, '테스트1', '장소 입력', '가격 입력', 7, '12:34',
-              true, true, TextEditingController()),
-          ChattingRoomList(context, 3, '테스트2', '장소 입력', '가격 입력', 7, '12:34',
-              true, true, TextEditingController()),
-          ChattingRoomList(context, 3, '테스트3', '장소 입력', '가격 입력', 7, '12:34',
-              true, true, TextEditingController()),
-          ChattingRoomList(context, 3, '테스트4', '장소 입력', '가격 입력', 7, '12:34',
-              true, true, TextEditingController()),
-          ChattingRoomList(context, 3, '테스트5', '장소 입력', '가격 입력', 7, '12:34',
-              true, true, TextEditingController()),
+          ChattingRoomList(
+              context,
+              incrementClickCount,
+              clickCount,
+              3,
+              '바퀴벌레 잡아주세요 ㅠㅠ',
+              '이든하우스',
+              '30000원',
+              3,
+              '18:25',
+              true,
+              true,
+              TextEditingController()),
+          ChattingRoomList(
+              context,
+              incrementClickCount,
+              clickCount,
+              3,
+              '테스트1',
+              '장소 입력',
+              '가격 입력',
+              7,
+              '12:34',
+              true,
+              true,
+              TextEditingController()),
+          ChattingRoomList(
+              context,
+              incrementClickCount,
+              clickCount,
+              3,
+              '테스트2',
+              '장소 입력',
+              '가격 입력',
+              7,
+              '12:34',
+              true,
+              true,
+              TextEditingController()),
+          ChattingRoomList(
+              context,
+              incrementClickCount,
+              clickCount,
+              3,
+              '테스트3',
+              '장소 입력',
+              '가격 입력',
+              7,
+              '12:34',
+              true,
+              true,
+              TextEditingController()),
+          ChattingRoomList(
+              context,
+              incrementClickCount,
+              clickCount,
+              3,
+              '테스트4',
+              '장소 입력',
+              '가격 입력',
+              7,
+              '12:34',
+              true,
+              true,
+              TextEditingController()),
+          ChattingRoomList(
+              context,
+              incrementClickCount,
+              clickCount,
+              3,
+              '테스트5',
+              '장소 입력',
+              '가격 입력',
+              7,
+              '12:34',
+              true,
+              true,
+              TextEditingController()),
         ],
       ),
     );
   }
 
-  Widget SeoulCampus() {
+  Widget SeoulCampus({
+    required VoidCallback incrementClickCount,
+    required int clickCount,
+  }) {
     return Container(
       child: Column(
         children: [
-          ChattingRoomList(context, 3, '설캠 기숙사 짐 좀 옮겨주세요', '이든하우스', '30000원', 3,
-              '18:25', true, true, TextEditingController()),
-          ChattingRoomList(context, 3, '테스트1', '장소 입력', '가격 입력', 7, '12:34',
-              true, true, TextEditingController()),
-          ChattingRoomList(context, 3, '테스트2', '장소 입력', '가격 입력', 7, '12:34',
-              true, true, TextEditingController()),
-          ChattingRoomList(context, 3, '테스트3', '장소 입력', '가격 입력', 7, '12:34',
-              true, true, TextEditingController()),
-          ChattingRoomList(context, 3, '테스트4', '장소 입력', '가격 입력', 7, '12:34',
-              true, true, TextEditingController()),
-          ChattingRoomList(context, 3, '테스트5', '장소 입력', '가격 입력', 7, '12:34',
-              true, true, TextEditingController()),
+          ChattingRoomList(
+              context,
+              incrementClickCount,
+              clickCount,
+              3,
+              '설캠 기숙사 짐 좀 옮겨주세요',
+              '이든하우스',
+              '30000원',
+              3,
+              '18:25',
+              true,
+              true,
+              TextEditingController()),
+          ChattingRoomList(
+              context,
+              incrementClickCount,
+              clickCount,
+              3,
+              '테스트1',
+              '장소 입력',
+              '가격 입력',
+              7,
+              '12:34',
+              true,
+              true,
+              TextEditingController()),
+          ChattingRoomList(
+              context,
+              incrementClickCount,
+              clickCount,
+              3,
+              '테스트2',
+              '장소 입력',
+              '가격 입력',
+              7,
+              '12:34',
+              true,
+              true,
+              TextEditingController()),
+          ChattingRoomList(
+              context,
+              incrementClickCount,
+              clickCount,
+              3,
+              '테스트3',
+              '장소 입력',
+              '가격 입력',
+              7,
+              '12:34',
+              true,
+              true,
+              TextEditingController()),
+          ChattingRoomList(
+              context,
+              incrementClickCount,
+              clickCount,
+              3,
+              '테스트4',
+              '장소 입력',
+              '가격 입력',
+              7,
+              '12:34',
+              true,
+              true,
+              TextEditingController()),
+          ChattingRoomList(
+              context,
+              incrementClickCount,
+              clickCount,
+              3,
+              '테스트5',
+              '장소 입력',
+              '가격 입력',
+              7,
+              '12:34',
+              true,
+              true,
+              TextEditingController()),
         ],
       ),
     );

@@ -10,8 +10,11 @@ import 'Page_SOSChattingRoom.dart';
 // type : 버튼 타입을 의미 (1: 택시같이타, 2:배달같이해, 3: 도와줘요)
 // place : 장소
 // plusInfo : 추가 정보
+
 Padding ChattingRoomList(
     BuildContext context,
+    VoidCallback incrementClickCount,
+    int clickCount,
     int type,
     String title,
     String place,
@@ -74,7 +77,8 @@ Padding ChattingRoomList(
                     //Navigator.of(context).push(MaterialPageRoute(
                     //  builder: (context) =>
                     //    SOSChattingRoom(context: context)));
-                    showCustomAlertDialog(context);
+                    showCustomAlertDialog(
+                        context, clickCount, incrementClickCount);
                   },
                   child: Row(children: [
                     Image.asset('assets/images/Icon-siren.png'),
